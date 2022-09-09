@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="셰이더 파일">
+      <UniqueIdentifier>{0266bf36-31a4-41dd-97cb-917078429de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Window">
+      <UniqueIdentifier>{116b42f9-e9ab-43b2-8936-acf2d62823ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Window">
+      <UniqueIdentifier>{57c7a655-d290-4ffb-bb7a-ab55f5dea3b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Tree">
+      <UniqueIdentifier>{f7f3bd2a-4267-4148-a832-05c3766009c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Tree">
+      <UniqueIdentifier>{4a83d40f-4473-42ae-af48-c79801fbcb35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="제외 파일">
+      <UniqueIdentifier>{7f9da7b9-8948-4bdd-a147-fd9ba3444872}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Device.cpp">
+      <Filter>소스 파일\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="main_window.cpp">
+      <Filter>소스 파일\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>소스 파일\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Game_core.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_object.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC_object.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_object.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad_tree.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Space_partition.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>소스 파일\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Base_object.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>제외 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Device.h">
+      <Filter>헤더 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="main_window.h">
+      <Filter>헤더 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Std.h">
+      <Filter>헤더 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>헤더 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Game_core.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_object.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_object.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_object.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad_tree.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Space_partition.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>헤더 파일\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Base_object.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PixelShader.txt">
+      <Filter>셰이더 파일</Filter>
+    </Text>
+    <Text Include="VertexShader.txt">
+      <Filter>셰이더 파일</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

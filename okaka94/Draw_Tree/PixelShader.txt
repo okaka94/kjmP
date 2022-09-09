@@ -1,0 +1,3 @@
+float4 PSMain(float4 p : SV_POSITION, float4 c : COLOR0) : SV_Target{
+	return c;
+}
