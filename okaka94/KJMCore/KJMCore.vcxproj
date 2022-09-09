@@ -161,13 +161,13 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="TDevice.h" />
-    <ClInclude Include="TStd.h" />
-    <ClInclude Include="TWindow.h" />
+    <ClInclude Include="Device.h" />
+    <ClInclude Include="Std.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TDevice.cpp" />
-    <ClCompile Include="TWindow.cpp" />
+    <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

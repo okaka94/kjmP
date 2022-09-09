@@ -15,21 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TStd.h">
+    <ClInclude Include="Std.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TWindow.h">
+    <ClInclude Include="Window.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TDevice.h">
+    <ClInclude Include="Device.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TWindow.cpp">
+    <ClCompile Include="Window.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TDevice.cpp">
+    <ClCompile Include="Device.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

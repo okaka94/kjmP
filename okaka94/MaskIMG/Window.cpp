@@ -95,9 +95,7 @@ bool Window::Run() {
 		else {
 			return true;
 		}
-		
 	}
-		
 	return false;
 }
 
