@@ -5,6 +5,7 @@
 #include <list>
 #include <set>
 #include <string>
+
 #define CORE
 extern HWND g_hWnd;
 extern RECT g_rtClient;

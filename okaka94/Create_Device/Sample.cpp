@@ -24,7 +24,7 @@ bool Sample::Release() {
 
 int APIENTRY wWinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
 	Sample demo;
-	demo.SetWindow(hinstance, L"okaka_window");
+	demo.SetWindow(hinstance, L"okaka_window",800,600);
 	demo.Run();
 
 	return 1;
