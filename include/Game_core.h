@@ -1,12 +1,15 @@
 #pragma once
 #include "Device.h"
+#include "Input.h"
+#include "Writer.h"
+#include "Timer.h"
 
 
 class Game_core : public Device
 {
 public:
 	bool				m_game_run = true;
-
+	Writer				m_writer;
 public:	
 
 	

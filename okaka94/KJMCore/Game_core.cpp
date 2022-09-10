@@ -5,11 +5,23 @@ bool Game_core::CoreInit() {
 	if (Device::Init() == false)
 		return false;
 
+	Timer::GetInstance().Init();
+	Input::GetInstance().Init();	
+
+	m_writer.Init();
+		IDXGISurface1* backbuffer;
+		m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1), (void**)&backbuffer);
+		m_writer.Set(backbuffer);
+		backbuffer->Release();
+
 	return Init();						
 }
 
 bool Game_core::CoreFrame() {
 
+	Timer::GetInstance().Frame();
+	Input::GetInstance().Frame();
+	m_writer.Frame();
 	Device::Frame();
 	return Frame();
 }
@@ -24,7 +36,11 @@ bool Game_core::CorePre_Render() {
 
 bool Game_core::CoreRender() {
 	CorePre_Render();
-	Render();
+		Render();
+		Input::GetInstance().Render();
+		Timer::GetInstance().Render();
+		m_writer.m_szDefaultText = Timer::GetInstance().m_szTimer;
+		m_writer.Render();
 	CorePost_Render();
 	return true;
 }
@@ -39,9 +55,11 @@ bool Game_core::CorePost_Render() {
 bool Game_core::CoreRelease() {
 	
 	Release();
+	Input::GetInstance().Release();
+	m_writer.Release();
+	Timer::GetInstance().Release();
 
 	Device::Release();
-
 	return true;
 }
 
