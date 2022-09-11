@@ -29,7 +29,7 @@ bool Game_core::CoreFrame() {
 bool Game_core::CorePre_Render() {
 	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);			// OM : Output-Merger
 
-	float color[4] = { 1.0f,1.0f,1.0f,1.0f };
+	float color[4] = { 0.0f,1.0f,1.0f,1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);			// Set all the elements in a render target to one value.
 	return true;
 }
