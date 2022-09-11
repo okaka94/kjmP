@@ -1,10 +1,13 @@
 #include "Game_core.h"
+#include "DXState.h"
 
 bool Game_core::CoreInit() {
 	HRESULT hr;
 	if (Device::Init() == false)
 		return false;
-
+	DXState::SetState(m_pd3dDevice);
+	Texture_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
+	Shader_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
 	Timer::GetInstance().Init();
 	Input::GetInstance().Init();	
 
@@ -31,6 +34,7 @@ bool Game_core::CorePre_Render() {
 
 	float color[4] = { 0.0f,1.0f,1.0f,1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);			// Set all the elements in a render target to one value.
+	m_pImmediateContext->PSSetSamplers(0, 1, &DXState::g_pDefaultSS);
 	return true;
 }
 
@@ -55,6 +59,7 @@ bool Game_core::CorePost_Render() {
 bool Game_core::CoreRelease() {
 	
 	Release();
+	DXState::Release();
 	Input::GetInstance().Release();
 	m_writer.Release();
 	Timer::GetInstance().Release();

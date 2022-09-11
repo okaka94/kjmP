@@ -1,8 +1,8 @@
 #pragma once
+#include "Std.h"
 #include "Shader_manager.h"
-//#include "Texture_manager.h"
+#include "Texture_manager.h"
 #include "Device.h"
-#include "Vector.h"		// std·Î
 
 
 struct SimpleVertex {
@@ -19,21 +19,25 @@ public:
 	ID3D11DeviceContext* m_pImmediateContext = nullptr;
 	
 public:
-	//Texture* m_pTexture;
+	Texture* m_pTexture;
 	Shader* m_pShader;
 
 	std::vector<SimpleVertex>	m_VertexList;
-
+	std::vector<DWORD>			m_IndexList;
 	ID3D11Buffer* m_pVertexBuffer;
+	ID3D11Buffer* m_pIndexBuffer;
 	ID3D11InputLayout* m_pVertexLayout;
 
 	
 
 public:
+	void	CreateVertexList();
+	void	CreateIndexList();
 	HRESULT	CreateVertexBuffer();
+	HRESULT	CreateIndexBuffer();
 	bool	CreateShader(std::wstring filename);
 	HRESULT	CreateVertexLayout();
-	//bool	LoadTexture(std::wstring filename);
+	bool	LoadTexture(std::wstring filename);
 
 	
 public:

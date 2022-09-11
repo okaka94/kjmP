@@ -149,18 +149,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base_object.cpp" />
     <ClCompile Include="Sample.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Shader_manager.cpp" />
-    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base_object.h" />
     <ClInclude Include="Sample.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="Shader_manager.h" />
-    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KJMCore\KJMCore.vcxproj">

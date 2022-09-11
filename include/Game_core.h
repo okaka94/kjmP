@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Writer.h"
 #include "Timer.h"
+#include "Base_object.h"
 
 
 class Game_core : public Device

@@ -5,6 +5,7 @@
 #include <list>
 #include <set>
 #include <string>
+#include "Vector.h"		 
 
 #define CORE
 extern HWND g_hWnd;

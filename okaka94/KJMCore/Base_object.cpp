@@ -18,14 +18,17 @@ bool Base_object::Create(ID3D11Device* pd3dDevice , ID3D11DeviceContext* pImmedi
 	if (FAILED(CreateVertexBuffer()))
 		return false;
 
+	if (FAILED(CreateIndexBuffer()))
+		return false;
+
 	if (!CreateShader(shaderName))
 		return false;
 
 	if (FAILED(CreateVertexLayout()))
 		return false;
 
-	/*if (!LoadTexture(texName))
-		return false;*/
+	if (!LoadTexture(texName))
+		return false;
 
 }
 
@@ -42,34 +45,46 @@ void Base_object::SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImme
 
 }
 
-HRESULT Base_object::CreateVertexBuffer() {
-	HRESULT hr;
+void Base_object::CreateVertexList() {
 
-	m_VertexList.resize(3);
-	m_VertexList[0].p = { -1.0f,  1.0f, 0.0f };
+	m_VertexList.resize(4);
+
+	m_VertexList[0].p = { -0.5f,  0.5f, 0.0f };
 	m_VertexList[0].c = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//m_VertexList[0].t = { 0.0f,0.0f };
+	m_VertexList[0].t = { 0.0f,0.0f };
 
-	m_VertexList[1].p = { 1.0f,  1.0f, 0.0f };
+	m_VertexList[1].p = { 0.5f,  0.5f, 0.0f };
 	m_VertexList[1].c = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//m_VertexList[1].t = { 1.0f,0.0f };
+	m_VertexList[1].t = { 1.0f,0.0f };
 
-	m_VertexList[2].p = { -1.0f, -1.0f, 0.0f };
+	m_VertexList[2].p = { -0.5f, -0.5f, 0.0f };
 	m_VertexList[2].c = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//m_VertexList[2].t = { 0.0f,1.0f };
+	m_VertexList[2].t = { 0.0f,1.0f };
 
-	//m_VertexList[3].p = { -1.0f, -1.0f, 0.0f };
-	//m_VertexList[3].c = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//m_VertexList[3].t = { 0.0f,1.0f };
+	
+	m_VertexList[3].p = { 0.5f, -0.5f, 0.0f };
+	m_VertexList[3].c = { 1.0f, 0.0f, 0.0f, 1.0f };
+	m_VertexList[3].t = { 1.0f,1.0f };
 
-	//m_VertexList[4].p = { 1.0f,  1.0f, 0.0f };
-	//m_VertexList[4].c = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//m_VertexList[4].t = { 1.0f,0.0f };
+}
 
-	//m_VertexList[5].p = { 1.0f, -1.0f, 0.0f };
-	//m_VertexList[5].c = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//m_VertexList[5].t = { 1.0f,1.0f };
+void Base_object::CreateIndexList() {
 
+	m_IndexList.resize(6);
+
+	m_IndexList[0] = 0;
+	m_IndexList[1] = 1;
+	m_IndexList[2] = 2;
+	m_IndexList[3] = 2;
+	m_IndexList[4] = 1;
+	m_IndexList[5] = 3;
+
+}
+
+HRESULT Base_object::CreateVertexBuffer() {
+
+	HRESULT hr;
+	CreateVertexList();
 	int num_vertex = m_VertexList.size();
 	D3D11_BUFFER_DESC	bd;
 	ZeroMemory(&bd, sizeof(bd));
@@ -81,6 +96,25 @@ HRESULT Base_object::CreateVertexBuffer() {
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = &m_VertexList.at(0);
 	hr = m_pd3dDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer);
+
+	return hr;
+}
+
+HRESULT Base_object::CreateIndexBuffer() {
+
+	HRESULT hr;
+	CreateIndexList();
+	int num_vertex = m_IndexList.size();
+	D3D11_BUFFER_DESC	bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.ByteWidth = sizeof(DWORD) * num_vertex;
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.pSysMem = &m_IndexList.at(0);
+	hr = m_pd3dDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer);
 
 	return hr;
 }
@@ -103,7 +137,7 @@ HRESULT Base_object::CreateVertexLayout() {
 	D3D11_INPUT_ELEMENT_DESC ied[] = {
 		{"POSITION",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
 		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0},
-		//{"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0,28,D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0,28,D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 
 	UINT num_element = sizeof(ied) / sizeof(ied[0]);
@@ -112,16 +146,16 @@ HRESULT Base_object::CreateVertexLayout() {
 	return hr;
 }
 
-//bool	Base_object::LoadTexture(std::wstring filename) {
-//
-//	m_pTexture = Texture_manager::GetInstance().Load(filename);
-//
-//	if (m_pTexture) 
-//		return true;
-//
-//
-//	return false;
-//}
+bool	Base_object::LoadTexture(std::wstring filename) {
+
+	m_pTexture = Texture_manager::GetInstance().Load(filename);
+
+	if (m_pTexture) 
+		return true;
+
+
+	return false;
+}
 
 
 bool Base_object::Pre_Render() {
@@ -132,16 +166,16 @@ bool Base_object::Pre_Render() {
 
 	// 새롭게 생성하는 것 아니니까 context로
 	m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	m_pImmediateContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, offset);
 	m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
 	m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_pImmediateContext->VSSetShader(m_pShader->m_pVS, NULL, 0);
 	m_pImmediateContext->PSSetShader(m_pShader->m_pPS, NULL, 0);
 	// texture
-	//ID3D11ShaderResourceView* SRV = m_pTexture->Get_SRV();
-	//m_pImmediateContext->PSSetShaderResources(0, 1,  &SRV);
-	//
-
+	ID3D11ShaderResourceView* SRV = m_pTexture->Get_SRV();
+	m_pTexture->Apply(m_pImmediateContext, 0);
+	
 	return true;
 }
 
@@ -154,7 +188,10 @@ bool Base_object::Render() {
 
 bool Base_object::Post_Render() {
 
-	m_pImmediateContext->Draw(m_VertexList.size(), 0);   //  Draw 하기 전까지 SetShader 등의 순서는 무관함, 세팅된 것들을 Draw 호출할 때 그래픽 파이프라인으로 넘김
+	if (m_pIndexBuffer == nullptr)
+		m_pImmediateContext->Draw(m_VertexList.size(), 0);   //  Draw 하기 전까지 SetShader 등의 순서는 무관함, 세팅된 것들을 Draw 호출할 때 그래픽 파이프라인으로 넘김
+	else
+		m_pImmediateContext->DrawIndexed(m_IndexList.size(), 0, 0);
 
 	return true;
 }
@@ -162,8 +199,9 @@ bool Base_object::Post_Render() {
 
 bool Base_object::Release() {
 
-	//m_pTexture->Release();
+	m_pTexture->Release();
 	if (m_pVertexBuffer) m_pVertexBuffer->Release();
+	if (m_pIndexBuffer) m_pIndexBuffer->Release();
 	if (m_pVertexLayout) m_pVertexLayout->Release();
 	m_pShader->Release();
 
