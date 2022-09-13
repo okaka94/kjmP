@@ -23,7 +23,7 @@ public:
 	
 	bool Frame() override;
 	void Set_rect(Rect pos);
-	void Set_rect(float x, float y , float w = 30, float h= 30);
+	void Set_rect(float x, float y , float w = 59, float h= 59);
 	void Set_position(Vector2D pos);
 	
 	void Set_mask(Texture* mask) {
