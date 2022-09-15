@@ -1,9 +1,10 @@
 #include "Sound.h"
+#include <tchar.h>
 
 bool Sound::Load(std::string filename) {
 	FMOD_RESULT fr = m_pSystem->createSound(filename.c_str(), FMOD_DEFAULT, nullptr, &m_pSound);
 	if (fr == FMOD_OK) {
-		//fr = m_pSystem->playSound(m_pSound, nullptr, false, &m_pChannel);
+		m_pSound->getLength(&m_Total_time, FMOD_TIMEUNIT_MS);
 	}
 
 	return true;
@@ -26,6 +27,20 @@ bool Sound::Play(bool state_loop) {
 		}
 	}
 	return true;
+}
+
+bool Sound::Play_effect(bool state_loop) {
+
+	FMOD_RESULT fr = m_pSystem->playSound(m_pSound, nullptr, false, &m_pChannel);
+		if (fr == FMOD_OK) {
+			Switch_loop(state_loop);
+		}
+	
+	return true;
+}
+
+void Sound::Stop() {
+	m_pChannel->stop();
 }
 
 void Sound::Pause_Play() {
@@ -67,6 +82,17 @@ bool Sound::Init() {
 
 bool Sound::Frame() {
 
+	m_pSystem->update();
+
+	if (m_pChannel)
+	{
+		unsigned int ms = 0;
+		m_pChannel->getPosition(&ms, FMOD_TIMEUNIT_MS);
+		TCHAR szBuffer[256] = { 0, };
+		_stprintf_s(szBuffer, _T("현 시간 %02d:%02d:%02d, 총 시간 %02d:%02d:%02d \n"), ms / 1000 / 60, ms / 1000 % 60, ms / 10 % 60, m_Total_time / 1000 / 60, m_Total_time / 1000 % 60 / m_Total_time / 10 % 60);
+		OutputDebugString(szBuffer);
+		//m_szBuffer = szBuffer;
+	}
 	return true;
 }
 

@@ -12,6 +12,8 @@ public:
 	FMOD::Sound*	m_pSound = nullptr;
 	FMOD::Channel*	m_pChannel = nullptr;
 	float			m_fVolume = 0.5f;
+	unsigned int	m_Total_time;
+	// Frame()에서 szBuffer 가져와서 현재시간 m_szBuffer 만들 수 있음
 
 public:
 	void Pause_Play();
@@ -19,7 +21,9 @@ public:
 	void Down_volume(float volume=0.1f);
 	void Switch_loop(bool state_loop = false);		// 인자값 없으면 기본값 loop_off , true -> loop_normal 무한재생 컨트롤
 	bool Play(bool state_loop = false);				// 인자값 없으면 기본값 false, playSound 호출 후 Switch_loop 호출할 때 인자값 넘겨서 무한재생 컨트롤
+	bool Play_effect(bool state_loop = false);		// Is_play 조건문이 없는 버전 
 	bool Is_play();
+	void Stop();
 
 public:
 	virtual bool	Load(std::string filename);

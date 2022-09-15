@@ -5,9 +5,11 @@ bool Game_core::CoreInit() {
 	HRESULT hr;
 	if (Device::Init() == false)
 		return false;
+	
 	DXState::SetState(m_pd3dDevice);
 	Texture_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
 	Shader_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
+	Sound_manager::GetInstance().Init();
 	Timer::GetInstance().Init();
 	Input::GetInstance().Init();	
 
@@ -25,6 +27,7 @@ bool Game_core::CoreFrame() {
 	Timer::GetInstance().Frame();
 	Input::GetInstance().Frame();
 	m_writer.Frame();
+	Sound_manager::GetInstance().Frame();
 	Device::Frame();
 	return Frame();
 }
@@ -63,7 +66,7 @@ bool Game_core::CoreRelease() {
 	Input::GetInstance().Release();
 	m_writer.Release();
 	Timer::GetInstance().Release();
-
+	Sound_manager::GetInstance().Release();
 	Device::Release();
 	return true;
 }
@@ -78,7 +81,7 @@ bool Game_core::Run() {
 		return false;
 	}
 	m_game_run = true;
-	MSG msg = { 0, };
+	//MSG msg = { 0, };
 	while (m_game_run) {
 		if (Window::Run() == false) 							// Á¾·á½Ã
 			m_game_run = false;
