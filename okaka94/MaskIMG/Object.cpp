@@ -7,7 +7,7 @@ bool Object2D::Frame() { return true; }
 //void Object3D::Set_default() {}
 
 //Object3D::~Object3D() {}
-Object2D::~Object2D() {}
+Object2D::~Object2D() { }
 
 //bool Object3D::Render() {
 //	std::cout << "object: " << box.v_min.x << " , " << box.v_min.y << " , " 
