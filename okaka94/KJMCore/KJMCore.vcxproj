@@ -163,10 +163,12 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Base_object.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DXState.h" />
     <ClInclude Include="Game_core.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shader_manager.h" />
     <ClInclude Include="Sound.h" />
@@ -181,10 +183,12 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base_object.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DXState.cpp" />
     <ClCompile Include="Game_core.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shader_manager.cpp" />
     <ClCompile Include="Sound.cpp" />

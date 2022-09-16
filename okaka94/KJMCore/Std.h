@@ -14,6 +14,8 @@
 #define CORE
 extern HWND g_hWnd;
 extern RECT g_rtClient;
+extern float g_fGameTimer;
+extern float g_fSecPerFrame;
 
 
 //#define GAME_START int APIENTRY wWinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPWSTR    lpCmdLine,int       nCmdShow){

@@ -1,5 +1,5 @@
 #pragma once
-#include "Std.h"
+//#include "Std.h"
 #include "Shader_manager.h"
 #include "Texture_manager.h"
 #include "Device.h"
