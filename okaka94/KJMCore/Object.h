@@ -39,9 +39,13 @@ private:
 	
 public:									// 카메라 설정
 	Vector2D	m_vCamPos;				// 카메라 위치
-	Vector2D	m_vViewSize;			// 뷰포트 크기(?)
-	void	Set_cam_pos(Vector2D cam_pos) { m_vCamPos = cam_pos; }
-	void	Set_view_size(Vector2D view_size) { m_vViewSize = view_size; }
+	Vector2D	m_vViewSize;			// 뷰포트 크기
+	void	Set_cam_pos(Vector2D cam_pos) { 
+		m_vCamPos = cam_pos; 
+	}
+	void	Set_view_size(Vector2D view_size) {
+		m_vViewSize = view_size; 
+	}
 	void	ScreenToCam(Vector2D cam_pos, Vector2D view_size);
 	virtual void Set_position(Vector2D pos, Vector2D cam_pos);
 public:

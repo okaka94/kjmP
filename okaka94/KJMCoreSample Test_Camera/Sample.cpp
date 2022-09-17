@@ -38,12 +38,28 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
+	if (Input::GetInstance().GetKey(VK_UP) == KEY_HOLD) {		// POV는 화면좌표계 : 카메라가 위로 이동하면 y값은 감소해야함
+		POV.y -= g_fSecPerFrame * 100.0f;
+	}
+	if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD) {
+		POV.y += g_fSecPerFrame * 100.0f;
+	}
+	if (Input::GetInstance().GetKey(VK_RIGHT) == KEY_HOLD) {
+		POV.x += g_fSecPerFrame * 100.0f;
+	}
+	if (Input::GetInstance().GetKey(VK_LEFT) == KEY_HOLD) {
+		POV.x -= g_fSecPerFrame * 100.0f;
+	}
+	
+	
+	
+	
 	Map->Frame();
 	for (auto obj : NPC_list) {
-		obj->set_cam_p
+		obj->Set_cam_pos(POV);
+		obj->Set_view_size({ (float)g_rtClient.right,(float)g_rtClient.bottom });
 		obj->Frame();
-	}
-
+	}	
 	Player->Frame();
 
 	return true;

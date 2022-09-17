@@ -67,7 +67,8 @@ bool NPC_object2D::Frame() {
 		m_vDir.y *= -1.0f;
 	}
 
-	Set_position(Position);
+	//Set_position(Position);
+	Set_position(Position, m_vCamPos);
 
 	return true;
 }
