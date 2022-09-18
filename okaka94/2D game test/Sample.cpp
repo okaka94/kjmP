@@ -14,15 +14,30 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	
+	if (fabs(3.0f - g_fGameTimer) < EPSILON)
+		Note_manager::GetInstance().Create_note("B0");
+	if (fabs(4.0f - g_fGameTimer) < EPSILON)
+		Note_manager::GetInstance().Create_note("B1");
+	if (fabs(5.0f - g_fGameTimer) < EPSILON)
+		Note_manager::GetInstance().Create_note("B2");
 		
-		Note_manager::GetInstance().Deploy_note({ 100,100 }, g_fGameTimer);
-		Note_manager::GetInstance().Deploy_note({ 200,200 }, g_fGameTimer);
-		Note_manager::GetInstance().Deploy_note({ 300,300 }, g_fGameTimer);
+	static Vector2D pos = { 100,100 };
 	
+	if (!Note_manager::GetInstance().Get_Q().empty()) {
 
+		if (Note_manager::GetInstance().Deploy_note(pos, g_fGameTimer)) {
+			pos.x += 100.0f;
+			pos.y += 100.0f;
+		}
+			
+		
 
 		Note_manager::GetInstance().Release_note(g_fGameTimer);
+	}
+		
+	
+
+
 
 	
 	return true;

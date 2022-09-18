@@ -10,12 +10,15 @@ void Note_manager::Init() {
 
 	Tex_pos.insert(std::make_pair(name,pos));
 	name = "B1";
-	pos = { 130,10 , 59, 59 };
+	pos = { 70,10 , 59, 59 };
 	Tex_pos.insert(std::make_pair(name, pos));
 
-	Create_note("B0");
-	Create_note("B0");
-	Create_note("B1");
+	name = "B2";
+	pos = { 130,10 , 59, 59 };
+	Tex_pos.insert(std::make_pair(name, pos));
+	//Create_note("B0");
+	//Create_note("B0");
+	//Create_note("B1");
 }
 
 void Note_manager::SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pContext) {
@@ -48,19 +51,24 @@ bool Note_manager::Create_note(std::string note_type) {
 	static float t = 3.0f;
 	pNew->Set_rect(iter->second);
 	pNew->set_time(t++);
+	pNew->Set_position({ 1000,1000 });
 
 	m_qNote_list.push(pNew);
 	return true;
 }
-void Note_manager::Deploy_note(Vector2D pos, float Ptime) {
-	if (fabs(m_qNote_list.front()->just_time - Ptime) < EPSILON )
-	m_qNote_list.front()->Set_position(pos);
+bool Note_manager::Deploy_note(Vector2D pos, float Ptime) {
+	if (fabs(m_qNote_list.front()->just_time - Ptime) < EPSILON) {
+		m_qNote_list.front()->Set_position(pos);
+		return true;
+	}
+	return false;
+
 }
 void Note_manager::Judge_note() {
 
 }
 void Note_manager::Release_note(float Ptime) {
-	if (Ptime - m_qNote_list.front()->just_time >= 1.0f ) {
+	if (Ptime - m_qNote_list.front()->just_time >= 0.5f ) {
 		m_qNote_list.front()->Release();
 		m_qNote_list.pop();
 	}

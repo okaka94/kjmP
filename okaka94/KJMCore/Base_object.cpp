@@ -199,11 +199,11 @@ bool Base_object::Post_Render() {
 
 bool Base_object::Release() {
 
-	m_pTexture->Release();
+	//m_pTexture->Release();
 	if (m_pVertexBuffer) m_pVertexBuffer->Release();
 	if (m_pIndexBuffer) m_pIndexBuffer->Release();
 	if (m_pVertexLayout) m_pVertexLayout->Release();
-	m_pShader->Release();
+	//m_pShader->Release();
 
 	return true;
 }

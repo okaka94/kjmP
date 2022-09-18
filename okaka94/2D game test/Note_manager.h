@@ -24,7 +24,7 @@ public:
 	bool Create_note(std::string note_type);
 	
 
-	void Deploy_note(Vector2D pos, float Ptime);	// Q front의 시간멤버와 현재 곡 시간 비교해서 같으면 pos에 배치
+	bool Deploy_note(Vector2D pos, float Ptime);	// Q front의 시간멤버와 현재 곡 시간 비교해서 같으면 pos에 배치
 	void Judge_note();
 	void Release_note(float Ptime);
 	void Release();		
