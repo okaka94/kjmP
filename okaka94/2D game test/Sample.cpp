@@ -6,8 +6,7 @@
 bool Sample::Init()
 {
 	Note_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
-	Note_manager::GetInstance().Load_texture();
-	
+	Note_manager::GetInstance().Init();
 
 	
 
@@ -15,14 +14,16 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	if (Timer::GetInstance().m_fGameTimer > 5) {
-		Note_manager::GetInstance().Create_note();
-		Note_manager::GetInstance().Deploy_note();
-	}
+	
+		
+		Note_manager::GetInstance().Deploy_note({ 100,100 }, g_fGameTimer);
+		Note_manager::GetInstance().Deploy_note({ 200,200 }, g_fGameTimer);
+		Note_manager::GetInstance().Deploy_note({ 300,300 }, g_fGameTimer);
+	
 
-	if (Timer::GetInstance().m_fGameTimer > 6.5) {
-		Note_manager::GetInstance().Release_note();
-	}
+
+		Note_manager::GetInstance().Release_note(g_fGameTimer);
+
 	
 	return true;
 }

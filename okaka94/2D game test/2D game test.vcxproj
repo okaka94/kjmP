@@ -149,17 +149,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="Note_manager.cpp" />
-    <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="Sample.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Note.h" />
     <ClInclude Include="Note_manager.h" />
-    <ClInclude Include="Object2D.h" />
     <ClInclude Include="Sample.h" />
   </ItemGroup>
   <ItemGroup>

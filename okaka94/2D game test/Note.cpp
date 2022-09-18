@@ -8,6 +8,7 @@ bool Note::Frame() {
 
 	return true;
 }
+
 //bool Note::Render() {
 //
 //	return true;

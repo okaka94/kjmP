@@ -8,19 +8,26 @@ public:
 	ID3D11Device* m_pd3dDevice = nullptr;
 	ID3D11DeviceContext* m_pImmediateContext = nullptr;
 	void SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pContext);
+	std::map<std::string, Rect> Tex_pos;
 private:
 	friend class Singleton<Note_manager>;
-	bool preemp[4][16] = { 0, };		// B , G , R , Y 색상의 노트 (0~15번) 사용중이면 true로 
+	
 	std::queue<Note*>	m_qNote_list;	// 노트 배치
 	Texture*			m_pMask=nullptr;
+
+
 public:
+	void Init();
+	void Load_all_note(){}			// Index, pos, time 정보가 있는 리스트를 로드해서 해당 곡의 모든 노트 생성
 	void Load_texture();			// 마스크 텍스처 로드
-	void Create(std::wstring index, Vector2D pos);
-	void Create_note(std::wstring index);
-	void Deploy_note(Vector2D pos);
+	void Create(std::string note_type, Vector2D pos, float time);
+	bool Create_note(std::string note_type);
+	
+
+	void Deploy_note(Vector2D pos, float Ptime);	// Q front의 시간멤버와 현재 곡 시간 비교해서 같으면 pos에 배치
 	void Judge_note();
-	void Release_note();
-	void Release();
+	void Release_note(float Ptime);
+	void Release();		
 public:
 	Texture* Get_pMask() {
 		return m_pMask;
@@ -35,11 +42,13 @@ public:
 };
 
 
-#define B0 10,10
-#define B1 70,10
-#define B2 130,10
-#define B3 190,10
-#define B4 10,70
-#define B5 70,70
-#define B6 130,70
-#define B7 190,70
+
+
+//#define B0 10,10  , 59, 59
+//#define B1 70,10  , 59, 59
+//#define B2 130,10 , 59, 59
+//#define B3 190,10 , 59, 59
+//#define B4 10,70  , 59, 59
+//#define B5 70,70  , 59, 59
+//#define B6 130,70 , 59, 59
+//#define B7 190,70 , 59, 59

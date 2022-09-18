@@ -91,12 +91,6 @@ void Object2D::UpdateVertextBuffer() {
 	m_VertexList[2].p = { x1, y1 - h1, 0.0f };
 	m_VertexList[2].t = { m_rtUV.x,  m_rtUV.y+m_rtUV.h };
 
-	//m_VertexList[3].p = m_VertexList[2].p;
-	//m_VertexList[3].t = m_VertexList[2].t;
-
-	//m_VertexList[4].p = m_VertexList[1].p;
-	//m_VertexList[4].t = m_VertexList[1].t;
-
 	m_VertexList[3].p = { x1 + w1, y1 - h1, 0.0f };
 	m_VertexList[3].t = { m_rtUV.x + m_rtUV.w ,m_rtUV.y + m_rtUV.h };
 
@@ -115,6 +109,19 @@ void Object2D::Set_rect(Rect rt) {						// t값 설정
 	m_rtUV.w = rt.w / m_ptImgSize.x;
 	m_rtUV.h = rt.h / m_ptImgSize.y;
 }
+
+void Object2D::Set_rect(float x, float y, float w, float h) {						// t값 설정
+
+	m_rtInit = { x,y,w,h };
+	m_ptImgSize.x = m_pTexture->m_Desc.Width;
+	m_ptImgSize.y = m_pTexture->m_Desc.Height;
+
+	m_rtUV.x = x / m_ptImgSize.x;
+	m_rtUV.y = y / m_ptImgSize.y;
+	m_rtUV.w = w / m_ptImgSize.x;
+	m_rtUV.h = h / m_ptImgSize.y;
+}
+
 
 void Object2D::Set_position(Vector2D pos) {				// p값 설정  -- Set_pos 분리하기
 	

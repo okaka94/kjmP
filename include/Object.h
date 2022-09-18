@@ -51,6 +51,7 @@ public:									// 카메라 설정
 public:
 	bool Frame() override;
 	virtual void Set_rect(Rect pos);
+	virtual void Set_rect(float x, float y, float w, float h);
 
 	void ScreenToNDC();	
 	virtual void Set_position(Vector2D pos);
