@@ -14,26 +14,28 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	if (fabs(3.0f - g_fGameTimer) < EPSILON)
+	//if (fabs(3.0f - g_fGameTimer) <= EPSILON )
+
+	static float timer = 0.0f;
+	timer += g_fSecPerFrame;
+	if (timer > 3.0f) {
 		Note_manager::GetInstance().Create_note("B0");
-	if (fabs(4.0f - g_fGameTimer) < EPSILON)
-		Note_manager::GetInstance().Create_note("B1");
-	if (fabs(5.0f - g_fGameTimer) < EPSILON)
-		Note_manager::GetInstance().Create_note("B2");
-		
-	static Vector2D pos = { 100,100 };
-	
-	if (!Note_manager::GetInstance().Get_Q().empty()) {
-
-		if (Note_manager::GetInstance().Deploy_note(pos, g_fGameTimer)) {
-			pos.x += 100.0f;
-			pos.y += 100.0f;
-		}
-			
-		
-
-		Note_manager::GetInstance().Release_note(g_fGameTimer);
+		timer = 1.0f;
 	}
+	
+	
+
+	if(Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
+		float x = Input::GetInstance().m_ptPos.x;
+		float y = Input::GetInstance().m_ptPos.y;
+		Note_manager::GetInstance().Judge_note(x, y);
+
+	}
+	
+		
+
+		//Note_manager::GetInstance().Release_note(g_fGameTimer);
+	//}
 		
 	
 
@@ -44,8 +46,15 @@ bool Sample::Frame()
 }
 bool Sample::Render()
 {
-	if(!Note_manager::GetInstance().Get_Q().empty())
-		Note_manager::GetInstance().Get_Q().front()->Render();
+	if(!Note_manager::GetInstance().Get_list().empty()){
+		//Note_manager::GetInstance().Get_list().front()->Render();
+		for (int i = 0; i < Note_manager::GetInstance().Get_list().size(); i++) {
+			Note_manager::GetInstance().Get_list()[i]->Render();			
+		}
+	}
+
+
+
 	ID3D11ShaderResourceView* SRV = Note_manager::GetInstance().Get_pMask()->Get_SRV();
 	m_pImmediateContext->PSSetShaderResources(1, 1, &SRV);
 	
@@ -63,7 +72,7 @@ bool Sample::Release()
 int APIENTRY wWinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
 
 	Sample demo;
-	demo.SetWindow(hinstance, L"LibraryTest",800,600);
+	demo.SetWindow(hinstance, L"2D test",800,600);
 
 
 	demo.Run();

@@ -12,7 +12,7 @@ public:
 private:
 	friend class Singleton<Note_manager>;
 	
-	std::queue<Note*>	m_qNote_list;	// 노트 배치
+	std::vector<Note*>	m_Note_list;	// 노트 배치
 	Texture*			m_pMask=nullptr;
 
 
@@ -25,15 +25,16 @@ public:
 	
 
 	bool Deploy_note(Vector2D pos, float Ptime);	// Q front의 시간멤버와 현재 곡 시간 비교해서 같으면 pos에 배치
-	void Judge_note();
+	void Judge_note(float x, float y);
+	bool Check_click(Vector2D note, Vector2D cursor);
 	void Release_note(float Ptime);
 	void Release();		
 public:
 	Texture* Get_pMask() {
 		return m_pMask;
 	}
-	std::queue<Note*> Get_Q() {
-		return m_qNote_list;
+	std::vector<Note*> Get_list() {
+		return m_Note_list;
 	}
 private:
 	Note_manager();
