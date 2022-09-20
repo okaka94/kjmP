@@ -5,16 +5,22 @@
 
 bool Sample::Init()
 {
+	
 	Note_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
 	Note_manager::GetInstance().Init();
 
+	
+	// map load
+	Map = new Base_object;
+	//Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/Terranigma.bmp");
+	Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/background_low_ex.png");
 	
 
 	return true;
 }
 bool Sample::Frame()
 {
-	//if (fabs(3.0f - g_fGameTimer) <= EPSILON )
+	Map->Frame();
 
 	static float timer = 0.0f;
 	timer += g_fSecPerFrame;
@@ -46,6 +52,8 @@ bool Sample::Frame()
 }
 bool Sample::Render()
 {
+	Map->Render();
+
 	if(!Note_manager::GetInstance().Get_list().empty()){
 		//Note_manager::GetInstance().Get_list().front()->Render();
 		for (int i = 0; i < Note_manager::GetInstance().Get_list().size(); i++) {
@@ -62,7 +70,7 @@ bool Sample::Render()
 }
 bool Sample::Release()
 {
-
+	Map->Release();
 	Note_manager::GetInstance().Release();
 	
 	return true;

@@ -156,12 +156,16 @@
   <ItemGroup>
     <ClInclude Include="Note.h" />
     <ClInclude Include="Note_manager.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Sample.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KJMCore\KJMCore.vcxproj">
       <Project>{082ad059-3363-4930-950a-9deca146c825}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2D game test.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

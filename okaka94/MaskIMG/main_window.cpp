@@ -76,7 +76,7 @@ bool main_window::Render() {
 bool main_window::Release() {
 	
 	
-	Map->Release();;
+	Map->Release();
 	for (auto obj : NPC_list) {
 		obj->Release();
 		delete obj;

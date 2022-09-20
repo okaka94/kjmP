@@ -62,8 +62,8 @@ ATOM Window::MyRegisterClass() {
     wcex.style = CS_HREDRAW | CS_VREDRAW;	// horizontal re-draw, vertical re-draw 클라창 크기 조정시 re-draw함
     wcex.lpfnWndProc = WndProc;				// 윈도우 프로시저를 가리키는 포인터
     wcex.hInstance = m_hInstance;
-    wcex.hCursor = LoadCursor(nullptr, IDC_WAIT);
-    wcex.hbrBackground = CreateSolidBrush(RGB(108, 171, 221));
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
     wcex.lpszClassName = L"OKAKA WINDOW";
 
     return RegisterClassEx(&wcex);

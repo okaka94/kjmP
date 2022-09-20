@@ -6,6 +6,8 @@
 class Sample : public Game_core
 {
 public:
+	Base_object* Map;
+public:
 	virtual bool Init() override;
 	virtual bool Frame() override;
 	virtual bool Render() override;
