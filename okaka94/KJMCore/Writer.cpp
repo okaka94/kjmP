@@ -54,9 +54,24 @@ bool Writer::Draw(float x, float y, std::wstring text, D2D1_COLOR_F color) {
 	return true;
 }
 
+bool Writer::Draw_circle(float x, float y, float rad , D2D1_COLOR_F color ) {
+
+	m_d2dFactory->CreateEllipseGeometry(D2D1::Ellipse(D2D1::Point2F(x, y), rad, rad),&m_pEllipseGeometry);
+	m_d2dRT->BeginDraw();
+
+	D2D1_RECT_F rt = { x,y,g_rtClient.right,g_rtClient.bottom };
+	m_pTextColor->SetColor(color);
+	m_pTextColor->SetOpacity(0.8f);
+	m_d2dRT->DrawGeometry(m_pEllipseGeometry, m_pTextColor, 3);
+	m_d2dRT->EndDraw();
+
+	return true;
+}
+
 bool Writer::Release() {
 	if (m_pTextLayout) m_pTextLayout->Release();
 	if (m_pTextColor) m_pTextColor->Release();
+	if (m_pEllipseGeometry) m_pEllipseGeometry->Release();
 	if (m_pDWriteFactory) m_pDWriteFactory->Release();
 	if (m_d2dRT) m_d2dRT->Release();
 	if (m_d2dFactory) m_d2dFactory->Release();

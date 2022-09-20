@@ -3,9 +3,11 @@
 
 
 
+
 class Sample : public Game_core
 {
 public:
+	
 	Base_object* Map;
 public:
 	virtual bool Init() override;

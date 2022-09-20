@@ -11,7 +11,7 @@ public:
 
 
 	//bool Render() override;
-	//bool Release() override;
+	bool Release() override;
 };
 
 

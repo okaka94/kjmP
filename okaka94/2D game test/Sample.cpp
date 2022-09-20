@@ -12,7 +12,6 @@ bool Sample::Init()
 	
 	// map load
 	Map = new Base_object;
-	//Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/Terranigma.bmp");
 	Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/background_low_ex.png");
 	
 
@@ -24,6 +23,11 @@ bool Sample::Frame()
 
 	static float timer = 0.0f;
 	timer += g_fSecPerFrame;
+
+
+
+
+
 	if (timer > 3.0f) {
 		Note_manager::GetInstance().Create_note("B0");
 		timer = 1.0f;
@@ -60,7 +64,10 @@ bool Sample::Render()
 			Note_manager::GetInstance().Get_list()[i]->Render();			
 		}
 	}
-
+	
+	// note frame level 
+	m_writer.Draw_circle(130, 130, 100, { 1,1,1,1 });
+	m_writer.Draw_circle(130, 130, 30, { 1,1,1,1 });
 
 
 	ID3D11ShaderResourceView* SRV = Note_manager::GetInstance().Get_pMask()->Get_SRV();

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Note.cpp" />
+    <ClCompile Include="Note_manager.cpp" />
+    <ClCompile Include="Sample.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Note.h" />
+    <ClInclude Include="Note_manager.h" />
+    <ClInclude Include="Sample.h" />
+    <ClInclude Include="resource.h">
+      <Filter>cursor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="cursor">
+      <UniqueIdentifier>{edb4e9d0-e97d-4474-866d-fff34e77769d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2D game test.rc">
+      <Filter>cursor</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\data\EBA\light_cursor.cur">
+      <Filter>cursor</Filter>
+    </None>
+  </ItemGroup>
+</Project>

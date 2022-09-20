@@ -169,6 +169,7 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClInclude Include="Game_core.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shader_manager.h" />
     <ClInclude Include="Sound.h" />
@@ -199,6 +200,12 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Writer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="KJMCore.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\data\EBA\light_cursor.cur" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

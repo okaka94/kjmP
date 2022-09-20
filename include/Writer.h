@@ -17,6 +17,7 @@ public:
 	ID2D1SolidColorBrush* m_pTextColor;
 	std::wstring			m_szDefaultText;
 	IDWriteTextLayout* m_pTextLayout;
+	ID2D1EllipseGeometry* m_pEllipseGeometry;
 
 public:
 	virtual bool			Init();
@@ -27,5 +28,7 @@ public:
 public:
 	bool		Set(IDXGISurface1* dxgiSurface);
 	bool		Draw(float x, float y, std::wstring text, D2D1_COLOR_F color = { 0,0,0,1 });
+	bool		Draw_circle(float x, float y, float rad , D2D1_COLOR_F color );
+
 };
 

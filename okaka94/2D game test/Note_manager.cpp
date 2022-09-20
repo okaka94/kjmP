@@ -19,6 +19,8 @@ void Note_manager::Init() {
 	//Create_note("B0");
 	//Create_note("B0");
 	//Create_note("B1");
+
+
 }
 
 void Note_manager::SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pContext) {
