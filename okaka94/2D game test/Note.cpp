@@ -20,8 +20,9 @@ bool Note::Frame() {
 		}
 		else {
 			score = 0;
+			state = false;
 		}
-	return false;
+	return true;
 
 	// 가이드라인 draw , 점점 감소
 	// 충돌 판정 or 시간 초과되면 Release

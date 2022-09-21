@@ -65,8 +65,8 @@ bool Sample::Frame()
 
 		
 
-		//Note_manager::GetInstance().Release_note(g_fGameTimer);
-	//}
+	Note_manager::GetInstance().Release_note();
+
 		
 	
 
@@ -80,7 +80,6 @@ bool Sample::Render()
 	Map->Render();
 
 	if(!Note_manager::GetInstance().Get_list().empty()){
-		//Note_manager::GetInstance().Get_list().front()->Render();
 		for (int i = 0; i < Note_manager::GetInstance().Get_list().size(); i++) {
 			Note_manager::GetInstance().Get_list()[i]->Render();		
 			Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 150.0f - (120.0f * Note_manager::GetInstance().Get_list()[i]->timer), { 1,1,1,1 });

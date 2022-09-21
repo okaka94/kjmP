@@ -6,9 +6,12 @@ class Note : public Object2D
 public:
 	float	timer = 0.0f;
 	int		score = 1;
+	bool	state = true;
 public:
 	//bool Init() override;
 	bool Frame() override;
+	void Set_state_false() { state = false; }
+	int  Get_score() { return score; }
 
 	
 	

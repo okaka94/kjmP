@@ -12,6 +12,7 @@ public:
 private:
 	friend class Singleton<Note_manager>;
 	
+	int					Total_score = 0;			// 게임 스코어
 	std::vector<Note*>	m_Note_list;	// 노트 배치
 	Texture*			m_pMask=nullptr;
 
@@ -20,14 +21,11 @@ public:
 	void Init();
 	void Load_all_note(){}			// Index, pos, time 정보가 있는 리스트를 로드해서 해당 곡의 모든 노트 생성
 	void Load_texture();			// 마스크 텍스처 로드
-	void Create(std::string note_type, Vector2D pos, float time);
+	//void Create(std::string note_type, Vector2D pos, float time);
 	bool Create_note(std::string note_type);
-	
-
-	//bool Deploy_note(Vector2D pos, float Ptime);	// Q front의 시간멤버와 현재 곡 시간 비교해서 같으면 pos에 배치
 	void Judge_note(float x, float y);
 	bool Check_click(Vector2D note, Vector2D cursor);
-	//void Release_note(float Ptime);
+	void Release_note();
 	void Release();		
 public:
 	Texture* Get_pMask() {

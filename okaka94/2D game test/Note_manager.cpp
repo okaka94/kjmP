@@ -16,9 +16,7 @@ void Note_manager::Init() {
 	name = "B2";
 	pos = { 130,10 , 59, 59 };
 	Tex_pos.insert(std::make_pair(name, pos));
-	//Create_note("B0");
-	//Create_note("B0");
-	//Create_note("B1");
+	
 
 
 }
@@ -31,11 +29,6 @@ void Note_manager::SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pCon
 void Note_manager::Load_texture() {
 	m_pMask = Texture_manager::GetInstance().Load(L"../../data/EBA/Note_mask.bmp");
 }	
-
-void Note_manager::Create(std::string note_type, Vector2D pos, float time) {
-	// Create 하면서 사용중인 노드가 맞는지 체크 후 Create 단계로 넘어가기
-	// but 항상 create을 호출하게 되므로 다른 방법 있는지 찾아볼 것
-}
 
 
 bool Note_manager::Create_note(std::string note_type) {
@@ -68,20 +61,7 @@ bool Note_manager::Create_note(std::string note_type) {
 	m_Note_list.push_back(pNew);
 	return true;
 }
-//bool Note_manager::Deploy_note(Vector2D pos, float Ptime) {
-//
-//	
-//
-//	for (int i = 0; i < m_Note_list.size(); i++) {
-//		if (fabs(m_Note_list[i]->just_time - Ptime) < EPSILON) {
-//			m_Note_list[i]->Set_position(pos);
-//			return true;
-//		}
-//	}
-//	
-//	return false;
-//
-//}
+
 
 bool Note_manager::Check_click(Vector2D note, Vector2D cursor) {
 	if (note.x <= cursor.x) {
@@ -108,27 +88,35 @@ void Note_manager::Judge_note(float x, float y) {
 	auto iter = m_Note_list.begin();
 	int i = 0;
 	while(iter != m_Note_list.end()) {
-		if (Check_click(m_Note_list[i]->m_vPos, cursor))
-			bool check = true;
+		if (Check_click(m_Note_list[i]->m_vPos, cursor)) {
+			m_Note_list[0]->Set_state_false();
+			return;
+		}
+			
 		i++;
 		iter++;
 	}
 }
-//void Note_manager::Release_note(float Ptime) {
-//	if (m_Note_list.empty()) return;
-//	
-//	else{
-//		for (int i = 0; i < m_Note_list.size(); i++) {
-//			if(Ptime - m_Note_list[0]->just_time <= 2.5f){
-//			m_Note_list[i]->Release();
-//			m_Note_list.erase(m_Note_list.begin() + i);
-//			//i--;
-//			}
-//		}
-//		
-//	}
-//	
-//}
+void Note_manager::Release_note() {
+	if (m_Note_list.empty()) return;
+	
+	else{
+		for (auto iter = m_Note_list.begin(); iter != m_Note_list.end(); )
+		{
+			Note* data = *iter;
+			if (data->state==false)
+			{
+				Total_score += data->score;
+				delete data;
+				iter = m_Note_list.erase(iter);
+				continue;
+			}
+			iter++;
+		}
+		
+	}
+	
+}
 
 void Note_manager::Release() {
 	for (int i = 0; i < m_Note_list.size(); i++) {
