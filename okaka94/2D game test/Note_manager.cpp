@@ -89,6 +89,7 @@ void Note_manager::Judge_note(float x, float y) {
 	int i = 0;
 	while(iter != m_Note_list.end()) {
 		if (Check_click(m_Note_list[i]->m_vPos, cursor)) {
+			if (i != 0) m_Note_list[0]->Set_fail();
 			m_Note_list[0]->Set_state_false();
 			return;
 		}

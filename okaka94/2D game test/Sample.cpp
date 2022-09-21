@@ -34,7 +34,7 @@ bool Sample::Frame()
 		timecheckb = 5.0f;
 	}
 
-	if (timecheck >= 4.0f && timecheck <= 5.0f) {
+	if (timecheck >= 3.5f && timecheck <= 5.0f) {
 		Note_manager::GetInstance().Create_note("B1");
 		timecheck = 6.0f;
 	}

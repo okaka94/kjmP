@@ -11,6 +11,7 @@ public:
 	//bool Init() override;
 	bool Frame() override;
 	void Set_state_false() { state = false; }
+	void  Set_fail() { score = 0; }
 	int  Get_score() { return score; }
 
 	
