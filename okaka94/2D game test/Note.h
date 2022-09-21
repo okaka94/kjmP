@@ -1,17 +1,22 @@
 #pragma once
 #include "Object.h"
+#include "Game_core.h"
 class Note : public Object2D
 {
 public:
-	float	just_time;
+	float	timer = 0.0f;
+	int		score = 1;
 public:
-	bool Init() override;
+	//bool Init() override;
 	bool Frame() override;
-	void set_time(float time) { just_time = time; }
+
+	
+	
+	
 
 
 	//bool Render() override;
-	bool Release() override;
+	//bool Release() override;
 };
 
 

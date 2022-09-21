@@ -7,8 +7,11 @@
 #pragma comment(lib,"d2d1.lib")
 #pragma comment(lib,"dwrite.lib")
 
-class Writer
+class Writer : public Singleton<Writer>
 {
+
+private:
+	friend class Singleton<Writer>;
 public:
 	ID2D1Factory* m_d2dFactory;
 	IDWriteFactory* m_pDWriteFactory;
@@ -30,5 +33,9 @@ public:
 	bool		Draw(float x, float y, std::wstring text, D2D1_COLOR_F color = { 0,0,0,1 });
 	bool		Draw_circle(float x, float y, float rad , D2D1_COLOR_F color );
 
+private:
+	Writer();
+public:
+	~Writer();
 };
 

@@ -24,10 +24,10 @@ public:
 	bool Create_note(std::string note_type);
 	
 
-	bool Deploy_note(Vector2D pos, float Ptime);	// Q front의 시간멤버와 현재 곡 시간 비교해서 같으면 pos에 배치
+	//bool Deploy_note(Vector2D pos, float Ptime);	// Q front의 시간멤버와 현재 곡 시간 비교해서 같으면 pos에 배치
 	void Judge_note(float x, float y);
 	bool Check_click(Vector2D note, Vector2D cursor);
-	void Release_note(float Ptime);
+	//void Release_note(float Ptime);
 	void Release();		
 public:
 	Texture* Get_pMask() {

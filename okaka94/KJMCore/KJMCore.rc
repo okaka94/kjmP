@@ -50,7 +50,7 @@ END
 // Cursor
 //
 
-IDC_CURSOR1             CURSOR                  "D:\\kjm_project\\KJM\\data\\EBA\\light_cursor.cur"
+IDC_CURSOR1             CURSOR                  "..\\..\\data\\EBA\\light_cursor.cur"
 
 #endif    // 한국어(대한민국) resources
 /////////////////////////////////////////////////////////////////////////////

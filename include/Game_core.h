@@ -11,7 +11,6 @@ class Game_core : public Device
 {
 public:
 	bool				m_game_run = true;
-	Writer				m_writer;
 public:	
 
 	

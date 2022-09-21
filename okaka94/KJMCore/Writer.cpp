@@ -78,3 +78,9 @@ bool Writer::Release() {
 
 	return true;
 }
+
+Writer::Writer() {}
+
+Writer::~Writer() {
+	Release();
+}

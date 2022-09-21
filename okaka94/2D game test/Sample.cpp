@@ -1,5 +1,6 @@
 #include "Sample.h"
 #include "Note_manager.h"
+#include "Writer.h"
 
 
 
@@ -21,17 +22,35 @@ bool Sample::Frame()
 {
 	Map->Frame();
 
-	static float timer = 0.0f;
-	timer += g_fSecPerFrame;
+	static float timecheck = 0.0f;
+	timecheck += g_fSecPerFrame;
+
+	static float timecheckb = 0.0f;
+	timecheckb += g_fSecPerFrame;
 
 
-
-
-
-	if (timer > 3.0f) {
+	if (timecheckb >= 3.0f && timecheckb <= 4.0f) {
 		Note_manager::GetInstance().Create_note("B0");
-		timer = 1.0f;
+		timecheckb = 5.0f;
 	}
+
+	if (timecheck >= 4.0f && timecheck <= 5.0f) {
+		Note_manager::GetInstance().Create_note("B1");
+		timecheck = 6.0f;
+	}
+	
+
+
+
+	if (!Note_manager::GetInstance().Get_list().empty()) {
+		for (int i = 0; i < Note_manager::GetInstance().Get_list().size(); i++) {
+			Note_manager::GetInstance().Get_list()[i]->Frame();
+		}
+	}
+
+	
+	
+
 	
 	
 
@@ -41,7 +60,9 @@ bool Sample::Frame()
 		Note_manager::GetInstance().Judge_note(x, y);
 
 	}
-	
+
+
+
 		
 
 		//Note_manager::GetInstance().Release_note(g_fGameTimer);
@@ -61,13 +82,12 @@ bool Sample::Render()
 	if(!Note_manager::GetInstance().Get_list().empty()){
 		//Note_manager::GetInstance().Get_list().front()->Render();
 		for (int i = 0; i < Note_manager::GetInstance().Get_list().size(); i++) {
-			Note_manager::GetInstance().Get_list()[i]->Render();			
+			Note_manager::GetInstance().Get_list()[i]->Render();		
+			Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 150.0f - (120.0f * Note_manager::GetInstance().Get_list()[i]->timer), { 1,1,1,1 });
 		}
 	}
 	
-	// note frame level 
-	m_writer.Draw_circle(130, 130, 100, { 1,1,1,1 });
-	m_writer.Draw_circle(130, 130, 30, { 1,1,1,1 });
+
 
 
 	ID3D11ShaderResourceView* SRV = Note_manager::GetInstance().Get_pMask()->Get_SRV();
