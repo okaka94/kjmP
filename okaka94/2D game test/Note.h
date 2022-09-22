@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "Game_core.h"
+//#include "Game_core.h"
 class Note : public Object2D
 {
 public:

@@ -1,5 +1,6 @@
 #pragma once
 #include "Note.h"
+#include "Effect.h"
 #include "Texture_manager.h"
 
 class Note_manager : public Singleton<Note_manager>
@@ -13,8 +14,9 @@ private:
 	friend class Singleton<Note_manager>;
 	
 	int					Total_score = 0;			// 게임 스코어
-	std::vector<Note*>	m_Note_list;	// 노트 배치
+	std::vector<Note*>	m_Note_list;				// 노트 리스트
 	Texture*			m_pMask=nullptr;
+	std::vector<Effect*> m_Effect_list;		// 이펙트 리스트
 
 
 public:
@@ -23,6 +25,8 @@ public:
 	void Load_texture();			// 마스크 텍스처 로드
 	//void Create(std::string note_type, Vector2D pos, float time);
 	bool Create_note(std::string note_type);
+	//bool Create_effect(std::string effect_type, Vector2D pos);
+	bool Create_effect(const Note* note);
 	void Judge_note(float x, float y);
 	bool Check_click(Vector2D note, Vector2D cursor);
 	void Release_note();
@@ -33,6 +37,9 @@ public:
 	}
 	std::vector<Note*> Get_list() {
 		return m_Note_list;
+	}
+	std::vector<Effect*> Get_effect_list() {
+		return m_Effect_list;
 	}
 private:
 	Note_manager();

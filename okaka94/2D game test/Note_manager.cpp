@@ -17,7 +17,21 @@ void Note_manager::Init() {
 	pos = { 130,10 , 59, 59 };
 	Tex_pos.insert(std::make_pair(name, pos));
 	
+	name = "0";
+	pos = { 10, 961, 63, 63 };
+	Tex_pos.insert(std::make_pair(name, pos));
 
+	name = "50";
+	pos = { 10, 1036, 80, 68 };
+	Tex_pos.insert(std::make_pair(name, pos));
+
+	name = "100";
+	pos = { 10, 1115, 98, 89 };
+	Tex_pos.insert(std::make_pair(name, pos));
+
+	name = "300";
+	pos = { 10, 1213, 115, 100 };
+	Tex_pos.insert(std::make_pair(name, pos));
 
 }
 
@@ -62,6 +76,60 @@ bool Note_manager::Create_note(std::string note_type) {
 	return true;
 }
 
+//bool Note_manager::Create_effect(std::string effect_type, Vector2D pos) {
+//
+//	auto iter = Tex_pos.find(effect_type);
+//	if (iter == Tex_pos.end()) {
+//		return false;
+//	}
+//
+//
+//
+//	Effect* pNew = new Effect;
+//	pNew->Create(m_pd3dDevice, m_pImmediateContext,
+//		L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Note.bmp");
+//
+//	pNew->Set_rect(iter->second);
+//
+//	
+//
+//	pNew->Set_position(pos);
+//	
+//
+//	m_Effect_list.push_back(pNew);
+//	return true;
+//}
+
+bool Note_manager::Create_effect(const Note* note) {
+
+	std::string effect_type = std::to_string(note->score);
+
+	auto iter = Tex_pos.find(effect_type);
+	if (iter == Tex_pos.end()) {
+		return false;
+	}
+
+
+
+	Effect* pNew = new Effect;
+	pNew->Create(m_pd3dDevice, m_pImmediateContext,
+		L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Note.bmp");
+
+	Rect effect_rect = iter->second;
+
+	pNew->Set_rect(effect_rect);
+
+	
+	Vector2D mod_pos;
+	mod_pos.x = note->m_vPos.x - ((effect_rect.w - 59) / 2);
+	mod_pos.y = note->m_vPos.y - ((effect_rect.h - 59) / 2);
+
+	pNew->Set_position(mod_pos);
+
+
+	m_Effect_list.push_back(pNew);
+	return true;
+}
 
 bool Note_manager::Check_click(Vector2D note, Vector2D cursor) {
 	if (note.x <= cursor.x) {
@@ -90,7 +158,8 @@ void Note_manager::Judge_note(float x, float y) {
 	while(iter != m_Note_list.end()) {
 		if (Check_click(m_Note_list[i]->m_vPos, cursor)) {
 			if (i != 0) m_Note_list[0]->Set_fail();
-			m_Note_list[0]->Set_state_false();
+			m_Note_list[0]->Set_state_false();  
+			
 			return;
 		}
 			
@@ -99,7 +168,7 @@ void Note_manager::Judge_note(float x, float y) {
 	}
 }
 void Note_manager::Release_note() {
-	if (m_Note_list.empty()) return;
+	if (m_Note_list.empty() && m_Effect_list.empty()) return;
 	
 	else{
 		for (auto iter = m_Note_list.begin(); iter != m_Note_list.end(); )
@@ -107,9 +176,24 @@ void Note_manager::Release_note() {
 			Note* data = *iter;
 			if (data->state==false)
 			{
+				// 노트 판정 일어나면 판정 이펙트 생성
+				Create_effect(data);
+
 				Total_score += data->score;
 				delete data;
 				iter = m_Note_list.erase(iter);
+				continue;
+			}
+			iter++;
+		}
+
+		for (auto iter = m_Effect_list.begin(); iter != m_Effect_list.end(); )
+		{
+			Effect* data = *iter;
+			if (data->state == false)
+			{
+				delete data;
+				iter = m_Effect_list.erase(iter);
 				continue;
 			}
 			iter++;
@@ -120,10 +204,28 @@ void Note_manager::Release_note() {
 }
 
 void Note_manager::Release() {
-	for (int i = 0; i < m_Note_list.size(); i++) {
-		m_Note_list.front()->Release();
-		m_Note_list.erase(m_Note_list.begin() + i);
+	if (!m_Note_list.empty()) {
+		for (auto iter = m_Note_list.begin(); iter != m_Note_list.end(); )
+		{
+			Note* data = *iter;
+			delete data;
+			iter = m_Note_list.erase(iter);
+			continue;
+			iter++;
+		}
 	}
+	if (!m_Effect_list.empty()) {
+		for (auto iter = m_Effect_list.begin(); iter != m_Effect_list.end(); )
+		{
+			Effect* data = *iter;
+			delete data;
+			iter = m_Effect_list.erase(iter);
+			continue;
+			iter++;
+		}
+	}
+	
+	m_Effect_list.clear();
 	m_Note_list.clear();
 	Tex_pos.clear();
 

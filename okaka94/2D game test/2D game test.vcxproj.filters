@@ -4,6 +4,7 @@
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="Note_manager.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="Effect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Note.h" />
@@ -12,6 +13,7 @@
     <ClInclude Include="resource.h">
       <Filter>cursor</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cursor">

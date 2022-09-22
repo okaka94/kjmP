@@ -48,7 +48,11 @@ bool Sample::Frame()
 		}
 	}
 
-	
+	if (!Note_manager::GetInstance().Get_effect_list().empty()) {
+		for (int i = 0; i < Note_manager::GetInstance().Get_effect_list().size(); i++) {
+			Note_manager::GetInstance().Get_effect_list()[i]->Frame();
+		}
+	}
 	
 
 	
@@ -81,13 +85,20 @@ bool Sample::Render()
 
 	if(!Note_manager::GetInstance().Get_list().empty()){
 		for (int i = 0; i < Note_manager::GetInstance().Get_list().size(); i++) {
+			// 활성 노트 렌더
 			Note_manager::GetInstance().Get_list()[i]->Render();		
+			// 활성 노트 판정라인 렌더
 			Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 150.0f - (120.0f * Note_manager::GetInstance().Get_list()[i]->timer), { 1,1,1,1 });
+			
+		}
+	}
+	if (!Note_manager::GetInstance().Get_effect_list().empty()) {
+		for (int i = 0; i < Note_manager::GetInstance().Get_effect_list().size(); i++) {
+			// 판정 이펙트 렌더
+			Note_manager::GetInstance().Get_effect_list()[i]->Render();
 		}
 	}
 	
-
-
 
 	ID3D11ShaderResourceView* SRV = Note_manager::GetInstance().Get_pMask()->Get_SRV();
 	m_pImmediateContext->PSSetShaderResources(1, 1, &SRV);
