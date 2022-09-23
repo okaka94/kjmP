@@ -6,7 +6,9 @@
 
 bool Sample::Init()
 {
-	
+	//Song = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.mp3");
+	Song = Sound_manager::GetInstance().Load(L"../../data/sound/MyLove.mp3");
+	Song->Play();
 	Note_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
 	Note_manager::GetInstance().Init();
 
@@ -20,6 +22,8 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
+	
+
 	Map->Frame();
 
 	static float timecheck = 0.0f;
@@ -81,6 +85,8 @@ bool Sample::Frame()
 }
 bool Sample::Render()
 {
+
+	
 	Map->Render();
 
 	if(!Note_manager::GetInstance().Get_list().empty()){
@@ -109,7 +115,7 @@ bool Sample::Release()
 {
 	Map->Release();
 	Note_manager::GetInstance().Release();
-	
+	Song->Release();
 	return true;
 }
 

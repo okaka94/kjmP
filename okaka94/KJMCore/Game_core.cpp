@@ -34,7 +34,8 @@ bool Game_core::CoreFrame() {
 
 bool Game_core::CorePre_Render() {
 	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);			// OM : Output-Merger
-
+	// Blend 설정
+	m_pImmediateContext->OMSetBlendState(DXState::g_pDefaultBS, NULL, 0xffffffff); // sample mask 기본값 0xffffffff = -1 
 	float color[4] = { 0.0f,0.0f,0.0f,1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);			// Set all the elements in a render target to one value.
 	m_pImmediateContext->PSSetSamplers(0, 1, &DXState::g_pDefaultSS);
