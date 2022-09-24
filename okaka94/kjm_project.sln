@@ -123,6 +123,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Blend", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Blend Core", "KJMCoreSample Test_Blend Core\KJMCoreSample Test_Blend Core.vcxproj", "{CB527A31-B20E-4177-A0A9-F7B5BE62CA3D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Draw_size", "KJMCoreSample Test_Draw_size\KJMCoreSample Test_Draw_size.vcxproj", "{17912AC2-E427-4691-BE27-DD95130309C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -539,6 +541,14 @@ Global
 		{CB527A31-B20E-4177-A0A9-F7B5BE62CA3D}.Release|x64.Build.0 = Release|x64
 		{CB527A31-B20E-4177-A0A9-F7B5BE62CA3D}.Release|x86.ActiveCfg = Release|Win32
 		{CB527A31-B20E-4177-A0A9-F7B5BE62CA3D}.Release|x86.Build.0 = Release|Win32
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Debug|x64.ActiveCfg = Debug|x64
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Debug|x64.Build.0 = Debug|x64
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Debug|x86.ActiveCfg = Debug|Win32
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Debug|x86.Build.0 = Debug|Win32
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Release|x64.ActiveCfg = Release|x64
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Release|x64.Build.0 = Release|x64
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Release|x86.ActiveCfg = Release|Win32
+		{17912AC2-E427-4691-BE27-DD95130309C6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -596,6 +606,7 @@ Global
 		{F9C15661-6CB6-4865-B002-B44DA12D9BC8} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 		{B22CB1A3-2D2A-490A-877E-FD79D72E07FF} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 		{CB527A31-B20E-4177-A0A9-F7B5BE62CA3D} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
+		{17912AC2-E427-4691-BE27-DD95130309C6} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53D2CBEB-40EF-4E5A-BDC4-BFDFCCBD52FC}

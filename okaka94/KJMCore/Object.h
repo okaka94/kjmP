@@ -33,7 +33,7 @@ public:
 	Vector2D	m_vDir;
 	float		m_fSpeed = 100.0f;
 
-private:
+public:
 	Vector2D	m_vDrawPos;				// ndc 변환한 x,y
 	Vector2D	m_vDrawSize;			// ndc 변환한 w,h
 	
