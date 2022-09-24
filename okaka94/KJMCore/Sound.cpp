@@ -90,7 +90,7 @@ bool Sound::Frame() {
 		unsigned int ms = 0;
 		m_pChannel->getPosition(&ms, FMOD_TIMEUNIT_MS);
 		TCHAR szBuffer[256] = { 0, };
-		_stprintf_s(szBuffer, _T("현 시간 %02d:%02d:%02d, 총 시간 %02d:%02d:%02d \n"), ms / 1000 / 60, ms / 1000 % 60, ms / 10 % 60, m_Total_time / 1000 / 60, m_Total_time / 1000 % 60 / m_Total_time / 10 % 60);
+		_stprintf_s(szBuffer, _T("현 시간 %02d:%02d:%02d, 총 시간 %02d:%02d:%02d \n"), ms / 1000 / 60, ms / 1000 % 60, ms / 10 % 60, m_Total_time / 1000 / 60, m_Total_time / 1000 % 60 , m_Total_time / 10 % 60);
 		OutputDebugString(szBuffer);
 		//m_szBuffer = szBuffer;
 	}

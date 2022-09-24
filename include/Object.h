@@ -32,6 +32,7 @@ public:
 	Vector2D	m_vPos;
 	Vector2D	m_vDir;
 	float		m_fSpeed = 100.0f;
+	float		m_fOpacity = 1.0f;
 
 public:
 	Vector2D	m_vDrawPos;				// ndc º¯È¯ÇÑ x,y

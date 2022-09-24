@@ -78,10 +78,10 @@ Sound* Sound_manager::Load(std::wstring fullpath) {
 bool Sound_manager::Frame() {
 
 	m_pSystem->update();
-	for (auto data : m_List) {
+	/*for (auto data : m_List) {
 		Sound* pData = data.second;
 		if (pData) pData->Frame();
-	}
+	}*/
 	return true;
 }
 

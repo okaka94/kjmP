@@ -6,9 +6,8 @@
 
 bool Sample::Init()
 {
-	//Song = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.mp3");
-	Song = Sound_manager::GetInstance().Load(L"../../data/sound/MyLove.mp3");
-	Song->Play();
+	Song = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.mp3");	
+
 	Note_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
 	Note_manager::GetInstance().Init();
 
@@ -17,6 +16,8 @@ bool Sample::Init()
 	Map = new Base_object;
 	Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/background_low_ex.png");
 	
+	Song->Play();
+	offset = g_fGameTimer;
 
 	return true;
 }
@@ -26,25 +27,22 @@ bool Sample::Frame()
 
 	Map->Frame();
 
-	static float timecheck = 0.0f;
-	timecheck += g_fSecPerFrame;
-
-	static float timecheckb = 0.0f;
-	timecheckb += g_fSecPerFrame;
-
-
-	if (timecheckb >= 3.0f && timecheckb <= 4.0f) {
-		Note_manager::GetInstance().Create_note("B0");
-		timecheckb = 5.0f;
-	}
-
-	if (timecheck >= 3.5f && timecheck <= 5.0f) {
-		Note_manager::GetInstance().Create_note("B1");
-		timecheck = 6.0f;
-	}
+	
+	current_time +=  g_fSecPerFrame;
 	
 
+	//unsigned int ms;
+	//Song->m_pChannel->getPosition(&ms, FMOD_TIMEUNIT_MS);
 
+	//std::wstring check = L"\n" + std::to_wstring((float)ms) + L"\n";
+	//OutputDebugString(check.c_str());
+
+	if (current_time >= 1.4f) {								// 0.7f 기준으로 잡으면 120bpm
+		Note_manager::GetInstance().Create_note("B1");
+		current_time -= 1.4f;
+	}
+		
+	
 
 	if (!Note_manager::GetInstance().Get_list().empty()) {
 		for (int i = 0; i < Note_manager::GetInstance().Get_list().size(); i++) {

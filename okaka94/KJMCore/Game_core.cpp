@@ -47,8 +47,8 @@ bool Game_core::CoreRender() {
 		Render();
 		Input::GetInstance().Render();
 		Timer::GetInstance().Render();
-		Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
-		Writer::GetInstance().Render();
+		//Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
+		//Writer::GetInstance().Render();
 	CorePost_Render();
 	return true;
 }
