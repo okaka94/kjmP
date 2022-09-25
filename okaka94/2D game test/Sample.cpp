@@ -17,7 +17,10 @@ bool Sample::Init()
 	Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/background_low_ex.png");
 	
 	Song->Play();
-	offset = g_fGameTimer;
+
+	
+	offset = 0.259f;				// 실제 음악 시작지점
+	current_time -= offset;			// 노트 판정은 1초가 정타이밍이니까 -1초가 기본값
 
 	return true;
 }
@@ -31,15 +34,14 @@ bool Sample::Frame()
 	current_time +=  g_fSecPerFrame;
 	
 
-	//unsigned int ms;
-	//Song->m_pChannel->getPosition(&ms, FMOD_TIMEUNIT_MS);
+	unsigned int ctime;
+	Song->m_pChannel->getPosition(&ctime, FMOD_TIMEUNIT_MS);
+	std::wstring check = L"\n" + std::to_wstring((float)ctime) + L"\n";
+	OutputDebugString(check.c_str());
 
-	//std::wstring check = L"\n" + std::to_wstring((float)ms) + L"\n";
-	//OutputDebugString(check.c_str());
-
-	if (current_time >= 1.4f) {								// 0.7f 기준으로 잡으면 120bpm
+	if (current_time >= 60.0f/85) {							// 85bpm or 170bpm
 		Note_manager::GetInstance().Create_note("B1");
-		current_time -= 1.4f;
+		current_time -= 60.0f / 85;
 	}
 		
 	
@@ -92,7 +94,7 @@ bool Sample::Render()
 			// 활성 노트 렌더
 			Note_manager::GetInstance().Get_list()[i]->Render();		
 			// 활성 노트 판정라인 렌더
-			Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 150.0f - (120.0f * Note_manager::GetInstance().Get_list()[i]->timer), { 1,1,1,1 });
+			Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 149.5f - (121.0f * Note_manager::GetInstance().Get_list()[i]->timer), { 1,1,1,1 });
 			
 		}
 	}

@@ -67,8 +67,12 @@ bool Note_manager::Create_note(std::string note_type) {
 	
 
 	pNew->Set_position(pos);
-		pos.x += 30.0f;
-		pos.y += 30.0f;
+	if (pos.x >= 700 || pos.y >= 500) {
+		pos.x -= 15.0f;
+		pos.y -= 15.0f;
+	}
+		pos.x += 15.0f;
+		pos.y += 15.0f;
 	
 
 

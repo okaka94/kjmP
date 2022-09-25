@@ -8,7 +8,7 @@ class Sample : public Game_core
 {
 public:
 	Sound* Song=nullptr;
-	float	current_time=-0.7f;
+	float	current_time=-1.0f;
 	float	offset;
 	Base_object* Map;
 public:

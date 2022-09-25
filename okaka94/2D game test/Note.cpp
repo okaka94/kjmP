@@ -9,7 +9,7 @@
 bool Note::Frame() {
 
 	timer += g_fSecPerFrame;
-		if (timer >= 0.95f && timer <= 1.1f) {
+		if (timer >= 0.9f && timer <= 1.1f) {
 			score = 300;
 		}
 		else if (timer >= 0.5f && timer <= 1.2f) {
