@@ -11,6 +11,7 @@ public:
 	float	current_time=-1.0f;
 	float	offset;
 	Base_object* Map;
+	int		Beat_counter = 1;
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

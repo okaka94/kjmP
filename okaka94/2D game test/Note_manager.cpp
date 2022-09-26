@@ -3,36 +3,76 @@
 void Note_manager::Init() {
 	
 	Load_texture();
-	Load_all_note();	// 아직 공백
+	Load_all_note();	
 	
-	std::string name = "B0";
+	/*std::wstring name = L"B0";
 	Rect	pos = { 10,10 ,59, 59 };
 
 	Tex_pos.insert(std::make_pair(name,pos));
-	name = "B1";
+	name = L"B1";
 	pos = { 70,10 , 59, 59 };
 	Tex_pos.insert(std::make_pair(name, pos));
 
-	name = "B2";
+	name = L"B2";
 	pos = { 130,10 , 59, 59 };
 	Tex_pos.insert(std::make_pair(name, pos));
 	
-	name = "0";
+	name = L"0";
 	pos = { 10, 961, 63, 63 };
 	Tex_pos.insert(std::make_pair(name, pos));
 
-	name = "50";
+	name = L"50";
 	pos = { 10, 1036, 80, 68 };
 	Tex_pos.insert(std::make_pair(name, pos));
 
-	name = "100";
+	name = L"100";
 	pos = { 10, 1115, 98, 89 };
 	Tex_pos.insert(std::make_pair(name, pos));
 
-	name = "300";
+	name = L"300";
 	pos = { 10, 1213, 115, 100 };
-	Tex_pos.insert(std::make_pair(name, pos));
+	Tex_pos.insert(std::make_pair(name, pos));*/
 
+}
+
+bool Note_manager::Load_all_note() {
+
+	Tex_pos.clear();
+		
+
+	TCHAR Buffer[256] = { 0, };
+	TCHAR Temp[256] = { 0, };
+
+
+	FILE* fp_src;
+	//_wfopen_s(&fp_src, filename.c_str(), _T("rt"));
+	_wfopen_s(&fp_src, L"../../data/EBA/Note_tex_pos.txt", _T("rt"));
+	if (fp_src == NULL) return false;
+
+
+
+	while (!feof(fp_src)) {
+		_fgetts(Buffer, _countof(Buffer), fp_src);
+
+		if (_tcscmp(Buffer, _T("[Pos_info]\n")) == 0) {
+
+			while (!feof(fp_src)) {
+
+				std::wstring name;
+				Rect pos;
+
+				_fgetts(Buffer, _countof(Buffer), fp_src);
+				_stscanf_s(Buffer, _T("%s %f %f %f %f"), Temp, (unsigned int)_countof(Temp), &pos.x, &pos.y, &pos.w , &pos.h);
+				name = Temp;
+
+				Tex_pos.insert(std::make_pair(name, pos));
+			}
+		}
+
+
+	}
+	fclose(fp_src);
+	return true;
 }
 
 void Note_manager::SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pContext) {
@@ -45,7 +85,7 @@ void Note_manager::Load_texture() {
 }	
 
 
-bool Note_manager::Create_note(std::string note_type) {
+bool Note_manager::Create_note(std::wstring note_type, Vector2D pos) {
 
 	auto iter = Tex_pos.find(note_type);
 	if (iter == Tex_pos.end() ) {
@@ -59,22 +99,11 @@ bool Note_manager::Create_note(std::string note_type) {
 		L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Note.bmp");
 	
 	pNew->Set_rect(iter->second);
-	
-	
-
-	static Vector2D pos = { 100,100 };
 
 	
 
 	pNew->Set_position(pos);
-	if (pos.x >= 700 || pos.y >= 500) {
-		pos.x -= 15.0f;
-		pos.y -= 15.0f;
-	}
-		pos.x += 15.0f;
-		pos.y += 15.0f;
 	
-
 
 	m_Note_list.push_back(pNew);
 	return true;
@@ -106,7 +135,7 @@ bool Note_manager::Create_note(std::string note_type) {
 
 bool Note_manager::Create_effect(const Note* note) {
 
-	std::string effect_type = std::to_string(note->score);
+	std::wstring effect_type = std::to_wstring(note->score);
 
 	auto iter = Tex_pos.find(effect_type);
 	if (iter == Tex_pos.end()) {

@@ -9,7 +9,7 @@ public:
 	ID3D11Device* m_pd3dDevice = nullptr;
 	ID3D11DeviceContext* m_pImmediateContext = nullptr;
 	void SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pContext);
-	std::map<std::string, Rect> Tex_pos;
+	std::map<std::wstring, Rect> Tex_pos;
 private:
 	friend class Singleton<Note_manager>;
 	
@@ -21,11 +21,11 @@ private:
 
 public:
 	void Init();
-	void Load_all_note(){}			// Index, pos, time 정보가 있는 리스트를 로드해서 해당 곡의 모든 노트 생성
+	bool Load_all_note();
 	void Load_texture();			// 마스크 텍스처 로드
 	//void Create(std::string note_type, Vector2D pos, float time);
-	bool Create_note(std::string note_type);
-	//bool Create_effect(std::string effect_type, Vector2D pos);
+
+	bool Create_note(std::wstring note_type , Vector2D pos);	
 	bool Create_effect(const Note* note);
 	void Judge_note(float x, float y);
 	bool Check_click(Vector2D note, Vector2D cursor);

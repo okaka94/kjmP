@@ -5,6 +5,7 @@
     <ClCompile Include="Note_manager.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Song_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Note.h" />
@@ -14,6 +15,8 @@
       <Filter>cursor</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="Song_manager.h" />
+    <ClInclude Include="Info_struct.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cursor">
@@ -29,5 +32,9 @@
     <None Include="..\..\data\EBA\light_cursor.cur">
       <Filter>cursor</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\data\EBA\Sound\Sing_Street.txt" />
+    <Text Include="..\..\data\EBA\Note_tex_pos.txt" />
   </ItemGroup>
 </Project>

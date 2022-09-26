@@ -8,6 +8,7 @@
 #include <queue>
 #include "Vector.h"		 
 //문자열 변환 관련
+#include <tchar.h>
 #include <codecvt>
 #include <atlconv.h> 
 

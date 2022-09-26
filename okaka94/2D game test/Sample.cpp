@@ -1,16 +1,22 @@
 #include "Sample.h"
 #include "Note_manager.h"
 #include "Writer.h"
+#include "Song_manager.h"
 
 
 
 bool Sample::Init()
 {
-	Song = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.mp3");	
+		
 
 	Note_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
 	Note_manager::GetInstance().Init();
 
+
+	Song_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.txt");
+
+	Song = Sound_manager::GetInstance().Load(Song_manager::GetInstance().m_song_info.FullPath);
+	//Song = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.mp3");
 	
 	// map load
 	Map = new Base_object;
@@ -19,7 +25,7 @@ bool Sample::Init()
 	Song->Play();
 
 	
-	offset = 0.259f;				// 실제 음악 시작지점
+	offset = Song_manager::GetInstance().m_song_info.Offset;				// 실제 음악 시작지점
 	current_time -= offset;			// 노트 판정은 1초가 정타이밍이니까 -1초가 기본값
 
 	return true;
@@ -27,7 +33,7 @@ bool Sample::Init()
 bool Sample::Frame()
 {
 	
-
+	static int bpm = Song_manager::GetInstance().m_song_info.BPM * 1/2;
 	Map->Frame();
 
 	
@@ -39,9 +45,23 @@ bool Sample::Frame()
 	std::wstring check = L"\n" + std::to_wstring((float)ctime) + L"\n";
 	OutputDebugString(check.c_str());
 
-	if (current_time >= 60.0f/85) {							// 85bpm or 170bpm
-		Note_manager::GetInstance().Create_note("B1");
-		current_time -= 60.0f / 85;
+	
+
+	if (current_time >= 60.0f/bpm && !Song_manager::GetInstance().m_noteQ.empty()) {				// 메트로놈 역할 ( 85bpm or 170bpm )
+		
+		std::wstring note_type = Song_manager::GetInstance().m_noteQ.front().Note_type;
+		Vector2D pos;
+		pos.x = Song_manager::GetInstance().m_noteQ.front().x * (g_rtClient.right / 10);
+		pos.y = Song_manager::GetInstance().m_noteQ.front().y * (g_rtClient.bottom / 10);
+
+		Note_manager::GetInstance().Create_note(note_type, pos);
+		current_time -= 60.0f / bpm;
+
+		Beat_counter++;
+		if (Beat_counter > 4)
+			Beat_counter = 1;
+
+		Song_manager::GetInstance().m_noteQ.pop();
 	}
 		
 	
