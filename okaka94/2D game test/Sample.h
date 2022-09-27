@@ -1,5 +1,7 @@
 #pragma once
 #include "Game_core.h"
+#include "Title_scene.h"
+#include "Ingame_scene.h"
 
 
 
@@ -7,11 +9,10 @@
 class Sample : public Game_core
 {
 public:
-	Sound* Song=nullptr;
-	float	current_time=-1.0f;
-	float	offset;
-	Base_object* Map;
-	int		Beat_counter = 1;
+	Title_scene* Main_title = nullptr;
+	Ingame_scene* Ingame = nullptr;
+
+	
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

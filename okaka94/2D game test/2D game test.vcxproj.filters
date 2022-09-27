@@ -6,6 +6,9 @@
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Song_manager.cpp" />
+    <ClCompile Include="Ingame_scene.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Title_scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Note.h" />
@@ -17,6 +20,9 @@
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Song_manager.h" />
     <ClInclude Include="Info_struct.h" />
+    <ClInclude Include="Ingame_scene.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Title_scene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cursor">

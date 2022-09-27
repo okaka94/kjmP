@@ -11,13 +11,14 @@ public:
 	FMOD::System*	m_pSystem = nullptr;
 	FMOD::Sound*	m_pSound = nullptr;
 	FMOD::Channel*	m_pChannel = nullptr;
-	float			m_fVolume = 0.5f;
+	float			m_fVolume = 1.0f;
 	unsigned int	m_Total_time;
 	std::wstring	m_Path;				// fullpath
 	// Frame()에서 szBuffer 가져와서 현재시간 m_szBuffer 만들 수 있음
 
 public:
 	void Pause_Play();
+	void Set_volume(float volume);
 	void Up_volume(float volume=0.1f);
 	void Down_volume(float volume=0.1f);
 	void Switch_loop(bool state_loop = false);		// 인자값 없으면 기본값 loop_off , true -> loop_normal 무한재생 컨트롤

@@ -5,33 +5,6 @@ void Note_manager::Init() {
 	Load_texture();
 	Load_all_note();	
 	
-	/*std::wstring name = L"B0";
-	Rect	pos = { 10,10 ,59, 59 };
-
-	Tex_pos.insert(std::make_pair(name,pos));
-	name = L"B1";
-	pos = { 70,10 , 59, 59 };
-	Tex_pos.insert(std::make_pair(name, pos));
-
-	name = L"B2";
-	pos = { 130,10 , 59, 59 };
-	Tex_pos.insert(std::make_pair(name, pos));
-	
-	name = L"0";
-	pos = { 10, 961, 63, 63 };
-	Tex_pos.insert(std::make_pair(name, pos));
-
-	name = L"50";
-	pos = { 10, 1036, 80, 68 };
-	Tex_pos.insert(std::make_pair(name, pos));
-
-	name = L"100";
-	pos = { 10, 1115, 98, 89 };
-	Tex_pos.insert(std::make_pair(name, pos));
-
-	name = L"300";
-	pos = { 10, 1213, 115, 100 };
-	Tex_pos.insert(std::make_pair(name, pos));*/
 
 }
 
@@ -109,29 +82,6 @@ bool Note_manager::Create_note(std::wstring note_type, Vector2D pos) {
 	return true;
 }
 
-//bool Note_manager::Create_effect(std::string effect_type, Vector2D pos) {
-//
-//	auto iter = Tex_pos.find(effect_type);
-//	if (iter == Tex_pos.end()) {
-//		return false;
-//	}
-//
-//
-//
-//	Effect* pNew = new Effect;
-//	pNew->Create(m_pd3dDevice, m_pImmediateContext,
-//		L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Note.bmp");
-//
-//	pNew->Set_rect(iter->second);
-//
-//	
-//
-//	pNew->Set_position(pos);
-//	
-//
-//	m_Effect_list.push_back(pNew);
-//	return true;
-//}
 
 bool Note_manager::Create_effect(const Note* note) {
 
@@ -169,6 +119,7 @@ bool Note_manager::Check_click(Vector2D note, Vector2D cursor) {
 		if (note.x +59  >= cursor.x + 2) {
 			if (note.y <= cursor.y) {
 				if (note.y + 59 >= cursor.y + 2) {
+					
 					return true;
 				}
 			}
@@ -177,8 +128,8 @@ bool Note_manager::Check_click(Vector2D note, Vector2D cursor) {
 	return false;
 }
 
-void Note_manager::Judge_note(float x, float y) {
-	if (m_Note_list.empty()) return;
+bool Note_manager::Judge_note(float x, float y) {
+	if (m_Note_list.empty()) return false;
 	
 	
 	
@@ -193,12 +144,13 @@ void Note_manager::Judge_note(float x, float y) {
 			if (i != 0) m_Note_list[0]->Set_fail();
 			m_Note_list[0]->Set_state_false();  
 			
-			return;
+			return true;
 		}
 			
 		i++;
 		iter++;
 	}
+	return false;
 }
 void Note_manager::Release_note() {
 	if (m_Note_list.empty() && m_Effect_list.empty()) return;

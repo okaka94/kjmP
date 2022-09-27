@@ -2,6 +2,7 @@
 #include "Note.h"
 #include "Effect.h"
 #include "Texture_manager.h"
+#include "Sound_manager.h"
 
 class Note_manager : public Singleton<Note_manager>
 {
@@ -27,7 +28,7 @@ public:
 
 	bool Create_note(std::wstring note_type , Vector2D pos);	
 	bool Create_effect(const Note* note);
-	void Judge_note(float x, float y);
+	bool Judge_note(float x, float y);
 	bool Check_click(Vector2D note, Vector2D cursor);
 	void Release_note();
 	void Release();		

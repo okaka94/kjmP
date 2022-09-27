@@ -51,6 +51,11 @@ void Sound::Pause_Play() {
 	m_pChannel->setPaused(!state_pause);
 }
 
+void Sound::Set_volume(float volume) {
+	if (m_pChannel == nullptr) return;
+	m_pChannel->setVolume(volume);
+}
+
 void Sound::Up_volume(float volume) {
 	if (m_pChannel == nullptr) return;
 	m_fVolume += volume;
