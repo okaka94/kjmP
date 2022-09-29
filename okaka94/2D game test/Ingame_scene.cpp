@@ -25,21 +25,36 @@ bool Ingame_scene::Init()
 	BG = new Base_object;
 	BG->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/background_low_ex.png");
 
-	Song->Play();
-	Song->Set_volume(0.5f);
+	
 
 	offset = Song_manager::GetInstance().m_song_info.Offset;				// 실제 음악 시작지점
-	current_time -= offset;			// 노트 판정은 1초가 정타이밍이니까 -1초가 기본값
+		// 노트 판정은 1초가 정타이밍이니까 -1초가 기본값
 
 	BPM = Song_manager::GetInstance().m_song_info.BPM;  // (85bpm으로 줄였음)
+
+	
+	current_time -= offset;
+
 	return true;
+	
 }
 
 bool Ingame_scene::Frame()
 {
+	BG->Frame();
+
+	scene = INGAME;
+
+	Song->Play();
+	Song->Set_volume(0.5f);
+	
+	
 
 	
-	BG->Frame();
+	
+
+	
+	
 
 
 	current_time += g_fSecPerFrame;

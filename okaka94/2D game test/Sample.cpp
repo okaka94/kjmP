@@ -9,24 +9,43 @@ bool Sample::Init()
 	Main_title->Set_device(m_pd3dDevice, m_pImmediateContext);
 	Main_title->Init();
 
+	
 	Ingame = new Ingame_scene;
 	Ingame->Set_device(m_pd3dDevice, m_pImmediateContext);
 	Ingame->Init();
-
+	
+	Current_scene = Main_title;
+	
+	
 	return true;
 }
 bool Sample::Frame()
 {
 
-	Main_title->Frame();
-	//Ingame->Frame();
+	switch (Current_scene->scene) {
+	case TITLE :
+		Current_scene = Main_title;
+		break;
+	case SELECT:
+		Current_scene = Main_title;
+		break;	
+	case INGAME:
+		Current_scene = Ingame;
+		break;	
+	case RESULT:
+		Current_scene = Main_title;
+		break;
+	}
+
+	Current_scene->Frame();
+	
 	
 	return true;
 }
 bool Sample::Render()
 {
-	Main_title->Render();
-	//Ingame->Render();
+	Current_scene->Render();
+	
 	
 	return true;
 }

@@ -9,6 +9,7 @@
     <ClCompile Include="Ingame_scene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Title_scene.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Note.h" />
@@ -23,10 +24,14 @@
     <ClInclude Include="Ingame_scene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Title_scene.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cursor">
       <UniqueIdentifier>{edb4e9d0-e97d-4474-866d-fff34e77769d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="txt">
+      <UniqueIdentifier>{5e47b798-84bf-44e3-a010-aa7de2164dc8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +45,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\data\EBA\Sound\Sing_Street.txt" />
-    <Text Include="..\..\data\EBA\Note_tex_pos.txt" />
+    <Text Include="..\..\data\EBA\Note_tex_pos.txt">
+      <Filter>txt</Filter>
+    </Text>
+    <Text Include="..\..\data\EBA\Sound\Sing_Street.txt">
+      <Filter>txt</Filter>
+    </Text>
   </ItemGroup>
 </Project>

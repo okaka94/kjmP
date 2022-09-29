@@ -5,8 +5,7 @@
 class Ingame_scene : public Scene
 {
 public:
-	//Sound* Sound_effect = nullptr;			// effect , song은 공통이니까 부모 씬에 넣어두기
-	//Sound* Song = nullptr;
+	
 	Base_object* BG;
 	float	current_time = -1.0f;
 	float	offset;

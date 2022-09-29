@@ -157,6 +157,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Song_manager.cpp" />
     <ClCompile Include="Title_scene.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Effect.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Song_manager.h" />
     <ClInclude Include="Title_scene.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KJMCore\KJMCore.vcxproj">

@@ -3,11 +3,11 @@
 class Title_scene :  public Scene
 {
 public:
-	Base_object*	Title;
-	Base_object*	Play;
+	UI*	Title;
+	UI*	Play;
 public:
 	virtual bool Init();
-	virtual bool Frame() { return true; }
+	virtual bool Frame();
 	virtual bool Render();
 	virtual bool Release();
 };

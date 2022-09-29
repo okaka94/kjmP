@@ -5,12 +5,13 @@
 
 
 
-
 class Sample : public Game_core
 {
 public:
-	Title_scene* Main_title = nullptr;
-	Ingame_scene* Ingame = nullptr;
+	
+	Title_scene*	Main_title = nullptr;
+	Ingame_scene*	Ingame = nullptr;
+	Scene*			Current_scene = nullptr;
 
 	
 public:
