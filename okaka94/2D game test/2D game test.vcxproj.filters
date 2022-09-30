@@ -10,6 +10,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Title_scene.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Note.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Title_scene.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="Transition.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cursor">

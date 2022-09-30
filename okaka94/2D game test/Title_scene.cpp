@@ -2,6 +2,8 @@
 
 bool Title_scene::Init() {
 
+	scene = TITLE;
+
 	Title = new UI;
 	Title->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/Main_title_a.png");
 	
@@ -16,10 +18,12 @@ bool Title_scene::Init() {
 	Play->sprite.push_back({ 1089,49,136,77 });
 	
 	Song = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Start.mp3");
-	Song->Play();
-	Song->Set_volume(0.5f);
+	
 
 	Sound_effect = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Start_effect.wav");
+
+	Song->Play();
+	Song->Set_volume(0.5f);
 
 	return true;
 }
@@ -27,9 +31,11 @@ bool Title_scene::Init() {
 
 bool Title_scene::Frame() {
 	
-	scene = TITLE;
+	
 
-	Play->Frame();
+	
+
+	Play->Frame_btn();
 	if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
 
 		POINT cursor = Input::GetInstance().m_ptPos;

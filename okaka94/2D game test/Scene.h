@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Writer.h"
 #include "UI.h"
+#include "Transition.h"
 
 enum SCENE_SWITCH {
 	TITLE,

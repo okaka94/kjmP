@@ -6,6 +6,7 @@ enum UIState {
 	UI_PUSH,
 	UI_HOVER,
 	UI_SELECT,
+	UI_DIS,
 };
 
 class UI :	public Object2D
@@ -17,6 +18,7 @@ public:
 	
 public:
 	bool Frame() override;
+	bool Frame_btn();
 	//bool Render() override;
 	//bool Release() override;
 };

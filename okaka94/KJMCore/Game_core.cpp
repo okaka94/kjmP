@@ -24,11 +24,13 @@ bool Game_core::CoreInit() {
 
 bool Game_core::CoreFrame() {
 
+	
 	Timer::GetInstance().Frame();
 	Input::GetInstance().Frame();
 	Writer::GetInstance().Frame();
 	Sound_manager::GetInstance().Frame();
 	Device::Frame();
+	
 	return Frame();
 }
 
@@ -43,10 +45,10 @@ bool Game_core::CorePre_Render() {
 }
 
 bool Game_core::CoreRender() {
-	CorePre_Render();
-		Render();
-		Input::GetInstance().Render();
+	CorePre_Render();		
 		Timer::GetInstance().Render();
+		Input::GetInstance().Render();
+		Render();
 		//Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
 		//Writer::GetInstance().Render();
 	CorePost_Render();

@@ -1,6 +1,6 @@
 #include "UI.h"
 
-bool UI::Frame() {
+bool UI::Frame_btn() {
 
 	timer += g_fSecPerFrame;
 
@@ -24,6 +24,13 @@ bool UI::Frame() {
 
 	//m_pImmediateContext->UpdateSubresource(m_pVertexBuffer, NULL, NULL, &m_VertexList.at(0), 0, 0);
 
+
+	return true;
+}
+
+bool UI::Frame() {
+
+	timer += g_fSecPerFrame;
 
 	return true;
 }
