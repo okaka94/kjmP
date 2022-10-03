@@ -9,6 +9,9 @@ bool Sample::Init()
 	Main_title->Set_device(m_pd3dDevice, m_pImmediateContext);
 	Main_title->Init();
 
+	Select = new Select_scene;
+	Select->Set_device(m_pd3dDevice, m_pImmediateContext);
+	Select->Init();
 	
 	Ingame = new Ingame_scene;
 	Ingame->Set_device(m_pd3dDevice, m_pImmediateContext);
@@ -27,7 +30,7 @@ bool Sample::Frame()
 		Current_scene = Main_title;
 		break;
 	case SELECT:
-		Current_scene = Main_title;
+		Current_scene = Select;
 		break;	
 	case INGAME:
 		Current_scene = Ingame;
@@ -54,6 +57,10 @@ bool Sample::Release()
 	Main_title->Release();
 	delete Main_title;
 	Main_title = nullptr;
+
+	Select->Release();
+	delete Select;
+	Select = nullptr;
 
 	Ingame->Release();
 	delete Ingame;

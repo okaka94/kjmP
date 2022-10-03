@@ -34,3 +34,28 @@ bool UI::Frame() {
 
 	return true;
 }
+
+
+
+bool UI::Set_pos_size(Vector2D pos) {
+
+	m_vPos.x = pos.x;
+	m_vPos.y = pos.y;
+
+	m_vDrawPos.x = (m_vPos.x / g_rtClient.right) * 2.0f - 1.0f;
+	m_vDrawPos.y = -((m_vPos.y / g_rtClient.bottom) * 2.0f - 1.0f);
+	m_vDrawSize.x = (UI_size.x / g_rtClient.right) * 2;
+	m_vDrawSize.y = (UI_size.y / g_rtClient.bottom) * 2;
+
+	UpdateVertextBuffer();
+
+	return true;
+}
+
+bool UI::Set_UI_size(Vector2D size) {
+
+	UI_size.x = size.x;
+	UI_size.y = size.y;
+
+	return true;
+}

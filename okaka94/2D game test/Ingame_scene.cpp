@@ -114,7 +114,7 @@ bool Ingame_scene::Frame()
 	before_time = ctime;
 
 
-	if (current_time >= 60 / BPM) {				// 메트로놈 역할 
+	if (current_time >= 60.0f / BPM) {				// 메트로놈 역할 
 
 
 		if (!Song_manager::GetInstance().m_noteQ.empty() && Song_manager::GetInstance().m_noteQ.front().Beat_index == Beat_counter) {
@@ -136,7 +136,7 @@ bool Ingame_scene::Frame()
 
 		}
 
-		current_time -= 60 / BPM;
+		current_time -= 60.0f / BPM;
 
 		Beat_counter++;
 		if (Beat_counter > 4)

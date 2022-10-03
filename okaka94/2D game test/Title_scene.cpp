@@ -10,6 +10,8 @@ bool Title_scene::Init() {
 	Play = new UI;
 	Play->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Start.png");
 	Play->Set_rect({ 61,49,136,77 });
+	Play->Set_UI_size({ 136,77 });
+	Play->Set_pos_size({ 61,49 });
 	
 	Play->sprite.push_back({ 61,49,136,77 });
 	Play->sprite.push_back({ 318,49,136,77 });
@@ -52,7 +54,7 @@ bool Title_scene::Frame() {
 
 	if (Play->m_Current_state == UI_PUSH && !Sound_effect->Is_play()) {
 		Song->Stop();
-		scene = INGAME;
+		scene = SELECT;
 		
 	}
 

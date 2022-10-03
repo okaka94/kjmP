@@ -155,6 +155,7 @@
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Ingame_scene.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Select_scene.cpp" />
     <ClCompile Include="Song_manager.cpp" />
     <ClCompile Include="Title_scene.cpp" />
     <ClCompile Include="Transition.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Ingame_scene.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Select_scene.h" />
     <ClInclude Include="Song_manager.h" />
     <ClInclude Include="Title_scene.h" />
     <ClInclude Include="Transition.h" />

@@ -1,21 +1,21 @@
 [Song_info]
 FullPath	../../data/EBA/Sound/Sing_Street.mp3
-BPM	85
+BPM	170
 TimeSignature	4
 Offset	0.259f
 
 // Beat_index , Note_type , Pos.x , Pos.y ( maximum 9 x 9 )
 [Note_info]
-1 B0 1 1
-1 B1 2 1
-1 B2 3 1
-1 B3 4 1
-1 B4 5 1
-1 B5 6 1
-1 B6 7 3
-1 B7 8 3
-1 B8 9 3
-2 B9 9 3
+1 B0 4 4
+2 B1 4 4
+3 B2 4 4
+4 B3 4 4
+1 B4 4 4
+2 B5 4 4
+3 B6 4 4
+4 B7 4 4
+1 B8 4 4
+2 B9 4 4
 3 B10 1 5
 4 B11 2 5
 1 B12 3 5
