@@ -152,9 +152,11 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="Note_manager.cpp" />
+    <ClCompile Include="Result._scene.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Ingame_scene.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Score_manager.cpp" />
     <ClCompile Include="Select_scene.cpp" />
     <ClCompile Include="Song_manager.cpp" />
     <ClCompile Include="Title_scene.cpp" />
@@ -167,9 +169,11 @@
     <ClInclude Include="Note.h" />
     <ClInclude Include="Note_manager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Result_scene.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Ingame_scene.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Score_manager.h" />
     <ClInclude Include="Select_scene.h" />
     <ClInclude Include="Song_manager.h" />
     <ClInclude Include="Title_scene.h" />

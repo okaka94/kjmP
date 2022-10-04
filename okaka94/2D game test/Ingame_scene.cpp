@@ -10,6 +10,7 @@ bool Ingame_scene::Init()
 {
 	scene = INGAME;
 
+
 	Note_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
 	Note_manager::GetInstance().Init();
 
@@ -41,6 +42,121 @@ bool Ingame_scene::Init()
 		Insert->m_Img.push_back(img_2);
 		Insert->m_Img.push_back(img_3);
 		Insert->m_Img.push_back(img_4);
+
+	Ingame_UI = new Transition;
+		UI* combo_1 = new UI;
+		combo_1->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		combo_1->sprite.push_back({ 4,0,15,14 });
+		combo_1->sprite.push_back({ 27,0,15,14 });	
+		combo_1->sprite.push_back({ 52,0,15,14 });
+		combo_1->sprite.push_back({ 76,0,15,14 });
+		combo_1->sprite.push_back({ 100,0,15,14 });
+		combo_1->sprite.push_back({ 124,0,15,14 });
+		combo_1->sprite.push_back({ 148,0,15,14 });
+		combo_1->sprite.push_back({ 173,0,15,14 });
+		combo_1->sprite.push_back({ 196,0,15,14 });
+		combo_1->sprite.push_back({ 220,0,15,14 });
+		Ingame_UI->m_Img.push_back(combo_1);
+		UI* combo_10 = new UI;
+		combo_10->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		combo_10->sprite.push_back({ 4,0,15,14 });
+		combo_10->sprite.push_back({ 27,0,15,14 });
+		combo_10->sprite.push_back({ 52,0,15,14 });
+		combo_10->sprite.push_back({ 76,0,15,14 });
+		combo_10->sprite.push_back({ 100,0,15,14 });
+		combo_10->sprite.push_back({ 124,0,15,14 });
+		combo_10->sprite.push_back({ 148,0,15,14 });
+		combo_10->sprite.push_back({ 173,0,15,14 });
+		combo_10->sprite.push_back({ 196,0,15,14 });
+		combo_10->sprite.push_back({ 220,0,15,14 });
+		Ingame_UI->m_Img.push_back(combo_10);
+
+		UI* combo_100 = new UI;
+		combo_100->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		combo_100->sprite.push_back({ 4,0,15,14 });
+		combo_100->sprite.push_back({ 27,0,15,14 });
+		combo_100->sprite.push_back({ 52,0,15,14 });
+		combo_100->sprite.push_back({ 76,0,15,14 });
+		combo_100->sprite.push_back({ 100,0,15,14 });
+		combo_100->sprite.push_back({ 124,0,15,14 });
+		combo_100->sprite.push_back({ 148,0,15,14 });
+		combo_100->sprite.push_back({ 173,0,15,14 });
+		combo_100->sprite.push_back({ 196,0,15,14 });
+		combo_100->sprite.push_back({ 220,0,15,14 });
+		Ingame_UI->m_Img.push_back(combo_100);
+
+		UI* score_0 = new UI;
+		score_0->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		score_0->sprite.push_back({ 0,83,31,30 });
+		Ingame_UI->m_Img.push_back(score_0);
+		UI* score_1 = new UI;
+		score_1->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		score_1->sprite.push_back({ 0,83,31,30 });
+		score_1->sprite.push_back({ 37,83,31,30 });
+		score_1->sprite.push_back({ 83,83,31,30 });
+		score_1->sprite.push_back({ 125,83,31,30 });
+		score_1->sprite.push_back({ 167,83,31,30 });
+		score_1->sprite.push_back({ 210,83,31,30 });
+		score_1->sprite.push_back({ 252,83,31,30 });
+		score_1->sprite.push_back({ 293,83,31,30 });
+		score_1->sprite.push_back({ 336,83,31,30 });
+		score_1->sprite.push_back({ 377,83,31,30 });
+		Ingame_UI->m_Img.push_back(score_1);
+		UI* score_2 = new UI;
+		score_2->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		score_2->sprite.push_back({ 0,83,31,30 });
+		score_2->sprite.push_back({ 37,83,31,30 });
+		score_2->sprite.push_back({ 83,83,31,30 });
+		score_2->sprite.push_back({ 125,83,31,30 });
+		score_2->sprite.push_back({ 167,83,31,30 });
+		score_2->sprite.push_back({ 210,83,31,30 });
+		score_2->sprite.push_back({ 252,83,31,30 });
+		score_2->sprite.push_back({ 293,83,31,30 });
+		score_2->sprite.push_back({ 336,83,31,30 });
+		score_2->sprite.push_back({ 377,83,31,30 });
+		Ingame_UI->m_Img.push_back(score_2);
+
+		UI* score_3 = new UI;
+		score_3->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		score_3->sprite.push_back({ 0,83,31,30 });
+		score_3->sprite.push_back({ 37,83,31,30 });
+		score_3->sprite.push_back({ 83,83,31,30 });
+		score_3->sprite.push_back({ 125,83,31,30 });
+		score_3->sprite.push_back({ 167,83,31,30 });
+		score_3->sprite.push_back({ 210,83,31,30 });
+		score_3->sprite.push_back({ 252,83,31,30 });
+		score_3->sprite.push_back({ 293,83,31,30 });
+		score_3->sprite.push_back({ 336,83,31,30 });
+		score_3->sprite.push_back({ 377,83,31,30 });
+		Ingame_UI->m_Img.push_back(score_3);
+
+		UI* score_4 = new UI;
+		score_4->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		score_4->sprite.push_back({ 0,83,31,30 });
+		score_4->sprite.push_back({ 37,83,31,30 });
+		score_4->sprite.push_back({ 83,83,31,30 });
+		score_4->sprite.push_back({ 125,83,31,30 });
+		score_4->sprite.push_back({ 167,83,31,30 });
+		score_4->sprite.push_back({ 210,83,31,30 });
+		score_4->sprite.push_back({ 252,83,31,30 });
+		score_4->sprite.push_back({ 293,83,31,30 });
+		score_4->sprite.push_back({ 336,83,31,30 });
+		score_4->sprite.push_back({ 377,83,31,30 });
+		Ingame_UI->m_Img.push_back(score_4);
+
+		UI* score_5 = new UI;
+		score_5->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Score_ingame.png");
+		score_5->sprite.push_back({ 0,83,31,30 });
+		score_5->sprite.push_back({ 37,83,31,30 });
+		score_5->sprite.push_back({ 83,83,31,30 });
+		score_5->sprite.push_back({ 125,83,31,30 });
+		score_5->sprite.push_back({ 167,83,31,30 });
+		score_5->sprite.push_back({ 210,83,31,30 });
+		score_5->sprite.push_back({ 252,83,31,30 });
+		score_5->sprite.push_back({ 293,83,31,30 });
+		score_5->sprite.push_back({ 336,83,31,30 });
+		score_5->sprite.push_back({ 377,83,31,30 });
+		Ingame_UI->m_Img.push_back(score_5);
 	
 
 	offset = Song_manager::GetInstance().m_song_info.Offset;				// 실제 음악 시작지점
@@ -87,18 +203,15 @@ bool Ingame_scene::Frame()
 		return true;
 	}
 
-	Song->Play();
-	Song->Set_volume(0.6f);
-	
-	
+	static bool switcher = false;
 
-	
-	
-	
-	
-	
+	if (switcher == false) {
+		Song->Play();
+		Song->m_pChannel->isPlaying(&switcher);
+		Song->Set_volume(0.6f);
 
-
+	}
+		
 	
 	static double before_time = 0;
 
@@ -172,6 +285,61 @@ bool Ingame_scene::Frame()
 	}
 
 	Note_manager::GetInstance().Release_note();
+	//  550 -> 369 (-181) ,  340 -> 100
+	int temp = Score_manager::GetInstance().ComboChain;
+	int i = temp;
+	i = temp % 10;
+	Ingame_UI->m_Img[0]->Set_rect(Ingame_UI->m_Img[0]->sprite[i]);	// Combo
+	Ingame_UI->m_Img[0]->Set_position({ 416,560 });
+
+	i = (temp / 10) % 10;
+	Ingame_UI->m_Img[1]->Set_rect(Ingame_UI->m_Img[1]->sprite[i]);
+	Ingame_UI->m_Img[1]->Set_position({ 393,560 });
+
+	i = temp / 100;
+	Ingame_UI->m_Img[2]->Set_rect(Ingame_UI->m_Img[2]->sprite[i]);
+	Ingame_UI->m_Img[2]->Set_position({ 369,560 });
+
+	temp = Score_manager::GetInstance().TotalScore;
+
+	// 200+ 300- + 50
+	Ingame_UI->m_Img[3]->Set_rect(Ingame_UI->m_Img[3]->sprite[0]);	// Score
+	Ingame_UI->m_Img[3]->Set_position({ 730,20 });
+
+	i = (temp / 10) % 10;
+	Ingame_UI->m_Img[4]->Set_rect(Ingame_UI->m_Img[4]->sprite[i]);
+	Ingame_UI->m_Img[4]->Set_position({ 690,20 });
+
+	i = (temp / 100) % 10;
+	Ingame_UI->m_Img[5]->Set_rect(Ingame_UI->m_Img[5]->sprite[i]);
+	Ingame_UI->m_Img[5]->Set_position({ 650,20 });
+
+	i = (temp / 1000) % 10;
+	Ingame_UI->m_Img[6]->Set_rect(Ingame_UI->m_Img[6]->sprite[i]);
+	Ingame_UI->m_Img[6]->Set_position({ 610,20 });
+
+	i = (temp / 10000) % 10;
+	Ingame_UI->m_Img[7]->Set_rect(Ingame_UI->m_Img[7]->sprite[i]);
+	Ingame_UI->m_Img[7]->Set_position({ 570,20 });
+
+	i = (temp / 100000);
+	Ingame_UI->m_Img[8]->Set_rect(Ingame_UI->m_Img[8]->sprite[i]);
+	Ingame_UI->m_Img[8]->Set_position({ 530,20 });
+
+
+
+
+
+	// debug score_mgr
+	//int a = Score_manager::GetInstance().TotalScore;
+	//int b = Score_manager::GetInstance().ComboChain;
+	//int c = Score_manager::GetInstance().MaxCombo;
+	if (switcher == true && !Song->Is_play()) {
+		static float delay = 0;
+		delay += g_fSecPerFrame;
+		if (delay >= 1.0f)
+			scene = RESULT;
+	}
 
 	return true;
 }
@@ -194,7 +362,7 @@ bool Ingame_scene::Render()
 		
 		return true;
 	}
-	//Insert->Render();
+	
 	
 
 	BG->Render();
@@ -215,6 +383,10 @@ bool Ingame_scene::Render()
 		}
 	}
 
+	for (int i = 0; i < Ingame_UI->m_Img.size(); i++) {
+		Ingame_UI->m_Img[i]->Render();
+	}
+
 
 	ID3D11ShaderResourceView* SRV = Note_manager::GetInstance().Get_pMask()->Get_SRV();
 	m_pImmediateContext->PSSetShaderResources(1, 1, &SRV);
@@ -232,6 +404,7 @@ bool Ingame_scene::Release()
 	Song->Release();
 	Sound_effect->Release();
 	Crowd->Release();
+	Ingame_UI->Release();
 
 	return true;
 }

@@ -20,6 +20,10 @@
     <ClCompile Include="Title_scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Result._scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Score_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Note.h" />
@@ -45,6 +49,10 @@
     <ClInclude Include="Title_scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Result_scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Score_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cursor">

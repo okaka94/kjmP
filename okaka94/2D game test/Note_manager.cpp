@@ -164,7 +164,13 @@ void Note_manager::Release_note() {
 				// 노트 판정 일어나면 판정 이펙트 생성
 				Create_effect(data);
 
-				Total_score += data->score;
+				Score_manager::GetInstance().TotalScore += data->score;
+				if (data->score != 0)
+					Score_manager::GetInstance().ComboChain++;
+				else
+					Score_manager::GetInstance().ComboChain = 0;
+				Score_manager::GetInstance().MaxCombo = max(Score_manager::GetInstance().MaxCombo, Score_manager::GetInstance().ComboChain);
+
 				delete data;
 				iter = m_Note_list.erase(iter);
 				continue;

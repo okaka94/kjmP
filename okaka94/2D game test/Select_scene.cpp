@@ -43,18 +43,39 @@ bool Select_scene::Init() {
 	Right->Set_UI_size({ 40,40 });
 	Right->Set_pos_size({ 660,280 });
 
+	Song_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.txt");
+
+	Song = Sound_manager::GetInstance().Load(Song_manager::GetInstance().m_song_info.FullPath);
+
+	
+
 	return true;
 }
 
 
 bool Select_scene::Frame() {
 
+	static bool switcher = false; 
+	static float  vol_fade = 0.0f;
+	vol_fade += g_fSecPerFrame/10.0f;
+	vol_fade = min(vol_fade, 0.3f);
+	Song->Play();
+	Song->Set_volume(vol_fade);
+	if (switcher == false) {
+		Song->m_pChannel->setPosition(127000, FMOD_TIMEUNIT_MS);
+		switcher = true;
+	}
+	
+	
+
 	if (Check_click(Play, Input::GetInstance().m_ptPos)) {
 		Play->Set_rect(Play->sprite[0]);
 		Play->Set_UI_size({ 90,90 });
 		Play->Set_pos_size({ 355,255 });
 		if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
+			Song->Stop();
 			scene = INGAME;
+			
 			
 		}
 	}
@@ -105,6 +126,7 @@ bool Select_scene::Release() {
 	Play->Release();
 	Left->Release();
 	Right->Release();
+	Song->Release();
 
 	return true;
 }

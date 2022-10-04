@@ -8,6 +8,7 @@ public:
 	Base_object*	BG;
 	Transition*		Insert;
 	Sound*			Crowd;
+	Transition*		Ingame_UI;
 public:
 	double current_time = -1.0f;
 	float offset;

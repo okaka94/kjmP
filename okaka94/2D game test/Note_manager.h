@@ -3,6 +3,7 @@
 #include "Effect.h"
 #include "Texture_manager.h"
 #include "Sound_manager.h"
+#include "Score_manager.h"
 
 class Note_manager : public Singleton<Note_manager>
 {
@@ -14,7 +15,7 @@ public:
 private:
 	friend class Singleton<Note_manager>;
 	
-	int					Total_score = 0;			// 게임 스코어
+	//int					Total_score = 0;			// 게임 스코어
 	std::vector<Note*>	m_Note_list;				// 노트 리스트
 	Texture*			m_pMask=nullptr;
 	std::vector<Effect*> m_Effect_list;		// 이펙트 리스트
