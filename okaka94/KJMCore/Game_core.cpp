@@ -28,9 +28,8 @@ bool Game_core::CoreFrame() {
 	Timer::GetInstance().Frame();
 	Input::GetInstance().Frame();
 	Writer::GetInstance().Frame();
-	Sound_manager::GetInstance().Frame();
 	Device::Frame();
-	
+	Sound_manager::GetInstance().Frame();
 	return Frame();
 }
 

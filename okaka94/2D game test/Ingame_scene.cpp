@@ -166,7 +166,7 @@ bool Ingame_scene::Init()
 
 	
 
-	current_time -= offset;
+
 
 	return true;
 	
@@ -207,24 +207,29 @@ bool Ingame_scene::Frame()
 
 	if (switcher == false) {
 		Song->Play();
+		current_time = -1.0f - offset;
+		before_time = 0;
+		ctime = 0;
+		count = 0;
 		Song->m_pChannel->isPlaying(&switcher);
 		Song->Set_volume(0.6f);
 
 	}
 		
 	
-	static double before_time = 0;
-
-	unsigned int ctime;
-	Song->m_pChannel->getPosition(&ctime, FMOD_TIMEUNIT_MS);
-	std::wstring check = L"\n" + std::to_wstring((float)ctime) + L"\n";
-	OutputDebugString(check.c_str());
-
 	
 
-	current_time += (ctime - before_time)/1000.0f;
+	
+	Song->m_pChannel->getPosition(&ctime, FMOD_TIMEUNIT_MS);
+	//std::wstring check = L"\n" + std::to_wstring((float)ctime) + L"\n";
+	//OutputDebugString(check.c_str());
 
+	count = (ctime - before_time) / 1000.0f;
 	before_time = ctime;
+
+	current_time += count;
+
+	
 
 
 	if (current_time >= 60.0f / BPM) {				// 메트로놈 역할 
@@ -372,8 +377,9 @@ bool Ingame_scene::Render()
 			// 활성 노트 렌더
 			Note_manager::GetInstance().Get_list()[i]->Render();
 			// 활성 노트 판정라인 렌더
-			Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 149.5f - (121.0f * Note_manager::GetInstance().Get_list()[i]->timer), { 1,1,1,1 });
-
+			Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 147.5f - (107.5736f * Note_manager::GetInstance().Get_list()[i]->timer), { 1,1,1,1 });
+			//Writer::GetInstance().Draw_circle(Note_manager::GetInstance().Get_list()[i]->m_vPos.x + 30.0f, Note_manager::GetInstance().Get_list()[i]->m_vPos.y + 30.0f, 149.5f - (107.1f * current_time), { 1,1,1,1 });
+			
 		}
 	}
 	if (!Note_manager::GetInstance().Get_effect_list().empty()) {
