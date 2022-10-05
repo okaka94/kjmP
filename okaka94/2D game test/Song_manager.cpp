@@ -31,7 +31,7 @@ bool Song_manager::Load(std::wstring filename) {
 			m_song_info.FullPath = Temp[1];
 
 			_fgetts(Buffer, _countof(Buffer), fp_src);
-			_stscanf_s(Buffer, _T("%s\t%d\n"), Temp[0], (unsigned int)_countof(Temp[0]), &m_song_info.BPM);
+			_stscanf_s(Buffer, _T("%s\t%f\n"), Temp[0], (unsigned int)_countof(Temp[0]), &m_song_info.BPM);
 
 			_fgetts(Buffer, _countof(Buffer), fp_src);
 			_stscanf_s(Buffer, _T("%s\t%d\n"), Temp[0], (unsigned int)_countof(Temp[0]), &m_song_info.TimeSignature);

@@ -3,7 +3,11 @@
 #include "WICTextureLoader.h"
 #include "DDSTextureLoader.h"
 
-#pragma comment(lib,"DirectXTK.lib")
+#ifdef _DEBUG
+#pragma comment(lib, "DirectXTK_D.lib")
+#else
+#pragma comment(lib, "DirectXTK_R.lib")
+#endif
 
 class Texture
 {

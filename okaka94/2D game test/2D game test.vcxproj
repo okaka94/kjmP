@@ -83,8 +83,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../../output/Release/KJMCoreSample</OutDir>
-    <IntDir>../../output/Release/KJMCoreSample</IntDir>
+    <OutDir>../../output/Release/$(ProjectName)</OutDir>
+    <IntDir>../../output/Release/$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,7 +137,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../include/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/;../../include/DXTK;../../include/FMOD;</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,7 +153,7 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="Note_manager.cpp" />
-    <ClCompile Include="Result._scene.cpp" />
+    <ClCompile Include="Result_scene.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Ingame_scene.cpp" />
     <ClCompile Include="Scene.cpp" />

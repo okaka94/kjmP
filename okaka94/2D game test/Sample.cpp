@@ -22,6 +22,7 @@ bool Sample::Init()
 	Result->Init();
 	
 	Current_scene = Main_title;
+	//Current_scene = Ingame;
 	
 	
 	return true;

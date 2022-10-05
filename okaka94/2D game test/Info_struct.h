@@ -1,9 +1,9 @@
 #pragma once
-#include "std.h"
+//#include "Std.h"
 
 struct Song_info {
 	std::wstring	FullPath;
-	int				BPM = 0;
+	float				BPM = 0.0f;
 	int				TimeSignature = 0;
 	float			Offset = 0.0f;
 };
