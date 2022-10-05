@@ -82,7 +82,7 @@ bool Sample::Release()
 int APIENTRY wWinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
 
 	Sample demo;
-	demo.SetWindow(hinstance, L"2D test",800,600);
+	demo.SetWindow(hinstance, L"SingStreet",800,600);
 
 
 	demo.Run();
