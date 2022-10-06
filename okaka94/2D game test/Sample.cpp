@@ -22,17 +22,19 @@ bool Sample::Init()
 	Result->Init();
 	
 	Current_scene = Main_title;
-	//Current_scene = Ingame;
+	//Current_scene = Result;
 	
 	
 	return true;
 }
 bool Sample::Frame()
 {
-
+	//reset scene À§Ä¡? 
+	Current_scene->scene = Scene_manager::GetInstance().Get_scene();
 	switch (Current_scene->scene) {
 	case TITLE :
 		Current_scene = Main_title;
+		
 		break;
 	case SELECT:
 		Current_scene = Select;
@@ -42,6 +44,9 @@ bool Sample::Frame()
 		break;	
 	case RESULT:
 		Current_scene = Result;
+		break;
+	case EXIT:
+		m_game_run = false;
 		break;
 	}
 

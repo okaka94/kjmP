@@ -5,22 +5,22 @@ bool Select_scene::Init() {
 	scene = SELECT;
 
 	BG = new Base_object;
-	BG->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/select_song.png");
+	BG->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/select_song.png");
 
 	UI* song_1 = new UI;
-	song_1->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/Sing_strret_album.jpg");
+	song_1->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Sing_strret_album.jpg");
 	album_list.push_back(song_1);
 
 	UI* info_1 = new UI;
-	info_1->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/Sing_street_title.png");
+	info_1->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Sing_street_title.png");
 	info_list.push_back(info_1);
 
 	Play = new UI;
-	Play->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/Play_button.png");
+	Play->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Play_button.png");
 	Left = new UI;
-	Left->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/Play_button.png");
+	Left->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Play_button.png");
 	Right = new UI;
-	Right->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/Play_button.png");
+	Right->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Play_button.png");
 
 	album_list[0]->Set_rect({ 0,0,200,200 });
 	album_list[0]->Set_position({ 300,200 });
@@ -74,7 +74,7 @@ bool Select_scene::Frame() {
 		Play->Set_pos_size({ 355,255 });
 		if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
 			Song->Stop();
-			scene = INGAME;
+			Scene_manager::GetInstance().Change_scene(INGAME);
 			
 			
 		}

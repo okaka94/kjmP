@@ -7,6 +7,13 @@ bool Result_scene::Init() {
 	BG = new Base_object;
 	BG->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Clear_BG.png");
 
+	
+
+	Song = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Result.mp3");
+	Sound_effect = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Score_effect.wav");
+
+	Click_ok = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Click_ok.wav");
+	Click_bad = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Click_bad.wav");
 	Screen = new Transition;
 		UI* window = new UI;
 		window->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Clear_result.png");
@@ -126,6 +133,34 @@ bool Result_scene::Init() {
 			score_5->sprite.push_back({ 377,83,31,30 });
 			Screen->m_Img.push_back(score_5);
 
+			UI* Home = new UI;
+			Home->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Result_button.png");
+			Home->Set_rect({ 300,544,169,169 });
+			Home->Set_UI_size({ 60,60 });
+			Home->Set_pos_size({ 440,515 });
+			Screen->m_Img.push_back(Home);
+
+			UI* Replay = new UI;
+			Replay->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Result_button.png");
+			Screen->m_Img.push_back(Replay);
+			Replay->Set_rect({ 49,41,169,169 });
+			Replay->Set_UI_size({ 60,60 });
+			Replay->Set_pos_size({ 520,515 });
+
+			UI* Next = new UI;
+			Next->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Result_button.png");
+			Screen->m_Img.push_back(Next);
+			Next->Set_rect({ 300,41,169,169 });
+			Next->Set_UI_size({ 60,60 });
+			Next->Set_pos_size({ 600,515 });
+			
+
+			UI* Exit = new UI;
+			Exit->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Result_button.png");
+			Screen->m_Img.push_back(Exit);
+			Exit->Set_rect({ 300,292,169,169 });
+			Exit->Set_UI_size({ 60,60 });
+			Exit->Set_pos_size({ 360,515 });
 
 	return true;
 }
@@ -134,14 +169,27 @@ bool Result_scene::Init() {
 bool Result_scene::Frame() {
 
 	
+	
+	static float  vol_fade = 0.0f;
+	vol_fade += g_fSecPerFrame / 7.0f;
+	vol_fade = min(vol_fade, 0.5f);
+	Song->Play();
+	Song->Set_volume(vol_fade);
+	
+
+	
 	Screen->timer += g_fSecPerFrame;
 	if (Screen->state == true) {
 		if (Screen->timer <= 0.8f) {
 
 			Screen->Move_pos(0, { 0,g_fSecPerFrame * 800 / 0.8f });
 		}
-		else
+		else {
+			Sound_effect->Play_effect();
 			Screen->state = false;
+		}
+
+			
 		return true;
 	}
 		
@@ -181,8 +229,65 @@ bool Result_scene::Frame() {
 			
 		
 	}
+	
+	if (Check_click(Screen->m_Img[10], Input::GetInstance().m_ptPos)) {  // Home btn
 		
-		
+		if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
+			Song->Stop();
+			Screen->m_Img[0]->Set_position({ 0,-800 });
+			vol_fade = 0;
+			Screen->timer = 0;
+			Screen->state = true;
+			Click_ok->Play_effect();
+			Scene_manager::GetInstance().Change_scene(TITLE);
+
+
+		}
+	}
+
+	if (Check_click(Screen->m_Img[11], Input::GetInstance().m_ptPos)) {	 // Replay btn
+
+		if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
+			Song->Stop();
+			Screen->m_Img[0]->Set_position({ 0,-800 });
+			vol_fade = 0;
+			Screen->timer = 0;
+			Screen->state = true;
+			Click_ok->Play_effect();
+			Scene_manager::GetInstance().Change_scene(INGAME);
+
+
+		}
+	}
+
+	if (Check_click(Screen->m_Img[12], Input::GetInstance().m_ptPos)) {  // Next btn
+
+		if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
+			Song->Stop();
+			Screen->m_Img[0]->Set_position({ 0,-800 });
+			vol_fade = 0;
+			Screen->timer = 0;
+			Screen->state = true;
+			Click_ok->Play_effect();
+			Scene_manager::GetInstance().Change_scene(SELECT);
+
+
+		}
+	}
+
+	if (Check_click(Screen->m_Img[13], Input::GetInstance().m_ptPos)) {  // Exit btn
+
+		if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_PUSH) {
+			Song->Stop();
+			Click_bad->Play_effect();
+			Scene_manager::GetInstance().Change_scene(EXIT);
+
+
+		}
+	}
+
+	while (Click_ok->Is_play() || Click_bad->Is_play());
+	
 	return true;
 }
 
@@ -205,6 +310,10 @@ bool Result_scene::Release() {
 
 	BG->Release();
 	Screen->Release();
+	Song->Release();
+	Sound_effect->Release();
+	Click_ok->Release();
+	Click_bad->Release();
 
 	return true;
 }

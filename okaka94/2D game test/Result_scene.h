@@ -4,9 +4,12 @@ class Result_scene :  public Scene
 {
 public:
 	Base_object* BG;
-	Sound*		 BGM;
+	Sound*		 Click_ok;
+	Sound*		 Click_bad;
 	Transition*	 Screen;
+	
 public:
+	
 	bool Init();
 	bool Frame();
 	bool Render();// { return true; }

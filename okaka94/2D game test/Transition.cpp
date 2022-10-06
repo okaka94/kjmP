@@ -1,5 +1,24 @@
 #include "Transition.h"
 
+void Transition::Reset_all_img() {
+
+	if (m_Img.empty())	return;
+
+	for (int i = 0; i < m_Img.size(); i++) {
+		UI* data = m_Img[i];
+		data->m_vPos = { 0,0 };
+		data->m_VertexList[0].c = { 1,1,1,1 };
+		data->m_VertexList[1].c = { 1,1,1,1 };
+		data->m_VertexList[2].c = { 1,1,1,1 };
+		data->m_VertexList[3].c = { 1,1,1,1 };
+
+		data->m_pImmediateContext->UpdateSubresource(data->m_pVertexBuffer, NULL, NULL, &data->m_VertexList.at(0), 0, 0);
+	
+	}
+
+
+}
+
 bool Transition::Move_pos(int index, Vector2D pos) {
 	if (m_Img.empty())	return false;
 

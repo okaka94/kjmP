@@ -24,6 +24,7 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Score_manager.cpp" />
+    <ClCompile Include="Scene_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Note.h" />
@@ -53,6 +54,7 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Score_manager.h" />
+    <ClInclude Include="Scene_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cursor">

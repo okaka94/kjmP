@@ -5,13 +5,9 @@
 #include "Writer.h"
 #include "UI.h"
 #include "Transition.h"
+#include "Scene_manager.h"
 
-enum SCENE_SWITCH {
-	TITLE,
-	SELECT,
-	INGAME,
-	RESULT,
-};
+
 
 class Scene
 {
@@ -24,6 +20,7 @@ public:
 	Sound* Song = nullptr;
 
 public:
+	
 	virtual bool Check_click(UI* button, POINT& cursor);
 	virtual bool Set_device(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext);
 	virtual bool Init() { return true; }

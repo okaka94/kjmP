@@ -158,6 +158,7 @@
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Ingame_scene.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scene_manager.cpp" />
     <ClCompile Include="Score_manager.cpp" />
     <ClCompile Include="Select_scene.cpp" />
     <ClCompile Include="Song_manager.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Ingame_scene.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scene_manager.h" />
     <ClInclude Include="Score_manager.h" />
     <ClInclude Include="Select_scene.h" />
     <ClInclude Include="Song_manager.h" />

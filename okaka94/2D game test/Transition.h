@@ -12,5 +12,6 @@ public:
 	bool Fade_img(int index, float alpha);
 	bool Frame() override;
 	bool Release() override;
+	void Reset_all_img();
 };
 

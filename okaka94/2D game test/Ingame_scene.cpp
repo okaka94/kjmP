@@ -342,8 +342,18 @@ bool Ingame_scene::Frame()
 	if (switcher == true && !Song->Is_play()) {
 		static float delay = 0;
 		delay += g_fSecPerFrame;
-		if (delay >= 1.0f)
-			scene = RESULT;
+		if (delay >= 0.3f) {
+			switcher = false;
+			Insert->state = true;
+			Insert->timer = 0.0f;
+			Insert->Reset_all_img();
+			delay = 0;
+			Beat_counter = 1;
+
+			Song_manager::GetInstance().Load(L"../../data/EBA/Sound/Sing_Street.txt");			
+			Scene_manager::GetInstance().Change_scene(RESULT);
+		}
+			
 	}
 
 	return true;

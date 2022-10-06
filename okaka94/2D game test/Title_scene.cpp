@@ -5,7 +5,7 @@ bool Title_scene::Init() {
 	scene = TITLE;
 
 	Title = new UI;
-	Title->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/EBA/Img/Main_title_a.png");
+	Title->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Main_title_a.png");
 	
 	Play = new UI;
 	Play->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/EBA/Img/Start.png");
@@ -33,8 +33,22 @@ bool Title_scene::Init() {
 
 bool Title_scene::Frame() {
 	
-	
+	Song->Play();
+	Song->Set_volume(0.5f);
+	////debug
+	//if (Input::GetInstance().GetKey('A') == KEY_PUSH) {
+	//	Score_manager::GetInstance().Reset_score();
+	//	Song->Stop();
+	//	Scene_manager::GetInstance().Change_scene(RESULT);
+	//}
 
+	//if (Input::GetInstance().GetKey('S') == KEY_PUSH) {
+	//	Score_manager::GetInstance().Reset_score();
+	//	Song->Stop();
+	//	Scene_manager::GetInstance().Change_scene(INGAME);
+	//}
+	////debug
+	
 	
 
 	Play->Frame_btn();
@@ -54,7 +68,7 @@ bool Title_scene::Frame() {
 
 	if (Play->m_Current_state == UI_PUSH && !Sound_effect->Is_play()) {
 		Song->Stop();
-		scene = SELECT;
+		Scene_manager::GetInstance().Change_scene(SELECT);
 		
 	}
 

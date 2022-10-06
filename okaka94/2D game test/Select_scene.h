@@ -11,6 +11,7 @@ public:
 	UI*					Left;
 	UI*					Right;
 public:
+	
 	bool Init(); 
 	bool Frame();
 	bool Render();// { return true; }
