@@ -65,6 +65,7 @@ ATOM Window::MyRegisterClass() {
     wcex.hInstance = m_hInstance;
     //wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hCursor = LoadCursor(m_hInstance,MAKEINTRESOURCE(IDC_CURSOR1));
+    wcex.hIcon = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
     wcex.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
     wcex.lpszClassName = L"OKAKA WINDOW";
 

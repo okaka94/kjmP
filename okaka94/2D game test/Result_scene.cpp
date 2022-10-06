@@ -238,6 +238,7 @@ bool Result_scene::Frame() {
 			vol_fade = 0;
 			Screen->timer = 0;
 			Screen->state = true;
+			Score_manager::GetInstance().Reset_score();
 			Click_ok->Play_effect();
 			Scene_manager::GetInstance().Change_scene(TITLE);
 
@@ -253,6 +254,7 @@ bool Result_scene::Frame() {
 			vol_fade = 0;
 			Screen->timer = 0;
 			Screen->state = true;
+			Score_manager::GetInstance().Reset_score();
 			Click_ok->Play_effect();
 			Scene_manager::GetInstance().Change_scene(INGAME);
 
@@ -268,6 +270,7 @@ bool Result_scene::Frame() {
 			vol_fade = 0;
 			Screen->timer = 0;
 			Screen->state = true;
+			Score_manager::GetInstance().Reset_score();
 			Click_ok->Play_effect();
 			Scene_manager::GetInstance().Change_scene(SELECT);
 

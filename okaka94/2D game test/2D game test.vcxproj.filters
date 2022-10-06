@@ -85,4 +85,9 @@
       <Filter>txt</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\data\EBA\Amp.ico">
+      <Filter>cursor</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

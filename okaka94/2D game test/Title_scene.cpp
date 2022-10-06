@@ -24,8 +24,7 @@ bool Title_scene::Init() {
 
 	Sound_effect = Sound_manager::GetInstance().Load(L"../../data/EBA/Sound/Start_effect.wav");
 
-	Song->Play();
-	Song->Set_volume(0.5f);
+	
 
 	return true;
 }
@@ -33,12 +32,19 @@ bool Title_scene::Init() {
 
 bool Title_scene::Frame() {
 	
-	Song->Play();
-	Song->Set_volume(0.5f);
+
+	static bool title_switcher = false;
+	if (title_switcher == false) {
+		Song->Play();
+		Song->Set_volume(0.3f);
+		title_switcher = true;
+	}
+	
 	////debug
 	//if (Input::GetInstance().GetKey('A') == KEY_PUSH) {
 	//	Score_manager::GetInstance().Reset_score();
 	//	Song->Stop();
+	//	title_switcher = false;
 	//	Scene_manager::GetInstance().Change_scene(RESULT);
 	//}
 
@@ -58,7 +64,7 @@ bool Title_scene::Frame() {
 		
 		if (Check_click(Play, cursor)) {
 			Sound_effect->Play();
-			Sound_effect->Set_volume(0.3f);
+			Sound_effect->Set_volume(0.2f);
 			Song->Set_volume(0.1f);
 			Play->m_Current_state = UI_PUSH;
 
@@ -68,6 +74,7 @@ bool Title_scene::Frame() {
 
 	if (Play->m_Current_state == UI_PUSH && !Sound_effect->Is_play()) {
 		Song->Stop();
+		title_switcher = false;
 		Scene_manager::GetInstance().Change_scene(SELECT);
 		
 	}

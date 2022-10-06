@@ -203,6 +203,9 @@
     <Text Include="..\..\data\EBA\Note_tex_pos.txt" />
     <Text Include="..\..\data\EBA\Sound\Sing_Street.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\data\EBA\Amp.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
