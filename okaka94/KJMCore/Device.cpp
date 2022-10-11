@@ -78,6 +78,7 @@ HRESULT Device::CreateSwapChain() {
     return m_pGIFactory->CreateSwapChain(m_pd3dDevice, &sd, &m_pSwapChain);
 }
 
+
 HRESULT Device::CreateRenderTargetView() {
     HRESULT hr;
     ID3D11Texture2D* pBackBuffer = nullptr;
@@ -97,4 +98,28 @@ void	Device::CreateViewport() {
     vp.MinDepth = 0.0f;
     vp.MaxDepth = 1.0f;
     m_pImmediateContext->RSSetViewports(1, &vp);
+}
+
+HRESULT Device::Resize_device(UINT width, UINT height) {
+
+    HRESULT hr;
+    if (m_pd3dDevice == nullptr) return S_OK; // window 생성 후 device 생성 전에 resize 호출한 경우 바로 리턴
+    DeleteDXResource(); // 사용중인 렌더타겟 해제 작업
+    m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL); // 렌더타겟 해제
+    m_pRTV->Release();
+
+
+    // 버퍼 크기 조정
+    DXGI_SWAP_CHAIN_DESC CurrentSD;
+    m_pSwapChain->GetDesc(&CurrentSD);
+    hr = m_pSwapChain->ResizeBuffers(CurrentSD.BufferCount, width, height, CurrentSD.BufferDesc.Format, 0);
+
+    // 변경된 백 버퍼의 크기로 RTV 및 뷰포트 재생성
+    if (FAILED(CreateRenderTargetView()))
+        return false;
+    CreateViewport();
+
+    CreateDXResource();   // 사용중인 렌더타겟 재적용 작업
+
+    return S_OK;
 }

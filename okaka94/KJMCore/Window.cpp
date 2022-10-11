@@ -11,11 +11,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
     return g_pWindow->MsgProc(hWnd, uMsg, wParam, lParam);
 }
+HRESULT Window::Resize_device(UINT width, UINT height) {
+    return S_OK;
+}
+
 
 LRESULT Window::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 
     switch (uMsg) {
+    case WM_SIZE: {
+        if (SIZE_MINIMIZED != wParam) {
+        
+            UINT width = LOWORD(lParam);
+            UINT height = HIWORD(lParam);
+            GetWindowRect(hWnd, &m_rtWindow);
+            GetClientRect(hWnd, &m_rtClient);
+            g_rtClient = m_rtClient;
+
+            m_iClientWidth = m_rtClient.right - m_rtClient.left;
+            m_iClientHeight = m_rtClient.bottom - m_rtClient.top;
+            if (FAILED(Resize_device(width, height))) {
+
+            }
+        }
+    }break;
+
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
@@ -63,9 +84,9 @@ ATOM Window::MyRegisterClass() {
     wcex.style = CS_HREDRAW | CS_VREDRAW;	// horizontal re-draw, vertical re-draw 클라창 크기 조정시 re-draw함
     wcex.lpfnWndProc = WndProc;				// 윈도우 프로시저를 가리키는 포인터
     wcex.hInstance = m_hInstance;
-    //wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hCursor = LoadCursor(m_hInstance,MAKEINTRESOURCE(IDC_CURSOR1));
-    wcex.hIcon = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    //wcex.hCursor = LoadCursor(m_hInstance,MAKEINTRESOURCE(IDC_CURSOR1));
+    //wcex.hIcon = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
     wcex.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
     wcex.lpszClassName = L"OKAKA WINDOW";
 
@@ -89,6 +110,7 @@ bool Window::Run() {
 
     MSG msg = { 0, };
     while (WM_QUIT != msg.message) {
+      
 
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
             TranslateMessage(&msg);

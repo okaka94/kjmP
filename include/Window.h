@@ -19,6 +19,7 @@ public:
 	virtual bool			Run();
 	void			CenterWindow();
 	virtual LRESULT	MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	virtual HRESULT Resize_device(UINT width,UINT height);
 public:
 	Window();
 };

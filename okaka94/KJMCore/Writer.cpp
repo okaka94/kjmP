@@ -1,5 +1,19 @@
 #include "Writer.h"
 
+HRESULT Writer::CreateDXResource() {
+	// 辆加利 按眉 积己
+	HRESULT hr = m_d2dRT->CreateSolidColorBrush({ 0,0,0,1 }, &m_pTextColor); 
+	
+	return true;
+}
+
+HRESULT Writer::DeleteDXResource() {			// 辆加利 按眉 昏力
+	if (m_pTextColor) m_pTextColor->Release();
+	if (m_d2dRT) m_d2dRT->Release();
+
+	return true;
+}
+
 bool		Writer::Set(IDXGISurface1* dxgiSurface) {
 	
 	D2D1_RENDER_TARGET_PROPERTIES	props;
@@ -13,7 +27,9 @@ bool		Writer::Set(IDXGISurface1* dxgiSurface) {
 
 	HRESULT hr = m_d2dFactory->CreateDxgiSurfaceRenderTarget(dxgiSurface, &props, &m_d2dRT);
 
-	hr = m_d2dRT->CreateSolidColorBrush({ 0,0,0,1 }, &m_pTextColor);
+	//hr = m_d2dRT->CreateSolidColorBrush({ 0,0,0,1 }, &m_pTextColor);
+	// 辆加利 按眉 积己 何盒 窃荐肺 盒府
+	CreateDXResource();
 
 	return true;
 }

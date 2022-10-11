@@ -1,6 +1,24 @@
 #include "Game_core.h"
 #include "DXState.h"
 
+HRESULT Game_core::CreateDXResource() {
+
+	Writer::GetInstance().Init();
+	IDXGISurface1* backbuffer;
+	m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1), (void**)&backbuffer);
+	Writer::GetInstance().Set(backbuffer);
+	backbuffer->Release();
+
+	return S_OK;
+}
+
+HRESULT Game_core::DeleteDXResource() {
+
+	Writer::GetInstance().DeleteDXResource();
+
+	return S_OK;
+}
+
 bool Game_core::CoreInit() {
 	HRESULT hr;
 	if (Device::Init() == false)
@@ -48,8 +66,8 @@ bool Game_core::CoreRender() {
 		Timer::GetInstance().Render();
 		Input::GetInstance().Render();
 		Render();
-		//Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
-		//Writer::GetInstance().Render();
+		Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
+		Writer::GetInstance().Render();
 	CorePost_Render();
 	return true;
 }

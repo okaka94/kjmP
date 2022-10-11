@@ -27,6 +27,8 @@ public:
 	virtual bool			Frame();
 	virtual bool			Render();
 	virtual bool			Release();
+	HRESULT CreateDXResource();
+	HRESULT DeleteDXResource();
 
 public:
 	bool		Set(IDXGISurface1* dxgiSurface);

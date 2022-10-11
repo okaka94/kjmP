@@ -23,10 +23,13 @@ public:
 	HRESULT CreateSwapChain();							// 3. create swap chain
 	HRESULT CreateRenderTargetView();					// 4. create RTV
 	void	CreateViewport();							// 5. set viewport
+	HRESULT Resize_device(UINT width, UINT height) override;
 
 public:
 	virtual bool Init();
 	virtual bool Frame();
 	virtual bool Render();
 	virtual bool Release();
+	virtual HRESULT CreateDXResource() { return true; }
+	virtual HRESULT DeleteDXResource() { return true; }
 };
