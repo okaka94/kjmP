@@ -71,6 +71,8 @@ public:
 	Vector	 operator *   (float scala);
 	Vector	 operator /   (float scala);
 	Vector	 operator *=  (float scala);
+	float	 operator |   (Vector& v);		// 내적
+	Vector	 operator ^   (Vector& v);		// 외적
 	bool	 operator ==  (Vector& v);
 	bool	 operator <   (Vector& v);
 	bool	 operator <=  (Vector& v);

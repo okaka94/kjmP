@@ -272,6 +272,16 @@ float		Vector::Get_angle(Vector& v) {										// 내적을 구해서 세타 값 구하기
 	return angle;
 }
 
+float Vector::operator | (Vector& v)
+{
+	return x * v.x + y * v.y + z * v.z;
+}
+
+Vector Vector::operator ^ (Vector& v)
+{
+	return Vector((y * v.z - z * v.y), (z * v.x - x * v.z), (x * v.y - y * v.x));
+}
+
 
 //////////////////////////////////////////// 4d //////////////////////////////////
 Vector4D::Vector4D() {
