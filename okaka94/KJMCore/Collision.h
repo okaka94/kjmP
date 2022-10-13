@@ -3,6 +3,7 @@
 #include <vector>
 #include <queue>
 #include "Vector.h"
+#include "Matrix.h"
 
 enum Collision_type {
 	RECT_OUT = 0,

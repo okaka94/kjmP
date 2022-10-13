@@ -23,6 +23,7 @@ public:
 	Shader* m_pShader;
 
 	std::vector<SimpleVertex>	m_VertexList;
+	std::vector<SimpleVertex>	m_InitVertexList;
 	std::vector<DWORD>			m_IndexList;
 	ID3D11Buffer* m_pVertexBuffer;
 	ID3D11Buffer* m_pIndexBuffer;
@@ -38,7 +39,7 @@ public:
 	bool	CreateShader(std::wstring filename);
 	HRESULT	CreateVertexLayout();
 	bool	LoadTexture(std::wstring filename);
-
+	virtual void UpdateVertexBuffer();
 	
 public:
 	void SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext);

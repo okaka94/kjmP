@@ -63,7 +63,7 @@ public:
 	virtual void Set_mask(Texture* mask) {
 		m_pMasktex = mask;
 	}
-	virtual void UpdateVertextBuffer();
+	virtual void UpdateVertexBuffer();
 	
 	
 

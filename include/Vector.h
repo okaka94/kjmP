@@ -7,6 +7,7 @@
 #define DEGREE(X)	((X)*(180.0f/PI))
 #define RADIAN(X)	((X)*(PI/180.0f))
 
+class Matrix;
 
 struct Float2 {						// 공용체상태로 바로 상속이 안됨
 	union {			
@@ -71,6 +72,7 @@ public:
 	Vector	 operator *   (float scala);
 	Vector	 operator /   (float scala);
 	Vector	 operator *=  (float scala);
+	Vector	 operator *   (Matrix& Operand_m);
 	float	 operator |   (Vector& v);		// 내적
 	Vector	 operator ^   (Vector& v);		// 외적
 	bool	 operator ==  (Vector& v);

@@ -30,7 +30,7 @@ bool Player_object2D::Frame() {									// NDC 적용 전 화면좌표계 기준으로 위치�
 
 	ScreenToNDC();			// 화면 좌표계 -> NDC 좌표계
 
-	UpdateVertextBuffer();
+	UpdateVertexBuffer();
 	
 	return true;
 }

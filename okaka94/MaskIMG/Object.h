@@ -48,7 +48,7 @@ public:
 	void Set_mask(Texture* mask) {
 		m_pMasktex = mask;
 	}
-	void UpdateVertextBuffer();
+	void UpdateVertexBuffer();
 	
 	
 

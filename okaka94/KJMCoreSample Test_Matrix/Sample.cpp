@@ -61,7 +61,23 @@ bool Sample::Frame()
 	
 	
 	
-	Map->Frame();
+	//Map->Frame();
+	Matrix s, r, t, c;
+	s = s.Scale_matrix(0.5f, 0.5f, 0.5f);
+	r = r.Rotation_Z_matrix(g_fGameTimer);
+	t = t.Translation_matrix(0, 0.5f, 0);
+	c = s * r * t;
+
+	for (int i = 0; i < Map->m_VertexList.size(); i++) {
+		Vector v = Map->m_InitVertexList[i].p;
+		//v = v * s;
+		//v = v * r;
+		//v = v * t;
+		v = v * c;
+		Map->m_VertexList[i].p = v;
+	}
+	Map->UpdateVertexBuffer();
+
 	for (auto obj : NPC_list) {
 		obj->Set_cam_pos(POV);
 		obj->Set_view_size({ (float)g_rtClient.right,(float)g_rtClient.bottom });

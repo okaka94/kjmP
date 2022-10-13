@@ -75,7 +75,7 @@ Object2D::~Object2D() { }
 //}
 //
 
-void Object2D::UpdateVertextBuffer() {
+void Object2D::UpdateVertexBuffer() {
 
 	float x1 = m_vDrawPos.x;
 	float y1 = m_vDrawPos.y;
@@ -129,7 +129,7 @@ void Object2D::Set_position(Vector2D pos) {				// p°ª ¼³Á¤  -- Set_pos ºÐ¸®ÇÏ±â
 	
 	ScreenToNDC();			// È­¸é ÁÂÇ¥°è -> NDC ÁÂÇ¥°è
 
-	UpdateVertextBuffer();
+	UpdateVertexBuffer();
 }
 
 void Object2D::ScreenToNDC() {
@@ -147,7 +147,7 @@ void Object2D::Set_position(Vector2D pos, Vector2D cam_pos) {				// p°ª ¼³Á¤  --
 
 	ScreenToCam(cam_pos,m_vViewSize);			// ¿ùµå ÁÂÇ¥ -> ºä ÁÂÇ¥ -> NDC ÁÂÇ¥
 
-	UpdateVertextBuffer();
+	UpdateVertexBuffer();
 }
 
 void Object2D::ScreenToCam(Vector2D cam_pos, Vector2D view_size) {

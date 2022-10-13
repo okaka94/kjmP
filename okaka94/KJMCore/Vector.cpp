@@ -1,4 +1,5 @@
 #include "Vector.h"
+#include "Matrix.h"
 
 //////////////////////////////////////////// 2d //////////////////////////////////
 
@@ -280,6 +281,15 @@ float Vector::operator | (Vector& v)
 Vector Vector::operator ^ (Vector& v)
 {
 	return Vector((y * v.z - z * v.y), (z * v.x - x * v.z), (x * v.y - y * v.x));
+}
+
+Vector	 Vector::operator *   (Matrix& Operand_m) {
+
+	Vector Result;
+	Result.x = x * Operand_m._11 + y * Operand_m._21 + z * Operand_m._31 + 1.0f * Operand_m._41;
+	Result.y = x * Operand_m._12 + y * Operand_m._22 + z * Operand_m._32 + 1.0f * Operand_m._42;
+	Result.z = x * Operand_m._13 + y * Operand_m._23 + z * Operand_m._33 + 1.0f * Operand_m._43;
+	return Result;
 }
 
 

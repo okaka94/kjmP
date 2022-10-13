@@ -47,7 +47,7 @@ bool UI::Set_pos_size(Vector2D pos) {
 	m_vDrawSize.x = (UI_size.x / g_rtClient.right) * 2;
 	m_vDrawSize.y = (UI_size.y / g_rtClient.bottom) * 2;
 
-	UpdateVertextBuffer();
+	UpdateVertexBuffer();
 
 	return true;
 }

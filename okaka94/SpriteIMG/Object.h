@@ -45,7 +45,7 @@ public:
 	void Set_direction(Vector2D direction) {
 		m_vDir = direction;
 	}
-	void UpdateVertextBuffer();
+	void UpdateVertexBuffer();
 	
 
 public:	

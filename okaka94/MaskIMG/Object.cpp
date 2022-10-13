@@ -75,7 +75,7 @@ Object2D::~Object2D() { }
 //}
 //
 
-void Object2D::UpdateVertextBuffer() {
+void Object2D::UpdateVertexBuffer() {
 
 	float x1 = m_vDrawPos.x;
 	float y1 = m_vDrawPos.y;
@@ -125,5 +125,5 @@ void Object2D::Set_position(Vector2D pos) {				// p°ª ¼³Á¤
 	m_vDrawSize.x = (m_rtInit.w / g_rtClient.right) * 2;
 	m_vDrawSize.y = (m_rtInit.h / g_rtClient.bottom) * 2;
 
-	UpdateVertextBuffer();
+	UpdateVertexBuffer();
 }

@@ -14,7 +14,7 @@ bool Effect::Frame() {
 	m_VertexList[1].c = { 1,1,1,m_fOpacity };
 	m_VertexList[2].c = { 1,1,1,m_fOpacity };
 	m_VertexList[3].c = { 1,1,1,m_fOpacity };
-	UpdateVertextBuffer();
+	UpdateVertexBuffer();
 	return true;
 
 	// 가이드라인 draw , 점점 감소

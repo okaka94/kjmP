@@ -66,6 +66,7 @@ void Base_object::CreateVertexList() {
 	m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };
 	m_VertexList[3].t = { 1.0f,1.0f };
 
+	m_InitVertexList = m_VertexList;
 }
 
 void Base_object::CreateIndexList() {
@@ -206,4 +207,11 @@ bool Base_object::Release() {
 	//m_pShader->Release();
 
 	return true;
+}
+
+void   Base_object::UpdateVertexBuffer()
+{
+	m_pImmediateContext->UpdateSubresource(
+		m_pVertexBuffer, 0, nullptr,
+		&m_VertexList.at(0), 0, 0);
 }
