@@ -140,3 +140,38 @@ Matrix Matrix::operator*(Matrix& Operand_m) {
 	}
 	return Result;
 }
+
+Matrix Matrix::View_LookAt(Vector& Eye, Vector& At, Vector& vir_Up) {			// 외적 이용한 계산법
+
+	Matrix result;
+	Vector directionV = (At - Eye).Ret_norm_vector();
+	Vector rightV = (vir_Up ^ rightV).Ret_norm_vector();
+	Vector UpV = (directionV ^ rightV).Ret_norm_vector();		// 직교행렬 R 만들기위한 X,Y,Z 축 벡터 구하기
+
+	_11 = rightV.x; _12 = UpV.x; _13 = directionV.x;			// R의 역행렬 (직교행렬이므로 전치하면 됨)
+	_21 = rightV.y; _22 = UpV.y; _23 = directionV.y;
+	_31 = rightV.z; _32 = UpV.z; _33 = directionV.z;
+
+	_41 = -(Eye.x * _11 + Eye.y * _21 + Eye.z * _31);			// 이동값 계산 ( T * R 의 역행렬 값 대입한 것 - 내적 구하는 것과 같음)
+	_42 = -(Eye.x * _12 + Eye.y * _22 + Eye.z * _32);
+	_43 = -(Eye.x * _13 + Eye.y * _23 + Eye.z * _33);
+	memcpy(&result, this, 16 * sizeof(float));					// 원소의 수 : [4*4] = 16 
+	return result;
+}
+
+void Matrix::Object_LookAt(Vector& Pos, Vector& At, Vector& vir_Up) {				// 내적 이용한 계산법
+
+	Vector directionV = (At - Pos).Ret_norm_vector();							
+	float Dot = vir_Up | directionV;							// dirV와 가상의 업벡터 내적 구하기
+	Vector P = directionV * Dot;								// w벡터(Up벡터)를 구하기 위한 밑변 벡터 구하기
+	Vector UpV = vir_Up - P;									// w벡터(Up벡터) 구하기
+	UpV.Normalize_vector();										// w벡터 정규화
+	Vector rightV = UpV ^ directionV;
+
+	_11 = rightV.x;			_12 = rightV.y;			_13 = rightV.z;								// 오브젝트 직접 변동시킬 때는 역행렬 이용 안해도 됨
+	_21 = UpV.x;			_22 = UpV.y;			_23 = UpV.z;
+	_31 = directionV.x;		_32 = directionV.y;		_33 = directionV.z;
+	_41 = Pos.x;
+	_42 = Pos.y;
+	_43 = Pos.z;
+}

@@ -62,11 +62,12 @@ bool Sample::Frame()
 	
 	
 	//Map->Frame();
-	Matrix s, r, t, c;
+	Matrix s, r, t, c, r_2;
 	s = s.Scale_matrix(0.5f, 0.5f, 0.5f);
-	r = r.Rotation_Z_matrix(g_fGameTimer);
+	r = r.Rotation_Y_matrix(g_fGameTimer);
+	r_2 = r_2.Rotation_Z_matrix(g_fGameTimer);
 	t = t.Translation_matrix(0, 0.5f, 0);
-	c = s * r * t;
+	c = s * r  * t * r_2;
 
 	for (int i = 0; i < Map->m_VertexList.size(); i++) {
 		Vector v = Map->m_InitVertexList[i].p;
