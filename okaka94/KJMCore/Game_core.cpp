@@ -1,5 +1,5 @@
 #include "Game_core.h"
-#include "DXState.h"
+
 
 HRESULT Game_core::CreateDXResource() {
 
@@ -58,6 +58,8 @@ bool Game_core::CorePre_Render() {
 	float color[4] = { 0.0f,0.0f,0.0f,1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);			// Set all the elements in a render target to one value.
 	m_pImmediateContext->PSSetSamplers(0, 1, &DXState::g_pDefaultSS);
+	m_pImmediateContext->RSSetViewports(1, &m_vp);
+	m_pImmediateContext->RSSetState(DXState::g_pDefaultRSSolid);
 	return true;
 }
 

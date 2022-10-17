@@ -16,6 +16,7 @@ public:
 	IDXGIFactory* m_pGIFactory = nullptr;
 	IDXGISwapChain* m_pSwapChain = nullptr;
 	ID3D11RenderTargetView* m_pRTV = nullptr;
+	D3D11_VIEWPORT	m_vp;
 
 public:
 	HRESULT CreateDevice();								// 1. create device

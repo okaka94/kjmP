@@ -5,6 +5,8 @@
 #include "Timer.h"
 #include "Base_object.h"
 #include "Sound_manager.h"
+#include "DXState.h"
+
 
 
 class Game_core : public Device

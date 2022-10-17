@@ -90,14 +90,14 @@ HRESULT Device::CreateRenderTargetView() {
 }
 
 void	Device::CreateViewport() {
-    D3D11_VIEWPORT vp;
-    vp.Width = g_rtClient.right;
-    vp.Height = g_rtClient.bottom;
-    vp.TopLeftX = 0;
-    vp.TopLeftY = 0;
-    vp.MinDepth = 0.0f;
-    vp.MaxDepth = 1.0f;
-    m_pImmediateContext->RSSetViewports(1, &vp);
+    
+    m_vp.Width = g_rtClient.right;
+    m_vp.Height = g_rtClient.bottom;
+    m_vp.TopLeftX = 0;
+    m_vp.TopLeftY = 0;
+    m_vp.MinDepth = 0.0f;
+    m_vp.MaxDepth = 1.0f;
+    m_pImmediateContext->RSSetViewports(1, &m_vp);
 }
 
 HRESULT Device::Resize_device(UINT width, UINT height) {

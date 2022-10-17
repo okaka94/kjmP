@@ -2,6 +2,9 @@
 ID3D11SamplerState* DXState::g_pDefaultSS = nullptr;
 ID3D11BlendState* DXState::g_pDefaultBS = nullptr;
 
+ID3D11RasterizerState* DXState::g_pDefaultRSWireFrame = nullptr;
+ID3D11RasterizerState* DXState::g_pDefaultRSSolid = nullptr;
+
 bool DXState::SetState(ID3D11Device* pd3dDevice) {
 
 	HRESULT hr;
@@ -15,7 +18,19 @@ bool DXState::SetState(ID3D11Device* pd3dDevice) {
 	sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	hr = pd3dDevice->CreateSamplerState(&sd, &g_pDefaultSS);
 
+	// Rasterizer State
+	D3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+	rd.DepthClipEnable = TRUE;
+	rd.FillMode = D3D11_FILL_WIREFRAME;
+	rd.CullMode = D3D11_CULL_BACK;
+	pd3dDevice->CreateRasterizerState(&rd, &g_pDefaultRSWireFrame);
 
+	rd.FillMode = D3D11_FILL_SOLID;
+	pd3dDevice->CreateRasterizerState(&rd, &g_pDefaultRSSolid);
+
+
+	// Blender State
 	D3D11_BLEND_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.RenderTarget[0].BlendEnable = TRUE;
@@ -37,6 +52,8 @@ bool DXState::SetState(ID3D11Device* pd3dDevice) {
 bool DXState::Release() {
 	if (g_pDefaultBS) g_pDefaultBS->Release();
 	if (g_pDefaultSS) g_pDefaultSS->Release();
+	if (g_pDefaultRSWireFrame) g_pDefaultRSWireFrame->Release();
+	if (g_pDefaultRSSolid) g_pDefaultRSSolid->Release();
 
 	return true;
 }

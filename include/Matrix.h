@@ -49,6 +49,8 @@ public:
 	Matrix Rotation_Z_matrix(float rad);
 	Matrix Scale_matrix(float x, float y, float z);
 	Matrix Translation_matrix(float x, float y, float z); 
+	Matrix View_LookAt(Vector& Eye, Vector& At, Vector& vir_Up);
+	void Object_LookAt(Vector& Pos, Vector& At, Vector& vir_Up);
 public:
 	Matrix operator* (Matrix& Operand_m);
 };
