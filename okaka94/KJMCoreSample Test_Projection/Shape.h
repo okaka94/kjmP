@@ -8,7 +8,10 @@ public:
 	virtual ~Shape() {};
 };
 
-class Shape_box : public Shape {
+
+
+
+class Shape_box : public Object3D {
 public:
 	virtual void CreateVertexList() override;
 	virtual void CreateIndexList() override;

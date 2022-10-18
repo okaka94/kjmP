@@ -4,17 +4,22 @@
 bool Base_object::Init() { return true; }
 bool Base_object::Frame() { 
 	// gpu update 
-	m_pImmediateContext->UpdateSubresource(
-		m_pVertexBuffer, 0, NULL,
-		&m_VertexList.at(0), 0, 0);
+	//m_pImmediateContext->UpdateSubresource(
+	//	m_pVertexBuffer, 0, NULL,
+	//	&m_VertexList.at(0), 0, 0);
 
 	return true; 
 }
 
 
+
+
 bool Base_object::Create(ID3D11Device* pd3dDevice , ID3D11DeviceContext* pImmediateContext , const wchar_t* shaderName, const wchar_t* texName) {
 	SetDevice(pd3dDevice, pImmediateContext);
 
+	if (FAILED(CreateConstantBuffer()))
+		return false;
+	
 	if (FAILED(CreateVertexBuffer()))
 		return false;
 
@@ -45,7 +50,44 @@ void Base_object::SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImme
 
 }
 
+void Base_object::CreateConstantData()
+{
+	m_cbData.World_matrix.Set_I_matrix();
+	m_cbData.View_matrix.Set_I_matrix();
+	m_cbData.Proj_matrix.Set_I_matrix();
+	m_cbData.fTimer = 0.0f;
+	//m_cbData.World_matrix.Transpose();
+	//m_cbData.View_matrix.Transpose();
+	//m_cbData.Proj_matrix.Transpose(); 단위행렬이라 전치해도 똑같은 것 같음(?)
+}
+
+HRESULT Base_object::CreateConstantBuffer()
+{
+	HRESULT hr;
+	CreateConstantData();
+	D3D11_BUFFER_DESC       bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.ByteWidth = sizeof(VS_CONSTANT_BUFFER) * 1; // 바이트 용량
+	// GPU 메모리에 할당
+	bd.Usage = D3D11_USAGE_DEFAULT; // 버퍼의 할당 장소 내지는 버퍼용도
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA  sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.pSysMem = &m_cbData;
+	hr = m_pd3dDevice->CreateBuffer(
+		&bd, // 버퍼 할당
+		&sd, // 초기 할당된 버퍼를 체우는 CPU메모리 주소
+		&m_pConstantBuffer);
+	return hr;
+}
+
 void Base_object::CreateVertexList() {
+	if (m_VertexList.size() > 0)
+	{
+		m_InitVertexList = m_VertexList;
+		return;
+	}
 
 	m_VertexList.resize(4);
 
@@ -70,6 +112,7 @@ void Base_object::CreateVertexList() {
 }
 
 void Base_object::CreateIndexList() {
+	if (m_IndexList.size() > 0)return;
 
 	m_IndexList.resize(6);
 
@@ -204,6 +247,7 @@ bool Base_object::Release() {
 	if (m_pVertexBuffer) m_pVertexBuffer->Release();
 	if (m_pIndexBuffer) m_pIndexBuffer->Release();
 	if (m_pVertexLayout) m_pVertexLayout->Release();
+	if (m_pConstantBuffer) m_pConstantBuffer->Release();
 	//m_pShader->Release();
 
 	return true;
@@ -214,4 +258,31 @@ void   Base_object::UpdateVertexBuffer()
 	m_pImmediateContext->UpdateSubresource(
 		m_pVertexBuffer, 0, nullptr,
 		&m_VertexList.at(0), 0, 0);
+}
+
+void   Base_object::UpdateConstantBuffer()
+{
+	m_cbData.World_matrix = m_World_matrix.Return_T_matrix();
+	m_cbData.View_matrix = m_View_matrix.Return_T_matrix();
+	m_cbData.Proj_matrix = m_Proj_matrix.Return_T_matrix();
+	m_pImmediateContext->UpdateSubresource(
+		m_pConstantBuffer, 0, nullptr,
+		&m_cbData, 0, 0);
+}
+
+void	Base_object::SetMatrix(Matrix* World, Matrix* View, Matrix* Proj)
+{
+	if (World != nullptr)
+	{
+		m_World_matrix = *World;
+	}
+	if (View != nullptr)
+	{
+		m_View_matrix = *View;
+	}
+	if (Proj != nullptr)
+	{
+		m_Proj_matrix = *Proj;
+	}
+	UpdateConstantBuffer();
 }

@@ -149,14 +149,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NPC_object.cpp" />
-    <ClCompile Include="Player_object.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Shape.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NPC_object.h" />
-    <ClInclude Include="Player_object.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Shape.h" />
   </ItemGroup>
