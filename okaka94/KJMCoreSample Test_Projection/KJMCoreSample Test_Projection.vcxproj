@@ -152,11 +152,13 @@
     <ClCompile Include="NPC_object.cpp" />
     <ClCompile Include="Player_object.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="Shape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NPC_object.h" />
     <ClInclude Include="Player_object.h" />
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="Shape.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KJMCore\KJMCore.vcxproj">

@@ -32,8 +32,8 @@ public:
 	
 
 public:
-	void	CreateVertexList();
-	void	CreateIndexList();
+	virtual void	CreateVertexList();
+	virtual void	CreateIndexList();
 	HRESULT	CreateVertexBuffer();
 	HRESULT	CreateIndexBuffer();
 	bool	CreateShader(std::wstring filename);

@@ -175,3 +175,51 @@ void Matrix::Object_LookAt(Vector& Pos, Vector& At, Vector& vir_Up) {				// ³»Àû
 	_42 = Pos.y;
 	_43 = Pos.z;
 }
+
+
+Matrix Matrix::OrthoLH(float w, float h, float n, float f) {
+
+	Matrix result;
+	result.Set_I_matrix();
+	result._11 = 2.0f / w;
+	result._22 = 2.0f / h;
+	result._33 = 1.0f / (f - n);
+	result._43 = -n / (f - n);
+
+	return result;
+}
+Matrix Matrix::OrthoOffCenterLH(float l, float r, float b, float t, float n, float f) {
+
+	Matrix result;
+	result.Set_I_matrix();
+	result._11 = 2.0f / (r-l);
+	result._22 = 2.0f / (t-b);
+	result._33 = 1.0f / (f - n);
+	result._41 = (l + r) / (l - r);
+	result._42 = (t + b) / (b - t);
+	//result._43 = - n / (f - n);
+	result._43 = n / (n - f);   // -ºÎÈ£ ¶¼°í ¿ªÀ¸·Î »¬¼À
+
+	return result;
+	
+}
+
+Matrix Matrix::PerspectiveFovLH(float n, float f, float FOV_Y, float aspect) {
+
+	Matrix result;
+	float h, w, Q;
+
+	h = 1 / tan(FOV_Y * 0.5f);    // 1/tan(t) = cot(t)
+	w = h / aspect;
+
+	Q = f / (f - n);
+
+	result._11 = w;
+	result._22 = h;
+	result._33 = Q;
+	result._43 = -Q * n;
+	result._34 = 1;
+	result._44 = 0.0f;			// _44´Â 1ÀÌ¸é ¾ÈµÊ
+
+	return result;
+}

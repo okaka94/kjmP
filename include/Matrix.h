@@ -44,13 +44,21 @@ public:
 	Matrix();					// 생성시 단위 행렬로 만들기
 	void Set_I_matrix();			// 단위행렬로 값 설정
 	Matrix Return_T_matrix();		// 전치행렬(Transpose) 리턴
+	// S R T
 	Matrix Rotation_X_matrix(float rad);
 	Matrix Rotation_Y_matrix(float rad);
 	Matrix Rotation_Z_matrix(float rad);
 	Matrix Scale_matrix(float x, float y, float z);
 	Matrix Translation_matrix(float x, float y, float z); 
+	// Viewing Matrix
 	Matrix View_LookAt(Vector& Eye, Vector& At, Vector& vir_Up);
 	void Object_LookAt(Vector& Pos, Vector& At, Vector& vir_Up);
+	// Projection Matrix 
+	Matrix OrthoLH(float w, float h, float n, float f);									// 좌표값에 곱할 수 있도록 행렬만 반환해줌 (리턴값과 곱해야 변환값 나옴)
+	Matrix OrthoOffCenterLH(float l, float r, float b, float t, float n, float f);
+	Matrix PerspectiveFovLH(float n, float f, float FOV_Y, float aspect);				// aspect = W / H (종횡비)
+
+
 public:
 	Matrix operator* (Matrix& Operand_m);
 };
