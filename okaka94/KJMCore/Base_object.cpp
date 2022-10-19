@@ -56,9 +56,9 @@ void Base_object::CreateConstantData()
 	m_cbData.View_matrix.Set_I_matrix();
 	m_cbData.Proj_matrix.Set_I_matrix();
 	m_cbData.fTimer = 0.0f;
-	//m_cbData.World_matrix.Transpose();
-	//m_cbData.View_matrix.Transpose();
-	//m_cbData.Proj_matrix.Transpose(); 단위행렬이라 전치해도 똑같은 것 같음(?)
+	m_cbData.World_matrix.Return_T_matrix();
+	m_cbData.View_matrix.Return_T_matrix();
+	m_cbData.Proj_matrix.Return_T_matrix();  // 단위행렬이라 전치해도 똑같은 것 같음(?)
 }
 
 HRESULT Base_object::CreateConstantBuffer()

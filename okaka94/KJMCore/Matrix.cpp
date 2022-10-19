@@ -118,6 +118,13 @@ Matrix Matrix::Scale_matrix(float x, float y, float z) {
 	return S;
 }
 
+void Matrix::Set_Translation_matrix(float x, float y, float z) {
+	Set_I_matrix();
+	_41 = x;
+	_42 = y;
+	_43 = z;
+}
+
 Matrix Matrix::Translation_matrix(float x, float y, float z) {
 
 	Matrix T;
@@ -145,7 +152,7 @@ Matrix Matrix::View_LookAt(Vector& Eye, Vector& At, Vector& vir_Up) {			// 외적 
 
 	Matrix result;
 	Vector directionV = (At - Eye).Ret_norm_vector();
-	Vector rightV = (vir_Up ^ rightV).Ret_norm_vector();
+	Vector rightV = (vir_Up ^ directionV).Ret_norm_vector();
 	Vector UpV = (directionV ^ rightV).Ret_norm_vector();		// 직교행렬 R 만들기위한 X,Y,Z 축 벡터 구하기
 
 	_11 = rightV.x; _12 = UpV.x; _13 = directionV.x;			// R의 역행렬 (직교행렬이므로 전치하면 됨)

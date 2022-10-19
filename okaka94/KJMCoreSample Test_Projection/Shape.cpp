@@ -83,5 +83,6 @@ bool Shape_box::Render() {
 
 bool Shape_box::Frame() {
 
+	m_cbData.fTimer = g_fGameTimer;
 	return true;
 }

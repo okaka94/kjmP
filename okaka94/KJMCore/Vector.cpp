@@ -260,9 +260,9 @@ void		Vector::Normalize_vector() {		// 곱연산으로 처리하기 위해서 역수 구해서 곱
 Vector	Vector::Ret_norm_vector() {
 	Vector ret = *this;
 	float invert_length = 1.0f / Get_length();
-	x = x * invert_length;
-	y = y * invert_length;
-	z = z * invert_length;
+	ret.x = ret.x * invert_length;
+	ret.y = ret.y * invert_length;
+	ret.z = ret.z * invert_length;
 	return ret;
 }
 float		Vector::Get_angle(Vector& v) {										// 내적을 구해서 세타 값 구하기
