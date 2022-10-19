@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <math.h>
+#include <windows.h>
 
 #define EPSILON		0.001f
 #define PI			3.141592f

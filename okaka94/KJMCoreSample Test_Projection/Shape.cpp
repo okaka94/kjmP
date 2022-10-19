@@ -52,7 +52,7 @@ void Shape_box::CreateVertexList() {
 
 }
 
-void Shape_box::CreateIndexBuffer() {
+void Shape_box::CreateIndexList() {
 
 	m_IndexList.resize(36);
 	int iIndex = 0;

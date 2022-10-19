@@ -1,15 +1,20 @@
 #pragma once
-#include "Object.h"
+#include "Base_object.h"
 
-class Shape : public Object3D		// 샘플에는 Shape에 있지만 기존 Object.h 재활용했음
+
+class Object3D : public Base_object
+{
+public:
+	Object3D() {};
+	virtual ~Object3D() {};
+};
+
+class Shape : public Object3D		
 {
 public:
 	Shape() {};
 	virtual ~Shape() {};
 };
-
-
-
 
 class Shape_box : public Object3D {
 public:

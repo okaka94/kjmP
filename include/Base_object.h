@@ -3,21 +3,45 @@
 #include "Shader_manager.h"
 #include "Texture_manager.h"
 #include "Device.h"
+#include "Collision.h"
 
 
 struct SimpleVertex {
 	Vector		p;
 	Vector4D	c;
 	Vector2D	t;
+	SimpleVertex() {}
+	SimpleVertex(Vector vp, Vector4D vc, Vector2D vt)
+	{
+		p = vp;
+		c = vc;
+		t = vt;
+	}
 };
 
+struct VS_CONSTANT_BUFFER
+{
+	Matrix  World_matrix;
+	Matrix  View_matrix;
+	Matrix  Proj_matrix;
+	float    fTimer;
+	float    y;
+	float    z;
+	float    d;
+};
 
 class Base_object
 {
 public:
+	bool m_IsNullable = true;
+	Matrix m_World_matrix;
+	Matrix m_View_matrix;
+	Matrix m_Proj_matrix;
+public:
 	ID3D11Device* m_pd3dDevice = nullptr;
 	ID3D11DeviceContext* m_pImmediateContext = nullptr;
-	
+	VS_CONSTANT_BUFFER  m_cbData;
+	ID3D11Buffer* m_pConstantBuffer;
 public:
 	Texture* m_pTexture;
 	Shader* m_pShader;
@@ -34,12 +58,15 @@ public:
 public:
 	virtual void	CreateVertexList();
 	virtual void	CreateIndexList();
-	HRESULT	CreateVertexBuffer();
-	HRESULT	CreateIndexBuffer();
-	bool	CreateShader(std::wstring filename);
-	HRESULT	CreateVertexLayout();
-	bool	LoadTexture(std::wstring filename);
-	virtual void UpdateVertexBuffer();
+	virtual void	CreateConstantData();
+	virtual HRESULT	CreateVertexBuffer();
+	virtual HRESULT	CreateIndexBuffer();
+	virtual HRESULT	CreateConstantBuffer();
+	virtual bool	CreateShader(std::wstring filename);
+	virtual HRESULT	CreateVertexLayout();
+	virtual bool	LoadTexture(std::wstring filename);
+	virtual void	UpdateVertexBuffer();
+	virtual void	UpdateConstantBuffer();
 	
 public:
 	void SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext);
@@ -51,7 +78,7 @@ public:
 	virtual bool Render();
 	virtual bool Post_Render();
 	virtual bool Release();
-	
+	virtual void SetMatrix(Matrix* World, Matrix* View, Matrix* Proj);
 	
 	virtual ~Base_object();
 

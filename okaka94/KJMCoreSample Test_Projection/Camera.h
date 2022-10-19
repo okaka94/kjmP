@@ -1,6 +1,6 @@
 #pragma once
 #include "Base_object.h"
-class Camera :  public Base_object
+class Camera : public Base_object
 {
 public:
 	Vector m_Cam_pos;

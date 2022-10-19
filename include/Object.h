@@ -2,23 +2,23 @@
 #include "Base_object.h"
 #include "Collision.h"
 
-class Object3D : public Base_object
-{
-public:
-	//void Set_sphere(Box box);			// x, y 는 애초에 cx,cy 넘겨줌 (( rect 기반으로  -> circle 외접원 생성 ))
-	//void Set_sphere(Vector v_center, float r);
-	//void Set_position(Vector v_pos, Vector v_size);
-	//bool Frame() override;
-	//virtual void Add_force(Vector force);
-	//virtual void Set_default();
-	//virtual bool Render();
-	//virtual bool Init();
-	
-
-public:
-	Object3D();
-	virtual ~Object3D();
-};
+//class Object3D : public Base_object
+//{
+//public:
+//	//void Set_sphere(Box box);			// x, y 는 애초에 cx,cy 넘겨줌 (( rect 기반으로  -> circle 외접원 생성 ))
+//	//void Set_sphere(Vector v_center, float r);
+//	//void Set_position(Vector v_pos, Vector v_size);
+//	//bool Frame() override;
+//	//virtual void Add_force(Vector force);
+//	//virtual void Set_default();
+//	//virtual bool Render();
+//	//virtual bool Init();
+//	
+//
+//public:
+//	Object3D();
+//	virtual ~Object3D();
+//};
 
 
 

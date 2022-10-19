@@ -53,7 +53,7 @@ bool Camera::Frame() {
 	//Vector vUp = { 0,1,0 };
 	//TMatrix mCamera = TMath::RotationY(g_fGameTimer);
 	//vPos = (vPos + vPosMovement) * mCamera;
-	m_View_matrix.ViewLookAt(m_Cam_pos, m_Target, m_virtual_UpV);
+	m_View_matrix.View_LookAt(m_Cam_pos, m_Target, m_virtual_UpV);
 	return true;
 
 }

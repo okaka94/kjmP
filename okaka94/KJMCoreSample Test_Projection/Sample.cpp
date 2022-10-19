@@ -10,7 +10,7 @@ bool Sample::Init()
 
 	Box_A = new Shape_box;
 	Box_A->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
-	Box_A->m_World_matrix.Translation(0, 0, 2);
+	Box_A->m_World_matrix.Translation_matrix(0, 0, 2);
 	
 	/*ID3D11ShaderResourceView* SRV = MaskTex->Get_SRV();
 	m_pImmediateContext->PSSetShaderResources(1, 1, &SRV);*/

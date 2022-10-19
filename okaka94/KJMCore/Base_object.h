@@ -3,12 +3,20 @@
 #include "Shader_manager.h"
 #include "Texture_manager.h"
 #include "Device.h"
+#include "Collision.h"
 
 
 struct SimpleVertex {
 	Vector		p;
 	Vector4D	c;
 	Vector2D	t;
+	SimpleVertex() {}
+	SimpleVertex(Vector vp, Vector4D vc, Vector2D vt)
+	{
+		p = vp;
+		c = vc;
+		t = vt;
+	}
 };
 
 struct VS_CONSTANT_BUFFER
