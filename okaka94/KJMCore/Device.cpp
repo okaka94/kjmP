@@ -11,6 +11,9 @@ bool Device::Init() {
         return false;
     if (FAILED(hr = CreateRenderTargetView()))
         return false;
+    if (FAILED(hr = CreateDepthStencilView()))
+        return false;
+    
     CreateViewport();
 
     return true;
@@ -31,6 +34,7 @@ bool Device::Release() {
     if (m_pGIFactory) m_pGIFactory->Release();
     if (m_pSwapChain) m_pSwapChain->Release();
     if (m_pRTV) m_pRTV->Release();
+    if (m_pDSV) m_pDSV->Release();
     return true;
 }
 
@@ -85,6 +89,46 @@ HRESULT Device::CreateRenderTargetView() {
     m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
     hr = m_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRTV);
     pBackBuffer->Release();
+
+    return hr;
+}
+
+HRESULT Device::CreateDepthStencilView() {
+
+    HRESULT hr;
+    //D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+    //m_pRTV->GetDesc(&rtvd);
+    DXGI_SWAP_CHAIN_DESC scd;
+    m_pSwapChain->GetDesc(&scd);
+
+    // 1¹ø ÅØ½ºÃ³¸¦ »ı¼ºÇÑ´Ù.
+    ID3D11Texture2D* pDSTexture = nullptr;
+    D3D11_TEXTURE2D_DESC td;
+    ZeroMemory(&td, sizeof(td));
+    td.Width = scd.BufferDesc.Width;
+    td.Height = scd.BufferDesc.Height;
+    td.MipLevels = 1;
+    td.ArraySize = 1;
+    td.Format = DXGI_FORMAT_R24G8_TYPELESS;
+    td.SampleDesc.Count = 1;
+    td.Usage = D3D11_USAGE_DEFAULT;
+    td.CPUAccessFlags = 0;
+    td.MiscFlags = 0;
+    td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+    hr = m_pd3dDevice->CreateTexture2D(&td, NULL, &pDSTexture);
+
+    // 2¹ø ±íÀÌ½ºÅÙ½Ç ºä·Î »ı¼ºÇÑ´Ù.
+    D3D11_DEPTH_STENCIL_VIEW_DESC dtvd;
+    ZeroMemory(&dtvd, sizeof(dtvd));
+    dtvd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    dtvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+    hr = m_pd3dDevice->CreateDepthStencilView(pDSTexture, &dtvd, &m_pDSV);
+    // 3¹ø ºä Àû¿ë
+    //m_pImmediateContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(),
+       //m_pDepthStencilView.Get());
+    // 4¹ø ±íÀÌ½ºÅÙ½Ç ºä »óÅÂ °´Ã¼ »ı¼ºÇØ¼­ Àû¿ë
+    pDSTexture->Release();
 
     return hr;
 }

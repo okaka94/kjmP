@@ -52,14 +52,19 @@ bool Game_core::CoreFrame() {
 }
 
 bool Game_core::CorePre_Render() {
-	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);			// OM : Output-Merger
-	// Blend 설정
-	m_pImmediateContext->OMSetBlendState(DXState::g_pDefaultBS, NULL, 0xffffffff); // sample mask 기본값 0xffffffff = -1 
+	// m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);			// OM : Output-Merger
+	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, m_pDSV);			// NULL 자리에 깊이 스텐실 뷰
+	
 	float color[4] = { 0.1f,0.2f,0.1f,1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);			// Set all the elements in a render target to one value.
+	m_pImmediateContext->ClearDepthStencilView(m_pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	m_pImmediateContext->PSSetSamplers(0, 1, &DXState::g_pDefaultSS);
 	m_pImmediateContext->RSSetViewports(1, &m_vp);
 	m_pImmediateContext->RSSetState(DXState::g_pDefaultRSSolid);
+	// Blend state 설정
+	m_pImmediateContext->OMSetBlendState(DXState::g_pDefaultBS, NULL, 0xffffffff); // sample mask 기본값 0xffffffff = -1 
+	// depth_stencil state 설정
+	m_pImmediateContext->OMSetDepthStencilState(DXState::g_pDefaultDepthStencil, 0xff);
 	return true;
 }
 

@@ -16,6 +16,7 @@ public:
 	IDXGIFactory* m_pGIFactory = nullptr;
 	IDXGISwapChain* m_pSwapChain = nullptr;
 	ID3D11RenderTargetView* m_pRTV = nullptr;
+	ID3D11DepthStencilView* m_pDSV = nullptr;
 	D3D11_VIEWPORT	m_vp;
 
 public:
@@ -23,7 +24,8 @@ public:
 	HRESULT CreateDXGIDevice();							// 2. create factory
 	HRESULT CreateSwapChain();							// 3. create swap chain
 	HRESULT CreateRenderTargetView();					// 4. create RTV
-	void	CreateViewport();							// 5. set viewport
+	HRESULT CreateDepthStencilView();					// 5. create DSV
+	void	CreateViewport();							// 6. set viewport
 	HRESULT Resize_device(UINT width, UINT height) override;
 
 public:
