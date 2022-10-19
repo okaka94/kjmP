@@ -219,6 +219,9 @@ bool Base_object::Pre_Render() {
 	// texture
 	ID3D11ShaderResourceView* SRV = m_pTexture->Get_SRV();
 	m_pTexture->Apply(m_pImmediateContext, 0);
+
+	// constant buffer
+	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 	
 	return true;
 }

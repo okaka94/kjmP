@@ -3,41 +3,17 @@
 bool Sample::Init()
 {
 
+	Cam_main = new Camera;
+	Cam_main->Create_View_matrix(Vector(0, 10, -50), Vector(0, 0, 0), Vector(0, 1, 0));
+	Cam_main->Create_Proj_matrix(1.0f, 100.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 
 
-	Texture* MaskTex = Texture_manager::GetInstance().Load(L"../../data/bitmap2.bmp");
-	// map load
-	Map = new Base_object;
-	//Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/Terranigma.bmp");
-	Map->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/kgcabk.bmp");
-
-
-	// NPC load
-	for (int num_npc = 0; num_npc < 20; num_npc++) {
-		NPC_object2D* NPC = new NPC_object2D;
-		//NPC->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape.txt", L"../../data/NPC.png");
-		//NPC->Set_rect({ 162, 88, 22, 32 });
-
-		NPC->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/bitmap1.bmp");
-		NPC->Set_rect({ 46, 62, 68, 79 });
-
-		NPC->Set_direction({ randstep(-1.0f, 1.0f),	randstep(-1.0f, 1.0f) });
-		NPC->Set_position({ 100.0f + num_npc * 100.0f,100.0f });
-		// mask set
-		NPC->Set_mask(MaskTex);
-		NPC_list.push_back(NPC);
-	}
-
-	// Player load
-	Player = new Player_object2D;
-	Player->Create(m_pd3dDevice, m_pImmediateContext, L"../../data/shader/DefaultShape_Mask.txt", L"../../data/bitmap1.bmp");
-	Player->Set_mask(MaskTex);
-	Player->m_fSpeed = 200.0f;
-	Player->Set_rect({ 91,2,39,59 });
-	Player->Set_position({ g_rtClient.right / 2.0f,g_rtClient.bottom - 150.0f });
-
-	ID3D11ShaderResourceView* SRV = MaskTex->Get_SRV();
-	m_pImmediateContext->PSSetShaderResources(1, 1, &SRV);
+	Box_A = new Shape_box;
+	Box_A->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
+	Box_A->m_World_matrix.Translation(0, 0, 2);
+	
+	/*ID3D11ShaderResourceView* SRV = MaskTex->Get_SRV();
+	m_pImmediateContext->PSSetShaderResources(1, 1, &SRV);*/
 
 
 
@@ -45,46 +21,8 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	if (Input::GetInstance().GetKey(VK_UP) == KEY_HOLD) {		// POV는 화면좌표계 : 카메라가 위로 이동하면 y값은 감소해야함
-		POV.y -= g_fSecPerFrame * 100.0f;
-	}
-	if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD) {
-		POV.y += g_fSecPerFrame * 100.0f;
-	}
-	if (Input::GetInstance().GetKey(VK_RIGHT) == KEY_HOLD) {
-		POV.x += g_fSecPerFrame * 100.0f;
-	}
-	if (Input::GetInstance().GetKey(VK_LEFT) == KEY_HOLD) {
-		POV.x -= g_fSecPerFrame * 100.0f;
-	}
-	
-	
-	
-	
-	//Map->Frame();
-	Matrix s, r, t, c, r_2;
-	s = s.Scale_matrix(0.5f, 0.5f, 0.5f);
-	r = r.Rotation_Y_matrix(g_fGameTimer);
-	r_2 = r_2.Rotation_Z_matrix(g_fGameTimer);
-	t = t.Translation_matrix(0, 0.5f, 0);
-	c = s * r  * t * r_2;
-
-	for (int i = 0; i < Map->m_VertexList.size(); i++) {
-		Vector v = Map->m_InitVertexList[i].p;
-		//v = v * s;
-		//v = v * r;
-		//v = v * t;
-		v = v * c;
-		Map->m_VertexList[i].p = v;
-	}
-	Map->UpdateVertexBuffer();
-
-	for (auto obj : NPC_list) {
-		obj->Set_cam_pos(POV);
-		obj->Set_view_size({ (float)g_rtClient.right,(float)g_rtClient.bottom });
-		obj->Frame();
-	}	
-	Player->Frame();
+	Cam_main->Frame();
+	Box_A->Frame();
 
 	return true;
 }
@@ -97,35 +35,18 @@ bool Sample::Render()
 		m_pImmediateContext->RSSetState(DXState::g_pDefaultRSWireFrame);
 	}
 
-	Map->Pre_Render();
-	
-	Map->Post_Render();
-
-	for (auto obj : NPC_list) {
-		obj->Render();
-	}
-
-	
-
-	Player->Pre_Render();
-	
-	
-
-
-	Player->Post_Render();
+	Box_A->SetMatrix(nullptr, &Cam_main->m_View_matrix, &Cam_main->m_Proj_matrix);
+	Box_A->Render();
 	
 	return true;
 }
 bool Sample::Release()
 {
-	Map->Release();;
-	for (auto obj : NPC_list) {
-		obj->Release();
-		delete obj;
-	}
-	Player->Release();
+	Box_A->Release();
+	delete Box_A;
 
-	
+	Cam_main->Release();
+	delete Cam_main;
 	
 	return true;
 }
