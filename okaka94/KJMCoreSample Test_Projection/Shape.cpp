@@ -18,10 +18,10 @@ void Shape_box::CreateVertexList() {
 	m_VertexList[3].p = { 1.0f, 1.0f, -1.0f };		m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[3].t = { 1.0f,1.0f };
 
 	// 하단
-	m_VertexList[4].p = { -1.0f,  -1.0f, -1.0f };	m_VertexList[4].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[4].t = { 0.0f,1.0f };
-	m_VertexList[5].p = { -1.0f,  -1.0f, 1.0f };	m_VertexList[5].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[5].t = { 0.0f,0.0f };
-	m_VertexList[6].p = { 1.0f, -1.0f, 1.0f };		m_VertexList[6].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[6].t = { 1.0f,0.0f };
-	m_VertexList[7].p = { 1.0f, -1.0f, -1.0f };		m_VertexList[7].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[7].t = { 1.0f,1.0f };
+	m_VertexList[4].p = { -1.0f,  -1.0f, -1.0f };	m_VertexList[4].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[4].t = { 1.0f,1.0f };
+	m_VertexList[5].p = { -1.0f,  -1.0f, 1.0f };	m_VertexList[5].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[5].t = { 1.0f,0.0f };
+	m_VertexList[6].p = { 1.0f, -1.0f, 1.0f };		m_VertexList[6].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[6].t = { 0.0f,0.0f };
+	m_VertexList[7].p = { 1.0f, -1.0f, -1.0f };		m_VertexList[7].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[7].t = { 0.0f,1.0f };
 
 	// 앞면
 	m_VertexList[8].p = { -1.0f,  -1.0f, -1.0f };	m_VertexList[8].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[8].t = { 0.0f,1.0f };
@@ -60,7 +60,7 @@ void Shape_box::CreateIndexList() {
 	// 상단
 	m_IndexList[iIndex++] = 0; 	m_IndexList[iIndex++] = 1; 	m_IndexList[iIndex++] = 3; 	m_IndexList[iIndex++] = 3;	m_IndexList[iIndex++] = 1; 	m_IndexList[iIndex++] = 2;
 	// 하단
-	m_IndexList[iIndex++] = 7; 	m_IndexList[iIndex++] = 6; 	m_IndexList[iIndex++] = 4; 	m_IndexList[iIndex++] = 4;	m_IndexList[iIndex++] = 6; 	m_IndexList[iIndex++] = 5;
+	m_IndexList[iIndex++] = 4;	m_IndexList[iIndex++] = 7; 	m_IndexList[iIndex++] = 5;  m_IndexList[iIndex++] = 5; 	m_IndexList[iIndex++] = 7; 	m_IndexList[iIndex++] = 6;
 	// 앞면
 	m_IndexList[iIndex++] = 8; 	m_IndexList[iIndex++] = 9; 	m_IndexList[iIndex++] = 11; m_IndexList[iIndex++] = 11;	m_IndexList[iIndex++] = 9; m_IndexList[iIndex++] = 10;
 	// 뒷면
