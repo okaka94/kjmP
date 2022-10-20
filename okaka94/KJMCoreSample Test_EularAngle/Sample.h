@@ -12,9 +12,9 @@ class Sample : public Game_core
 public:
 
 	Map* BG = nullptr;
-	Camera* Cam_main = nullptr;
+	Camera Cam[4];
 	Shape_box* Box_A = nullptr;
-	Shape_box* Box_B = nullptr;
+	
 		
 public:
 	virtual bool Init() override;

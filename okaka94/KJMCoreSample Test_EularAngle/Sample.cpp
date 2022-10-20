@@ -8,31 +8,61 @@ bool Sample::Init()
 	BG->Build(512 + 1, 512 + 1);
 	BG->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/NormalMap/stone_wall.bmp");
 
-	Cam_main = new Camera;
-	Cam_main->Create_View_matrix(Vector(0, 50, -5), Vector(0, 0, 0), Vector(0, 1, 0));
-	Cam_main->Create_Proj_matrix(1.0f, 1000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+
+	Vector Cam_pos;
+
+	// Top View
+	Cam_pos = { 0.0f,10.0f,-1.0f };
+	Cam[0].Create_View_matrix(Cam_pos, Vector(0, 0, 0), Vector(0, 1, 0));
+	Cam[0].Create_Proj_matrix(1.0f, 100.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+
+	// Front View
+	Cam_pos = { 0.0f,0.0f,-10.0f };
+	Cam[1].Create_View_matrix(Cam_pos, Vector(0, 0, 0), Vector(0, 1, 0));
+	Cam[1].Create_Proj_matrix(1.0f, 100.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+
+	// Side View
+	Cam_pos = { 10.0f,0.0f,0.0f };
+	Cam[2].Create_View_matrix(Cam_pos, Vector(0, 0, 0), Vector(0, 1, 0));
+	Cam[2].Create_Proj_matrix(1.0f, 100.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+
+	// User View
+	Cam_pos = { 10.0f,10.0f,-10.0f };
+	Cam[3].Create_View_matrix(Cam_pos, Vector(0, 0, 0), Vector(0, 1, 0));
+	Cam[3].Create_Proj_matrix(1.0f, 100.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+
 
 
 	Box_A = new Shape_box;
 	Box_A->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
-	Box_A->m_World_matrix.Set_Translation_matrix(0, 2, 2);
+	Box_A->m_World_matrix.Set_Translation_matrix(0, 0, 0);
 	
-	Box_B = new Shape_box;
-	Box_B->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/object/metal.bmp");
-	Box_B->m_World_matrix.Set_Translation_matrix(1, 2, 4);
-
-	/*ID3D11ShaderResourceView* SRV = MaskTex->Get_SRV();
-	m_pImmediateContext->PSSetShaderResources(1, 1, &SRV);*/
-
+	//Vector vMax = Vector(-10000.0f, -10000.0f, -10000.0f);
+	//Vector vMin = Vector(10000.0f, 10000.0f, 10000.0f);
+	//for (int iVer = 0; iVer < 8; iVer++)
+	//{
+	//	if (Box_A->m_VertexList[iVer].p.x > vMax.x) vMax.x = Box_A->m_VertexList[iVer].p.x;
+	//	if (Box_A->m_VertexList[iVer].p.y > vMax.y) vMax.y = Box_A->m_VertexList[iVer].p.y;
+	//	if (Box_A->m_VertexList[iVer].p.z > vMax.z) vMax.z = Box_A->m_VertexList[iVer].p.z;
+	//
+	//	if (Box_A->m_VertexList[iVer].p.x < vMin.x) vMin.x = Box_A->m_VertexList[iVer].p.x;
+	//	if (Box_A->m_VertexList[iVer].p.y < vMin.y) vMin.y = Box_A->m_VertexList[iVer].p.y;
+	//	if (Box_A->m_VertexList[iVer].p.z < vMin.z) vMin.z = Box_A->m_VertexList[iVer].p.z;
+	//}
+	// 화면에 가득채우게 만드는 함수
+	//Cam[0].SetObjectView(vMax, vMin);
+	//Cam[1].SetObjectView(vMax, vMin);
+	//Cam[2].SetObjectView(vMax, vMin);
+	//Cam[3].SetObjectView(vMax, vMin);
 
 
 	return true;
 }
 bool Sample::Frame()
 {
-	Cam_main->Frame();
+	//Cam_main->Frame();
 	Box_A->Frame();
-	Box_B->Frame();
+	
 
 	return true;
 }
@@ -45,26 +75,78 @@ bool Sample::Render()
 		m_pImmediateContext->RSSetState(DXState::g_pDefaultRSWireFrame);
 	}
 
-	BG->SetMatrix(nullptr, &Cam_main->m_View_matrix, &Cam_main->m_Proj_matrix);
-	BG->Render();
+	D3D11_VIEWPORT vp;
 
-	Box_A->SetMatrix(nullptr, &Cam_main->m_View_matrix, &Cam_main->m_Proj_matrix);
+	// top V
+	vp.Width = g_rtClient.right/2;
+	vp.Height = g_rtClient.bottom/2;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
+
+	Box_A->SetMatrix(nullptr, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
 	Box_A->Render();
+
+	BG->SetMatrix(nullptr, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
+	BG->Render();
 	
-	Box_B->SetMatrix(nullptr, &Cam_main->m_View_matrix, &Cam_main->m_Proj_matrix);
-	Box_B->Render();
+
+	// front V
+	vp.Width = g_rtClient.right / 2;
+	vp.Height = g_rtClient.bottom / 2;
+	vp.TopLeftX = g_rtClient.right / 2;
+	vp.TopLeftY = 0;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
+
+	Box_A->SetMatrix(nullptr, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
+	Box_A->Render();
+
+	BG->SetMatrix(nullptr, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
+	BG->Render();						
+
+	// side V
+	vp.Width = g_rtClient.right / 2;
+	vp.Height = g_rtClient.bottom / 2;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = g_rtClient.bottom / 2;;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
+
+	Box_A->SetMatrix(nullptr, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
+	Box_A->Render();
+
+	BG->SetMatrix(nullptr, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
+	BG->Render();
+	
+	// side V
+	vp.Width = g_rtClient.right / 2;
+	vp.Height = g_rtClient.bottom / 2;
+	vp.TopLeftX = g_rtClient.right / 2;
+	vp.TopLeftY = g_rtClient.bottom / 2;;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
+
+	Box_A->SetMatrix(nullptr, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
+	Box_A->Render();
+
+	BG->SetMatrix(nullptr, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
+	BG->Render();
+	
 	return true;
 }
 bool Sample::Release()
 {
 	Box_A->Release();
 	delete Box_A;
-
-	Box_B->Release();
-	delete Box_B;
-
-	Cam_main->Release();
-	delete Cam_main;
+		
+	//Cam_main->Release();
+	//delete Cam_main;
 	
 	BG->Release();
 	delete BG;
