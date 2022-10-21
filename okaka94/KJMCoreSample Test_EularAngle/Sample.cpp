@@ -37,30 +37,33 @@ bool Sample::Init()
 	Box_A->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
 	Box_A->m_World_matrix.Set_Translation_matrix(0, 0, 0);
 	
-	//Vector vMax = Vector(-10000.0f, -10000.0f, -10000.0f);
-	//Vector vMin = Vector(10000.0f, 10000.0f, 10000.0f);
-	//for (int iVer = 0; iVer < 8; iVer++)
-	//{
-	//	if (Box_A->m_VertexList[iVer].p.x > vMax.x) vMax.x = Box_A->m_VertexList[iVer].p.x;
-	//	if (Box_A->m_VertexList[iVer].p.y > vMax.y) vMax.y = Box_A->m_VertexList[iVer].p.y;
-	//	if (Box_A->m_VertexList[iVer].p.z > vMax.z) vMax.z = Box_A->m_VertexList[iVer].p.z;
-	//
-	//	if (Box_A->m_VertexList[iVer].p.x < vMin.x) vMin.x = Box_A->m_VertexList[iVer].p.x;
-	//	if (Box_A->m_VertexList[iVer].p.y < vMin.y) vMin.y = Box_A->m_VertexList[iVer].p.y;
-	//	if (Box_A->m_VertexList[iVer].p.z < vMin.z) vMin.z = Box_A->m_VertexList[iVer].p.z;
-	//}
+	Vector vMax = Vector(-10000.0f, -10000.0f, -10000.0f);
+	Vector vMin = Vector(10000.0f, 10000.0f, 10000.0f);
+	for (int iVer = 0; iVer < 8; iVer++)															// 박스 구성은 첫 정점 8개로 확인 가능
+	{
+		if (Box_A->m_VertexList[iVer].p.x > vMax.x) vMax.x = Box_A->m_VertexList[iVer].p.x;
+		if (Box_A->m_VertexList[iVer].p.y > vMax.y) vMax.y = Box_A->m_VertexList[iVer].p.y;
+		if (Box_A->m_VertexList[iVer].p.z > vMax.z) vMax.z = Box_A->m_VertexList[iVer].p.z;
+	
+		if (Box_A->m_VertexList[iVer].p.x < vMin.x) vMin.x = Box_A->m_VertexList[iVer].p.x;
+		if (Box_A->m_VertexList[iVer].p.y < vMin.y) vMin.y = Box_A->m_VertexList[iVer].p.y;
+		if (Box_A->m_VertexList[iVer].p.z < vMin.z) vMin.z = Box_A->m_VertexList[iVer].p.z;			// Max, Min 벡터 구축
+	}
 	// 화면에 가득채우게 만드는 함수
-	//Cam[0].SetObjectView(vMax, vMin);
-	//Cam[1].SetObjectView(vMax, vMin);
-	//Cam[2].SetObjectView(vMax, vMin);
-	//Cam[3].SetObjectView(vMax, vMin);
+	Cam[0].Set_Obj_View_matrix(vMax, vMin, Cam[0].m_FOV_Y);
+	Cam[1].Set_Obj_View_matrix(vMax, vMin, Cam[1].m_FOV_Y);
+	Cam[2].Set_Obj_View_matrix(vMax, vMin, Cam[2].m_FOV_Y);
+	Cam[3].Set_Obj_View_matrix(vMax, vMin, Cam[3].m_FOV_Y);
 
 
 	return true;
 }
 bool Sample::Frame()
 {
-	//Cam_main->Frame();
+	//for (int i = 0; i < 4; i++) {
+	//	Cam[i].Frame();
+	//}
+	
 	Box_A->Frame();
 	
 

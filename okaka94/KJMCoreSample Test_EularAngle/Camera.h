@@ -14,5 +14,6 @@ public:
 	virtual void Create_View_matrix(Vector Eye, Vector At, Vector UpV);
 	virtual void Create_Proj_matrix(float n, float f, float FOV_Y, float aspect);
 	virtual bool Frame();
+	virtual Matrix Set_Obj_View_matrix(Vector max,Vector min, float FOV_Y);						// 뷰표트를 오브젝트로 채우도록 뷰 행렬 조정함
 };
 
