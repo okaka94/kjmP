@@ -15,9 +15,10 @@ public:
 	Camera Cam[4];
 	Shape_box* Box_A = nullptr;
 
-	float						m_fYaw;
-	float						m_fPitch;
-	float						m_fRoll;
+	Matrix			m_world_mat;
+	float			m_fYaw = 0.0f;
+	float			m_fPitch = 0.0f;
+	float			m_fRoll = 0.0f;
 	
 		
 public:

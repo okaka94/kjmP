@@ -65,35 +65,43 @@ bool Sample::Frame()
 	//--------------------------------------------------------------------------------------
 	if (Input::GetInstance().GetKey(VK_LEFT) == KEY_HOLD)
 	{
-		m_fYaw += g_fSecPerFrame*0.1f;
+		m_fYaw += g_fSecPerFrame;
 	}
 	if (Input::GetInstance().GetKey(VK_RIGHT) == KEY_HOLD)
 	{
-		m_fYaw -= g_fSecPerFrame*0.1f;
+		m_fYaw -= g_fSecPerFrame;
 	}
 	if (Input::GetInstance().GetKey(VK_UP) == KEY_HOLD)
 	{
-		m_fPitch += g_fSecPerFrame * 0.1f;
+		m_fPitch += g_fSecPerFrame;
 	}
 	if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD)
 	{
-		m_fPitch -= g_fSecPerFrame * 0.1f;
+		m_fPitch -= g_fSecPerFrame;
 	}
 	if (Input::GetInstance().GetKey(VK_HOME) == KEY_HOLD)
 	{
-		m_fRoll += g_fSecPerFrame*0.1f;
+		m_fRoll += g_fSecPerFrame;
 	}
-	if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD)
+	if (Input::GetInstance().GetKey(VK_END) == KEY_HOLD)
 	{
-		m_fRoll -= g_fSecPerFrame * 0.1f;
+		m_fRoll -= g_fSecPerFrame;
 	}
 
 
-	Matrix rot_mat;
-	rot_mat = rot_mat.Make_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
-	//Box_A->m_World_matrix.Rotation_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
+	//Matrix rot_mat;
+	//rot_mat = rot_mat.Make_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
+	//Box_A->m_World_matrix = Box_A->m_World_matrix * rot_mat;
 
-	Box_A->m_World_matrix = Box_A->m_World_matrix * rot_mat;
+
+	
+
+	
+
+
+	m_world_mat.Set_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
+
+
 
 	return true;
 }
@@ -117,7 +125,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// ±âÁ¸ ºäÆ÷Æ®
 
-	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
+	Box_A->SetMatrix(&m_world_mat, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
@@ -133,7 +141,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// ±âÁ¸ ºäÆ÷Æ®
 
-	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
+	Box_A->SetMatrix(&m_world_mat, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
@@ -148,7 +156,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// ±âÁ¸ ºäÆ÷Æ®
 
-	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
+	Box_A->SetMatrix(&m_world_mat, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
@@ -163,7 +171,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// ±âÁ¸ ºäÆ÷Æ®
 
-	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
+	Box_A->SetMatrix(&m_world_mat, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
