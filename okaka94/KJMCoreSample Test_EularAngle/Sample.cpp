@@ -60,12 +60,40 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	//for (int i = 0; i < 4; i++) {
-	//	Cam[i].Frame();
-	//}
-	
-	Box_A->Frame();
-	
+	//--------------------------------------------------------------------------------------
+	// 오브젝트 월드 행렬 컨트롤 
+	//--------------------------------------------------------------------------------------
+	if (Input::GetInstance().GetKey(VK_LEFT) == KEY_HOLD)
+	{
+		m_fYaw += g_fSecPerFrame*0.1f;
+	}
+	if (Input::GetInstance().GetKey(VK_RIGHT) == KEY_HOLD)
+	{
+		m_fYaw -= g_fSecPerFrame*0.1f;
+	}
+	if (Input::GetInstance().GetKey(VK_UP) == KEY_HOLD)
+	{
+		m_fPitch += g_fSecPerFrame * 0.1f;
+	}
+	if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD)
+	{
+		m_fPitch -= g_fSecPerFrame * 0.1f;
+	}
+	if (Input::GetInstance().GetKey(VK_HOME) == KEY_HOLD)
+	{
+		m_fRoll += g_fSecPerFrame*0.1f;
+	}
+	if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD)
+	{
+		m_fRoll -= g_fSecPerFrame * 0.1f;
+	}
+
+
+	Matrix rot_mat;
+	rot_mat = rot_mat.Make_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
+	//Box_A->m_World_matrix.Rotation_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
+
+	Box_A->m_World_matrix = Box_A->m_World_matrix * rot_mat;
 
 	return true;
 }
@@ -89,7 +117,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
 
-	Box_A->SetMatrix(nullptr, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
+	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[0].m_View_matrix, &Cam[0].m_Proj_matrix);
@@ -105,7 +133,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
 
-	Box_A->SetMatrix(nullptr, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
+	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[1].m_View_matrix, &Cam[1].m_Proj_matrix);
@@ -120,7 +148,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
 
-	Box_A->SetMatrix(nullptr, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
+	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[2].m_View_matrix, &Cam[2].m_Proj_matrix);
@@ -135,7 +163,7 @@ bool Sample::Render()
 	vp.MaxDepth = 1.0f;
 	m_pImmediateContext->RSSetViewports(1, &vp);										// 기존 뷰포트
 
-	Box_A->SetMatrix(nullptr, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
+	Box_A->SetMatrix(&Box_A->m_World_matrix, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
 	Box_A->Render();
 
 	BG->SetMatrix(nullptr, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);

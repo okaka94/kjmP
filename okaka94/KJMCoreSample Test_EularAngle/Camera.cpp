@@ -27,10 +27,12 @@ void Camera::Create_Proj_matrix(float n, float f, float FOV_Y, float aspect) {
 Matrix Camera::Set_Obj_View_matrix(Vector max, Vector min, float FOV_Y) {			// View 행렬은 LookAt으로 만듦, 카메라 포지션과 앵글을 조정해서 뷰포트를 오브젝트로 채우는 행렬 만들기
 
 	float theta = FOV_Y;
+	//float theta = FOV_Y/2;
 	Vector obj_center = (max + min) * 0.5f;
 	float radius = (max - min).Get_length() * 0.5f;
-	float distance = radius/tan(theta*0.5f);
-
+	//float distance = radius/tan(theta*0.5f);
+	float distance = 2.0f* radius * (sin(90 - (theta * 0.5f)));
+	
 	// LookVector 만들기
 	Vector LookV = (m_Cam_pos - obj_center).Ret_norm_vector();
 	// 카메라 포지션 만들기

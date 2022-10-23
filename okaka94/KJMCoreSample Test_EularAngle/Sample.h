@@ -14,6 +14,10 @@ public:
 	Map* BG = nullptr;
 	Camera Cam[4];
 	Shape_box* Box_A = nullptr;
+
+	float						m_fYaw;
+	float						m_fPitch;
+	float						m_fRoll;
 	
 		
 public:

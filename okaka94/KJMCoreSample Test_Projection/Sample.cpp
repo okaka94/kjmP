@@ -4,7 +4,7 @@ bool Sample::Init()
 {
 
 	Cam_main = new Camera;
-	Cam_main->Create_View_matrix(Vector(0, 10, -5), Vector(0, 0, 0), Vector(0, 1, 0));
+	Cam_main->Create_View_matrix(Vector(0, 10, -5), Vector(0, 1, 0), Vector(0, 1, 0));
 	Cam_main->Create_Proj_matrix(1.0f, 100.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 
 

@@ -109,6 +109,45 @@ Matrix Matrix::Rotation_Z_matrix(float rad) {
 	return R;
 }
 
+Matrix Matrix::Rotation_YPR_matrix(float yaw, float pitch, float roll) {
+
+	Matrix YPR;
+	YPR.Set_I_matrix();
+	YPR._11 = cos(yaw) * cos(roll) + sin(pitch) * sin(yaw) * sin(roll);
+	YPR._12 = cos(pitch) * sin(roll);
+	YPR._13 = (-1.0f * cos(roll) * sin(yaw)) + cos(yaw) * sin(pitch) * sin(roll);
+	YPR._21 = cos(roll) * sin(pitch) * sin(yaw) - cos(yaw) * sin(roll);
+	YPR._22 = cos(pitch) * cos(roll);
+	YPR._23 = cos(yaw) * cos(roll) * sin(pitch) + sin(yaw) * sin(roll);
+	YPR._31 = cos(pitch) * sin(yaw);
+	YPR._32 = -1.0f * sin(pitch);
+	YPR._33 = cos(pitch) * cos(yaw);
+
+	*this = *this * YPR;
+
+	return *this;
+}
+
+Matrix Matrix::Make_YPR_matrix(float yaw, float pitch, float roll) {
+
+	Matrix YPR;
+	YPR.Set_I_matrix();
+	YPR._11 = cos(yaw) * cos(roll) + sin(pitch) * sin(yaw) * sin(roll);
+	YPR._12 = cos(pitch) * sin(roll);
+	YPR._13 = (-1.0f * cos(roll) * sin(yaw)) + cos(yaw) * sin(pitch) * sin(roll);
+	YPR._21 = cos(roll) * sin(pitch) * sin(yaw) - cos(yaw) * sin(roll);
+	YPR._22 = cos(pitch) * cos(roll);
+	YPR._23 = cos(yaw) * cos(roll) * sin(pitch) + sin(yaw) * sin(roll);
+	YPR._31 = cos(pitch) * sin(yaw);
+	YPR._32 = -1.0f * sin(pitch);
+	YPR._33 = cos(pitch) * cos(yaw);
+
+	
+
+	return YPR;
+}
+
+
 Matrix Matrix::Scale_matrix(float x, float y, float z) {
 
 	Matrix S;
