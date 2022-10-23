@@ -44,6 +44,7 @@ public:
 	Matrix();					// 생성시 단위 행렬로 만들기
 	void Set_I_matrix();			// 단위행렬로 값 설정
 	void Set_Translation_matrix(float x, float y, float z);
+	void Set_Scale_matrix(float x, float y, float z);
 	Matrix Return_T_matrix();		// 전치행렬(Transpose) 리턴
 	// S R T
 	Matrix Rotation_X_matrix(float rad);

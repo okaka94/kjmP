@@ -32,7 +32,7 @@ HRESULT Texture::Load(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateC
 	if (FAILED(hr)) {
 		hr = DirectX::CreateDDSTextureFromFile(pd3dDevice, pImmediateContext, filename.c_str(), (ID3D11Resource**)&m_pTexture, &m_pTextureSRV);
 	}
-
+	
 	m_pTexture->GetDesc(&m_Desc);
 	return hr;
 }

@@ -147,6 +147,14 @@ Matrix Matrix::Set_YPR_matrix(float yaw, float pitch, float roll) {
 	return *this;
 }
 
+void Matrix::Set_Scale_matrix(float x, float y, float z) {
+
+	Set_I_matrix();
+	_11 = x;
+	_22 = y;
+	_33 = z;
+	
+}
 
 Matrix Matrix::Scale_matrix(float x, float y, float z) {
 
