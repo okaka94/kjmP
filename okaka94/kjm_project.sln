@@ -141,6 +141,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_EularAng
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Axis", "KJMCoreSample Test_Axis\KJMCoreSample Test_Axis.vcxproj", "{FFD51CE8-7404-490A-A116-3A0714205D33}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Quaternion", "KJMCoreSample Test_Quaternion\KJMCoreSample Test_Quaternion.vcxproj", "{1E320E3F-8523-4513-B042-59F253FFC637}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -629,6 +631,14 @@ Global
 		{FFD51CE8-7404-490A-A116-3A0714205D33}.Release|x64.Build.0 = Release|x64
 		{FFD51CE8-7404-490A-A116-3A0714205D33}.Release|x86.ActiveCfg = Release|Win32
 		{FFD51CE8-7404-490A-A116-3A0714205D33}.Release|x86.Build.0 = Release|Win32
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Debug|x64.ActiveCfg = Debug|x64
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Debug|x64.Build.0 = Debug|x64
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Debug|x86.ActiveCfg = Debug|Win32
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Debug|x86.Build.0 = Debug|Win32
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x64.ActiveCfg = Release|x64
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x64.Build.0 = Release|x64
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x86.ActiveCfg = Release|Win32
+		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -694,6 +704,7 @@ Global
 		{4F09744C-7EF0-48D9-8121-1A1BFD8FD4E4} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 		{CDE23D26-9A01-473B-99FD-CA9C6D824E72} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 		{A212E2F4-DFD2-4CEA-A170-43F30A7BD4F2} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
+		{FFD51CE8-7404-490A-A116-3A0714205D33} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53D2CBEB-40EF-4E5A-BDC4-BFDFCCBD52FC}

@@ -3,7 +3,7 @@
 void Shape_box::Set_axis() {
 
 	m_Axis = new Shape_axis;
-	m_Axis->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/NormalMap/stone_wall.bmp");
+	m_Axis->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"");
 
 }
 
@@ -137,8 +137,9 @@ void    Shape_line::CreateIndexList()
 
 bool Shape_line::Render()
 {
-	m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+	
 	Pre_Render();
+	m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 	Post_Render();
 	m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	return true;
