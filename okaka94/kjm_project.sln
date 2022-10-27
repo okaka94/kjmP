@@ -143,7 +143,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Axis", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Quaternion", "KJMCoreSample Test_Quaternion\KJMCoreSample Test_Quaternion.vcxproj", "{1E320E3F-8523-4513-B042-59F253FFC637}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_ModelView", "KJMCoreSample Test_ModelView\KJMCoreSample Test_ModelView.vcxproj", "{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Camera_debug", "KJMCoreSample Test_Camera_debug\KJMCoreSample Test_Camera_debug.vcxproj", "{87A3207F-DC63-4017-A351-82D41658E727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -641,14 +641,14 @@ Global
 		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x64.Build.0 = Release|x64
 		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x86.ActiveCfg = Release|Win32
 		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x86.Build.0 = Release|Win32
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x64.ActiveCfg = Debug|x64
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x64.Build.0 = Debug|x64
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x86.ActiveCfg = Debug|Win32
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x86.Build.0 = Debug|Win32
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x64.ActiveCfg = Release|x64
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x64.Build.0 = Release|x64
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x86.ActiveCfg = Release|Win32
-		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x86.Build.0 = Release|Win32
+		{87A3207F-DC63-4017-A351-82D41658E727}.Debug|x64.ActiveCfg = Debug|x64
+		{87A3207F-DC63-4017-A351-82D41658E727}.Debug|x64.Build.0 = Debug|x64
+		{87A3207F-DC63-4017-A351-82D41658E727}.Debug|x86.ActiveCfg = Debug|Win32
+		{87A3207F-DC63-4017-A351-82D41658E727}.Debug|x86.Build.0 = Debug|Win32
+		{87A3207F-DC63-4017-A351-82D41658E727}.Release|x64.ActiveCfg = Release|x64
+		{87A3207F-DC63-4017-A351-82D41658E727}.Release|x64.Build.0 = Release|x64
+		{87A3207F-DC63-4017-A351-82D41658E727}.Release|x86.ActiveCfg = Release|Win32
+		{87A3207F-DC63-4017-A351-82D41658E727}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

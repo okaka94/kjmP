@@ -34,12 +34,12 @@ bool Camera_debug::Frame() {
 	}
 	if (Input::GetInstance().GetKey('A') == KEY_HOLD)
 	{
-		Vector v = m_RightV * m_fSpeed * g_fSecPerFrame;
+		Vector v = m_RightV * -m_fSpeed * g_fSecPerFrame;
 		m_Cam_pos += v;
 	}
 	if (Input::GetInstance().GetKey('D') == KEY_HOLD)
 	{
-		Vector v = m_RightV * -m_fSpeed * g_fSecPerFrame;
+		Vector v = m_RightV * m_fSpeed * g_fSecPerFrame;
 		m_Cam_pos += v;
 	}
 	if (Input::GetInstance().GetKey('Q') == KEY_HOLD)

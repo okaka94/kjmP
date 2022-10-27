@@ -35,7 +35,7 @@ bool Sample::Init()
 
 	Box_A = new Shape_box;
 	Box_A->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
-	Box_A->m_World_matrix.Set_Translation_matrix(0, 0, 0);
+	Box_A->m_World_matrix.Set_Translation_matrix(0, 5, 0);
 	// axis
 	Box_A->Set_axis();
 
@@ -62,7 +62,7 @@ bool Sample::Init()
 	////////////////////////// Model_View Cam /////////////////////
 
 	
-	Main_cam.Create_View_matrix(Vector(0,30,-30), Vector(0, 0, 0), Vector(0, 1, 0));
+	Main_cam.Create_View_matrix(Vector(0,1,-15), Vector(0, 0, 0), Vector(0, 1, 0));
 	Main_cam.Create_Proj_matrix(1.0f, 1000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 
 
@@ -72,7 +72,7 @@ bool Sample::Init()
 bool Sample::Frame()
 {
 	
-	static float angle = 0.1f;
+	static float angle = 0.0f;
 	if (Input::GetInstance().GetKey(VK_UP) == KEY_HOLD)
 	{
 		angle += g_fSecPerFrame*10.0f;
@@ -174,8 +174,12 @@ bool Sample::Render()
 
 	m_pImmediateContext->RSSetViewports(n_vp, &vp_old);
 
-	Box_A->SetMatrix(NULL, &Main_cam.m_View_matrix, &Main_cam.m_Proj_matrix);
+	Box_A->SetMatrix(nullptr, &Main_cam.m_View_matrix, &Main_cam.m_Proj_matrix);
+	//Box_A->SetMatrix(&m_world_mat, &Cam[3].m_View_matrix, &Cam[3].m_Proj_matrix);
 	Box_A->Render();
+
+	BG->SetMatrix(nullptr, &Main_cam.m_View_matrix, &Main_cam.m_Proj_matrix);
+	BG->Render();
 	
 	return true;
 }

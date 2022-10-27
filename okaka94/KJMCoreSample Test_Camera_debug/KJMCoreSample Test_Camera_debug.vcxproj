@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}</ProjectGuid>
+    <ProjectGuid>{87A3207F-DC63-4017-A351-82D41658E727}</ProjectGuid>
     <RootNamespace>KJMCoreSample</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
