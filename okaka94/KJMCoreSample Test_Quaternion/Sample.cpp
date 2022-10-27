@@ -63,33 +63,33 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	//--------------------------------------------------------------------------------------
-	// 오브젝트 월드 행렬 컨트롤 
-	//--------------------------------------------------------------------------------------
-	if (Input::GetInstance().GetKey(VK_LEFT) == KEY_HOLD)
-	{
-		m_fYaw += g_fSecPerFrame;
-	}
-	if (Input::GetInstance().GetKey(VK_RIGHT) == KEY_HOLD)
-	{
-		m_fYaw -= g_fSecPerFrame;
-	}
-	if (Input::GetInstance().GetKey(VK_UP) == KEY_HOLD)
-	{
-		m_fPitch += g_fSecPerFrame;
-	}
-	if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD)
-	{
-		m_fPitch -= g_fSecPerFrame;
-	}
-	if (Input::GetInstance().GetKey(VK_HOME) == KEY_HOLD)
-	{
-		m_fRoll += g_fSecPerFrame;
-	}
-	if (Input::GetInstance().GetKey(VK_END) == KEY_HOLD)
-	{
-		m_fRoll -= g_fSecPerFrame;
-	}
+	////--------------------------------------------------------------------------------------
+	//// 오브젝트 월드 행렬 컨트롤 
+	////--------------------------------------------------------------------------------------
+	//if (Input::GetInstance().GetKey(VK_LEFT) == KEY_HOLD)
+	//{
+	//	m_fYaw += g_fSecPerFrame;
+	//}
+	//if (Input::GetInstance().GetKey(VK_RIGHT) == KEY_HOLD)
+	//{
+	//	m_fYaw -= g_fSecPerFrame;
+	//}
+	//if (Input::GetInstance().GetKey(VK_UP) == KEY_HOLD)
+	//{
+	//	m_fPitch += g_fSecPerFrame;
+	//}
+	//if (Input::GetInstance().GetKey(VK_DOWN) == KEY_HOLD)
+	//{
+	//	m_fPitch -= g_fSecPerFrame;
+	//}
+	//if (Input::GetInstance().GetKey(VK_HOME) == KEY_HOLD)
+	//{
+	//	m_fRoll += g_fSecPerFrame;
+	//}
+	//if (Input::GetInstance().GetKey(VK_END) == KEY_HOLD)
+	//{
+	//	m_fRoll -= g_fSecPerFrame;
+	//}
 
 
 	//Matrix rot_mat;
@@ -102,8 +102,11 @@ bool Sample::Frame()
 	
 
 
-	m_world_mat.Set_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
+	//m_world_mat.Set_YPR_matrix(m_fYaw, m_fPitch, m_fRoll);
 
+	Quaternion Q = { 3,2,5, PI * 0.25f };
+
+	m_world_mat = Q.RotationQ_to_Mat();
 
 
 	return true;

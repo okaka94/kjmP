@@ -21,9 +21,13 @@ public:
 public:
 	void		Set_identity();
 	void		Set_conjugate();
+	Quaternion  Ret_conjugate();
 	void		Set_inverse();
 	float		Get_sqrd_length();
 	float		Get_length();
-
+	void		Set_normalized();
+	Quaternion  Ret_rotated_quat(Vector axis, float angle);
+	Matrix		RotationQ_to_Mat();
+	void		Normalize_axis();
 };
 

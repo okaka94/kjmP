@@ -3,6 +3,7 @@
 #include "Shape.h"
 #include "Camera.h"
 #include "Map.h"
+#include "Quaternion.h"
 
 
 
