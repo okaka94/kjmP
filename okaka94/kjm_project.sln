@@ -143,6 +143,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Axis", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Quaternion", "KJMCoreSample Test_Quaternion\KJMCoreSample Test_Quaternion.vcxproj", "{1E320E3F-8523-4513-B042-59F253FFC637}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_ModelView", "KJMCoreSample Test_ModelView\KJMCoreSample Test_ModelView.vcxproj", "{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -639,6 +641,14 @@ Global
 		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x64.Build.0 = Release|x64
 		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x86.ActiveCfg = Release|Win32
 		{1E320E3F-8523-4513-B042-59F253FFC637}.Release|x86.Build.0 = Release|Win32
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x64.ActiveCfg = Debug|x64
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x64.Build.0 = Debug|x64
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x86.ActiveCfg = Debug|Win32
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Debug|x86.Build.0 = Debug|Win32
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x64.ActiveCfg = Release|x64
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x64.Build.0 = Release|x64
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x86.ActiveCfg = Release|Win32
+		{A3AF3A75-5802-422E-AFCB-812EEFA1D3A5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -705,6 +715,7 @@ Global
 		{CDE23D26-9A01-473B-99FD-CA9C6D824E72} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 		{A212E2F4-DFD2-4CEA-A170-43F30A7BD4F2} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 		{FFD51CE8-7404-490A-A116-3A0714205D33} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
+		{1E320E3F-8523-4513-B042-59F253FFC637} = {B8A5B0BD-FDCF-4C23-B28B-A93E494528A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53D2CBEB-40EF-4E5A-BDC4-BFDFCCBD52FC}

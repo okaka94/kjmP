@@ -14,6 +14,8 @@ private:
 	DWORD		m_dwKeyState[256];
 public:
 	POINT		m_ptPos;
+	POINT		m_ptPrePos;
+	POINT		m_ptOffset;
 public:
 	DWORD		GetKey(DWORD dwKey);
 public:
