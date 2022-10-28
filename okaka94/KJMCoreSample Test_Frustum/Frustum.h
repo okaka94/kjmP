@@ -13,7 +13,7 @@ struct Plane {
 	float a, b, c, d;
 	void Create(Vector v0, Vector v1, Vector v2)	{
 		
-		Vector E0 = v2 - v1;
+		Vector E0 = v1 - v0;
 		Vector E1 = v2 - v0;
 		Vector normal = E0 ^ E1;
 		normal.Normalize_vector();

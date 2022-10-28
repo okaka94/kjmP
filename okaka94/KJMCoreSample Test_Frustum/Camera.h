@@ -1,6 +1,7 @@
 #pragma once
 #include "Base_object.h"
 #include "TMath.h"
+#include "Frustum.h"
 class Camera : public Base_object
 {
 public:
@@ -18,6 +19,8 @@ public:
 	float  m_FOV_Y;
 	float  m_AspectRatio;
 	float  m_fSpeed = 10.0f;
+public:
+	Frustum	m_Frustum;
 public:
 	virtual void Create_View_matrix(Vector Eye, Vector At, Vector UpV);
 	virtual void Create_Proj_matrix(float n, float f, float FOV_Y, float aspect);

@@ -74,3 +74,25 @@ bool Camera_debug::Frame() {
 
 	return true;
 }
+
+void Camera_debug::Update_cam()
+{
+	m_RightV.x = m_View_matrix._11;
+	m_RightV.y = m_View_matrix._21;
+	m_RightV.z = m_View_matrix._31;
+
+	m_UpV.x = m_View_matrix._12;
+	m_UpV.y = m_View_matrix._22;
+	m_UpV.z = m_View_matrix._32;
+
+	m_LookV.x = m_View_matrix._13;
+	m_LookV.y = m_View_matrix._23;
+	m_LookV.z = m_View_matrix._33;
+
+	m_RightV.Normalize_vector();
+	m_UpV.Normalize_vector();
+	m_LookV.Normalize_vector();
+
+	m_Frustum.Create_frustum(&m_View_matrix, &m_Proj_matrix);
+
+}

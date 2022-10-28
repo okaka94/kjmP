@@ -7,5 +7,6 @@ public:
 
 public:
 	bool Frame() override;
+	void Update_cam() override;   // add frustum create 
 };
 

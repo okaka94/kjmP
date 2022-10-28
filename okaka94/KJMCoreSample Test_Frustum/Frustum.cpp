@@ -56,9 +56,9 @@ P_POSITION Frustum::Classify_point(Vector v) {
 	{
 		float fDistance = m_Plane[iPlane].a * v.x +	m_Plane[iPlane].b * v.y + m_Plane[iPlane].c * v.z + m_Plane[iPlane].d;
 		// 평면 NormV이 원점을 바라보고 있으면 d값은 양수가 됨 , d는 원점과의 거리
-		if (fDistance == 0) return P_ONPLANE;
-		if (fDistance < 0) return P_FRONT;
+		if (fDistance == 0) return P_ONPLANE;		// 평면과 정점은 ONPLANE 판정 바로 리턴하기 애매함 
+		if (fDistance < 0) return P_BACK;		// distance > 0 이면 평면의 앞에 , <0이면 평면의 뒤 
 	}
 
-	return P_BACK;
+	return P_FRONT;		// 모든 면의 안쪽에 있어야함 , 이 경우 ONPLANE 따로 판정 없기때문에 한면에 접하면서 내부에 있는 경우도 포함돼있음
 }
