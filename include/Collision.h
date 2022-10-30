@@ -93,14 +93,39 @@ struct Sphere {
 
 };
 
+struct AABB
+{
+	Vector v_min;
+	Vector v_max;
+
+	AABB() {}
+
+	AABB(Vector v_min, Vector v_max) {
+		this->v_min = v_min;
+		this->v_max = v_max;
+	}
+};
+struct OBB
+{
+	Vector v_center;
+	Vector axis[3];
+	float  extent[3];
+};
+
+
 struct Box {
 
+	Vector vPos[8];
+
+	//// AABB
 	Vector v_min;
+	Vector v_max;  // min + size
 	Vector v_size;
 
-	Vector v_max;  // min + size
-	
+	//// OBB	
 	Vector v_center;
+	Vector axis[3];
+	float  extent[3];
 
 	bool operator == (Box& operand) {							// 실수의 비교는 오차범위 고려 필요
 		if (v_min == operand.v_min){							// 벡터클래스 연산자 오버로딩되어 있음 (오차범위 고려하여)

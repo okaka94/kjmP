@@ -73,10 +73,15 @@ bool Sample::Render()
 		m_world_mat._41 = m_vBoxPosition[iBox].x;
 		m_world_mat._42 = m_vBoxPosition[iBox].y;
 		m_world_mat._43 = m_vBoxPosition[iBox].z;
+
+		Vector min = { m_world_mat._41 - 1,m_world_mat._42 - 1,m_world_mat._43 - 1 };
+		Vector max = { m_world_mat._41 + 1,m_world_mat._42 + 1,m_world_mat._43 + 1 };
+
+		AABB Box = { min, max };
 						
 
 		Box_A->SetMatrix(&m_world_mat, &Main_cam.m_View_matrix, &Main_cam.m_Proj_matrix);
-		P_POSITION ret = Main_cam.m_Frustum.Classify_point(m_vBoxPosition[iBox]);
+		P_POSITION ret = Main_cam.m_Frustum.Classify_AABB(Box);
 		if (ret)
 		{
 			Box_A->Render();

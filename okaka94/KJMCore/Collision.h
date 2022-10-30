@@ -97,6 +97,13 @@ struct AABB
 {
 	Vector v_min;
 	Vector v_max;
+
+	AABB() {}
+
+	AABB(Vector v_min, Vector v_max) {
+		this->v_min = v_min;
+		this->v_max = v_max;
+	}
 };
 struct OBB
 {

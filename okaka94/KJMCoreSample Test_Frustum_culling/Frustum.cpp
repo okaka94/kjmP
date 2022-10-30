@@ -81,15 +81,16 @@ P_POSITION Frustum::Classify_sphere(Sphere s) {
 
 P_POSITION Frustum::Classify_AABB(AABB box) {
 
-	Vector center = s.v_center;
+	//Vector min = box.v_min;
+	//Vector max = box.v_max;
 
-	for (int iPlane = 0; iPlane < 6; iPlane++)
-	{
-		float fDistance = m_Plane[iPlane].a * center.x + m_Plane[iPlane].b * center.y + m_Plane[iPlane].c * center.z + m_Plane[iPlane].d;
-		// 평면 NormV이 원점을 바라보고 있으면 d값은 양수가 됨 , d는 원점과의 거리
-		//if (fDistance == 0) return P_ONPLANE;		// 평면과 정점은 ONPLANE 판정 바로 리턴하기 애매함 
-		if (fDistance <= -(s.r)) return P_BACK;		// 평면으로부터 -r만큼의 거리값이 프러스텀 내부로 들어오는 마지노선임 , 따라서 -r보다 d값이 작다면 평면 밖임
-	}
+	//for (int iPlane = 0; iPlane < 6; iPlane++)
+	//{
+	//	float min_d = m_Plane[iPlane].a * min.x + m_Plane[iPlane].b * min.y + m_Plane[iPlane].c * min.z + m_Plane[iPlane].d;
+	//	float max_d = m_Plane[iPlane].a * max.x + m_Plane[iPlane].b * max.y + m_Plane[iPlane].c * max.z + m_Plane[iPlane].d;
 
-	return P_FRONT;		// 모든 면의 안쪽에 있어야함 , 이 경우 ONPLANE 따로 판정 없기때문에 한면에 접하면서 내부에 있는 경우도 포함돼있음
+	//	if ((min_d * max_d) > 0 && (min_d < 0 || max_d < 0 )) return P_BACK;		
+	//}
+
+	return P_FRONT;	
 }

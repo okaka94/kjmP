@@ -47,7 +47,7 @@ public:
 	void	Create_frustum(Matrix* V_mat, Matrix* P_mat);
 	P_POSITION Classify_point(Vector v);
 	P_POSITION Classify_sphere(Sphere s);
-	P_POSITION Classify_AABB(AABB box);
+	P_POSITION Classify_AABB(AABB box);	
 	P_POSITION Classify_OBB(OBB box);
 
 };
