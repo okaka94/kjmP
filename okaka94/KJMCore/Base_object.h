@@ -24,10 +24,11 @@ struct VS_CONSTANT_BUFFER
 	Matrix  World_matrix;
 	Matrix  View_matrix;
 	Matrix  Proj_matrix;
-	float    fTimer;
-	float    y;
-	float    z;
-	float    d;
+	Vector4D	g_Color;
+	//float    fTimer;
+	//float    y;
+	//float    z;
+	//float    d;
 };
 
 class Base_object

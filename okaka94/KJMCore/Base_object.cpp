@@ -55,7 +55,7 @@ void Base_object::CreateConstantData()
 	m_cbData.World_matrix.Set_I_matrix();
 	m_cbData.View_matrix.Set_I_matrix();
 	m_cbData.Proj_matrix.Set_I_matrix();
-	m_cbData.fTimer = 0.0f;
+	m_cbData.g_Color = { 1.0f,1.0f,1.0f,1.0f };
 	m_cbData.World_matrix.Return_T_matrix();
 	m_cbData.View_matrix.Return_T_matrix();
 	m_cbData.Proj_matrix.Return_T_matrix();  // 단위행렬이라 전치해도 똑같은 것 같음(?)
