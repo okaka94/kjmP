@@ -110,6 +110,17 @@ struct OBB
 	Vector v_center;
 	Vector axis[3];
 	float  extent[3];
+	OBB() {}
+
+	void set_AABB(Vector v_center, float x, float y, float z) {
+		this->v_center = v_center;
+		this->axis[0] = { 1,0,0 };
+		this->axis[1] = { 0,1,0 };
+		this->axis[2] = { 0,0,1 };
+		this->extent[0] = x;
+		this->extent[1] = y;
+		this->extent[2] = z;
+	}
 };
 
 

@@ -94,3 +94,38 @@ P_POSITION Frustum::Classify_AABB(AABB box) {
 
 	return P_FRONT;	
 }
+
+P_POSITION	 Frustum::Classify_OBB(OBB box)
+{
+	float		PlaneToCenter = 0.0;
+	float		fDistance = 0.0f;
+	Vector		Dir_v;
+	//T_POSITION  t_Position;
+
+	//t_Position = P_FRONT;
+	for (int iPlane = 0; iPlane < 6; iPlane++)
+	{
+		Dir_v = box.axis[0] * box.extent[0];
+		fDistance = fabs(m_Plane[iPlane].a * Dir_v.x + m_Plane[iPlane].b * Dir_v.y + m_Plane[iPlane].c * Dir_v.z);
+		Dir_v = box.axis[1] * box.extent[1];
+		fDistance += fabs(m_Plane[iPlane].a * Dir_v.x + m_Plane[iPlane].b * Dir_v.y + m_Plane[iPlane].c * Dir_v.z);
+		Dir_v = box.axis[2] * box.extent[2];
+		fDistance += fabs(m_Plane[iPlane].a * Dir_v.x + m_Plane[iPlane].b * Dir_v.y + m_Plane[iPlane].c * Dir_v.z);
+
+		PlaneToCenter = m_Plane[iPlane].a * box.v_center.x + m_Plane[iPlane].b * box.v_center.y +
+			m_Plane[iPlane].c * box.v_center.z + m_Plane[iPlane].d;
+
+		if (PlaneToCenter <= -(fDistance)) return P_BACK;
+
+		/*if (PlaneToCenter < 0)
+		{
+			t_Position = P_BACK;
+			if (fPlaneToCenter > -fDistance)
+			{
+				t_Position = P_SPANNING;
+			}
+			break;
+		}*/
+	}
+	return P_FRONT;
+}
