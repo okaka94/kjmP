@@ -59,6 +59,7 @@ bool	Frustum::Render(Matrix* V_mat, Matrix* P_mat) {
 
 	//m_InitVertexList = m_VertexList;
 	Frustum_box->SetMatrix(NULL, V_mat, P_mat);
+	Frustum_box->UpdateVertexBuffer();
 	Frustum_box->Render();
 
 	return true;

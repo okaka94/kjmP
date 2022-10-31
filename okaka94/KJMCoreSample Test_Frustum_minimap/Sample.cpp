@@ -12,7 +12,7 @@ bool Sample::Init()
 	Box_A->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
 	Box_A->m_World_matrix.Set_Translation_matrix(0, 0, 0);
 	// axis
-	Box_A->Set_axis();
+	//Box_A->Set_axis();
 
 	
 	MM_cam.Create_View_matrix(Vector(0, 70, 0.0), Vector(0, 0, 1), Vector(0, 1, 0));
