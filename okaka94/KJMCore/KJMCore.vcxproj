@@ -173,6 +173,7 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Render_target.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shader_manager.h" />
@@ -196,6 +197,7 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="Render_target.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shader_manager.cpp" />
     <ClCompile Include="Sound.cpp" />

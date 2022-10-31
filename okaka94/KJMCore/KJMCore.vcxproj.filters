@@ -78,6 +78,9 @@
     <ClInclude Include="Quaternion.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Render_target.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -135,6 +138,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Quaternion.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render_target.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

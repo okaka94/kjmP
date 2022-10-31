@@ -37,6 +37,11 @@ bool Game_core::CoreInit() {
 		Writer::GetInstance().Set(backbuffer);
 		backbuffer->Release();
 
+	//std::wstring shaderfilename = L"../../data/shader/DefaultRT.hlsl";
+	
+	m_BG.Create(m_pd3dDevice,m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/_RAINBOW.bmp");
+
+	m_RT.Create(m_pd3dDevice, m_pImmediateContext, 2048, 2048);
 	return Init();						
 }
 
@@ -69,25 +74,45 @@ bool Game_core::CorePre_Render() {
 }
 
 bool Game_core::CoreRender() {
+
 	CorePre_Render();		
-		Timer::GetInstance().Render();
-		Input::GetInstance().Render();
-		Render();
-		Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
-		Writer::GetInstance().Render();
+	m_RT.m_pOldRTV = m_pRTV;
+	m_RT.m_pOldDSV = m_pDSV;
+	m_RT.m_vpOld[0] = m_vp;
+		if (m_RT.Begin(m_pImmediateContext))
+		{			
+			Render();
+			m_RT.End(m_pImmediateContext);
+		}
+
+		if (m_RT.m_pSRV)
+		{
+			//m_BG.m_pTextureSRV = m_RT.m_pDsvSRV.Get();
+			m_BG.m_pTextureSRV = m_RT.m_pSRV;
+		}
 	CorePost_Render();
 	return true;
 }
 
 
 bool Game_core::CorePost_Render() {
+
+	m_BG.SetMatrix(nullptr, nullptr, nullptr);
+	m_BG.Render();
+
+	Timer::GetInstance().Render();
+	Input::GetInstance().Render();
+	Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
+	Writer::GetInstance().Render();
+
 	m_pSwapChain->Present(0, 0);											// Presents a rendered image to the user.
 	return true;
 }
 
 
 bool Game_core::CoreRelease() {
-	
+	m_RT.Release();
+	m_BG.Release();
 	Release();
 	DXState::Release();
 	Input::GetInstance().Release();

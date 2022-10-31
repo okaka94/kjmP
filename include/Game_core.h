@@ -6,6 +6,7 @@
 #include "Base_object.h"
 #include "Sound_manager.h"
 #include "DXState.h"
+#include "Render_target.h"
 
 
 
@@ -14,7 +15,8 @@ class Game_core : public Device
 public:
 	bool				m_game_run = true;
 public:	
-
+	Render_target		m_RT;
+	Base_object			m_BG;
 	
 
 

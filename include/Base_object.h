@@ -53,7 +53,8 @@ public:
 	ID3D11Buffer* m_pVertexBuffer;
 	ID3D11Buffer* m_pIndexBuffer;
 	ID3D11InputLayout* m_pVertexLayout;
-
+	//
+	ID3D11ShaderResourceView* m_pTextureSRV = nullptr;
 	
 
 public:

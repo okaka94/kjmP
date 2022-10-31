@@ -2,7 +2,7 @@
 
 void	Frustum::Create_frustum_box(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext) {
 	Frustum_box = new Shape_box;
-	Frustum_box->Create(pd3dDevice, pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/NormalMap/stone_wall.bmp");
+	Frustum_box->Create(pd3dDevice, pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/map/grass_0.bmp");
 
 }
 
