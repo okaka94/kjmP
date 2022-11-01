@@ -14,6 +14,7 @@ class Game_core : public Device
 {
 public:
 	bool				m_game_run = true;
+	bool				tex_render = true;
 public:	
 	Render_target		m_RT;
 	Base_object			m_BG;

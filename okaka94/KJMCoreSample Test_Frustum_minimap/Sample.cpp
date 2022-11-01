@@ -58,10 +58,7 @@ bool Sample::Render()
 
 	//Sphere SphereObj;
 
-	if (Input::GetInstance().GetKey('V') == KEY_HOLD)
-	{
-		m_pImmediateContext->RSSetState(DXState::g_pDefaultRSWireFrame);
-	}
+	
 
 	//
 	D3D11_VIEWPORT vp;

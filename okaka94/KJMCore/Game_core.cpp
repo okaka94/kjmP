@@ -79,6 +79,20 @@ bool Game_core::CoreRender() {
 	m_RT.m_pOldRTV = m_pRTV;
 	m_RT.m_pOldDSV = m_pDSV;
 	m_RT.m_vpOld[0] = m_vp;
+
+	if (Input::GetInstance().GetKey('V') == KEY_HOLD)
+	{
+		m_pImmediateContext->RSSetState(DXState::g_pDefaultRSWireFrame);
+		Render();
+		tex_render = false;
+	}
+	else {
+
+		if(Input::GetInstance().GetKey('C') == KEY_HOLD)
+		{
+			m_pImmediateContext->RSSetState(DXState::g_pDefaultRSWireFrame);
+		}
+	
 		if (m_RT.Begin(m_pImmediateContext))
 		{			
 			Render();
@@ -90,7 +104,9 @@ bool Game_core::CoreRender() {
 			//m_BG.m_pTextureSRV = m_RT.m_pDsvSRV.Get();
 			m_BG.m_pTextureSRV = m_RT.m_pSRV;
 		}
+	}
 	CorePost_Render();
+	tex_render = true;
 	return true;
 }
 
@@ -98,7 +114,11 @@ bool Game_core::CoreRender() {
 bool Game_core::CorePost_Render() {
 
 	m_BG.SetMatrix(nullptr, nullptr, nullptr);
-	m_BG.Render();
+	if (tex_render == true)
+	{
+		m_BG.Render();
+	}
+	
 
 	Timer::GetInstance().Render();
 	Input::GetInstance().Render();
