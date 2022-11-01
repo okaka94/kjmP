@@ -194,7 +194,10 @@ bool	Base_object::LoadTexture(std::wstring filename) {
 
 	m_pTexture = Texture_manager::GetInstance().Load(filename);
 
-	if (m_pTexture) 
+	if (m_pTexture != nullptr) {
+		m_pTextureSRV = m_pTexture->Get_SRV();
+	}
+	
 		return true;
 
 
@@ -217,8 +220,9 @@ bool Base_object::Pre_Render() {
 	m_pImmediateContext->VSSetShader(m_pShader->m_pVS, NULL, 0);
 	m_pImmediateContext->PSSetShader(m_pShader->m_pPS, NULL, 0);
 	// texture
-	ID3D11ShaderResourceView* SRV = m_pTexture->Get_SRV();
-	m_pTexture->Apply(m_pImmediateContext, 0);
+	//ID3D11ShaderResourceView* SRV = m_pTexture->Get_SRV();
+	//m_pTexture->Apply(m_pImmediateContext, 0);
+	m_pImmediateContext->PSSetShaderResources(0, 1, &m_pTextureSRV);
 
 	// constant buffer
 	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);

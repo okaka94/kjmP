@@ -59,11 +59,11 @@ bool Render_target::Create(ID3D11Device* pd3dDevice,ID3D11DeviceContext* pImmedi
 		return hr;
 	}
 	
-	m_DSV_desc;
-	ZeroMemory(&m_DSV_desc, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
-	m_DSV_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	m_DSV_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	if (FAILED(hr = pd3dDevice->CreateDepthStencilView(pDSTexture, &m_DSV_desc, &m_pDSV)))
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	ZeroMemory(&dsvDesc, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	if (FAILED(hr = pd3dDevice->CreateDepthStencilView(pDSTexture, &dsvDesc, &m_pDSV)))
 	{
 		return hr;
 	}
@@ -82,9 +82,9 @@ bool Render_target::Create(ID3D11Device* pd3dDevice,ID3D11DeviceContext* pImmedi
 }
 bool Render_target::Begin(ID3D11DeviceContext* pContext)
 {
-	UINT iNumViewport = 1;
-	pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
-	pContext->RSGetViewports(&iNumViewport, m_vpOld);
+	//UINT iNumViewport = 1;
+	//pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
+	//pContext->RSGetViewports(&iNumViewport, m_vpOld);
 
 	ID3D11RenderTargetView* pNullRTV = NULL;
 	pContext->OMSetRenderTargets(1, &pNullRTV, NULL);

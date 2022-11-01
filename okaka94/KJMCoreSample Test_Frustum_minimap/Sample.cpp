@@ -65,13 +65,13 @@ bool Sample::Render()
 
 	//
 	D3D11_VIEWPORT vp;
-	vp.Width = g_rtClient.right;
+	/*vp.Width = g_rtClient.right;
 	vp.Height = g_rtClient.bottom;
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
-	m_pImmediateContext->RSSetViewports(1, &vp);
+	m_pImmediateContext->RSSetViewports(1, &vp);*/
 
 	/////  box render /////
 	for (int iBox = 0; iBox < 100; iBox++)
@@ -112,8 +112,8 @@ bool Sample::Render()
 
 	
 	// mini map
-	vp.Width = g_rtClient.right / 3;
-	vp.Height = g_rtClient.bottom / 3;
+	vp.Width = 800;
+	vp.Height = 800;
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	vp.MinDepth = 0.0f;

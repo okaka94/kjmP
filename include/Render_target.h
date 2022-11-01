@@ -9,7 +9,7 @@ public:
 	ID3D11ShaderResourceView*				m_pSRV = nullptr;
 	ID3D11ShaderResourceView*				m_pDS_SRV = nullptr;  // ±Ì¿Ãπˆ∆€ ∏Æº“Ω∫∫‰
 	ID3D11Texture2D*						m_pTexture = nullptr;
-	D3D11_DEPTH_STENCIL_VIEW_DESC			m_DSV_desc;
+	//D3D11_DEPTH_STENCIL_VIEW_DESC			m_DSV_desc;
 	D3D11_TEXTURE2D_DESC					m_Tex_desc;
 	D3D11_VIEWPORT							m_VP;
 
