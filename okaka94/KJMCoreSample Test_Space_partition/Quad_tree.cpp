@@ -1,137 +1,86 @@
-//#include "Quad_tree.h"
-//
-//std::queue<Node*> Q;
-//
-////void	 Quad_tree::Reset_dynamic_obj_list(Node* node) {
-////	if (node == nullptr) return;
-////	node->Dynamic_obj_list.clear();
-////	Reset_dynamic_obj_list(node->Child_node[0]);
-////	Reset_dynamic_obj_list(node->Child_node[1]);
-////	Reset_dynamic_obj_list(node->Child_node[2]);
-////	Reset_dynamic_obj_list(node->Child_node[3]);
-////
-////}
-//void	Quad_tree::Set_default() {
-//	Create(100.0f, 100.0f);
-//}
-//
-//Base_object* Quad_tree::New_static_obj() {
-//	Base_object* obj = new Map_object2D;
-//	return obj;
-//}
-//Base_object* Quad_tree::New_dynamic_obj() {
-//	Base_object* obj = new NPC_object2D;
-//	return obj;
-//}
-//
-//
-//
-//void Quad_tree::Create(float w, float h) {
-//	Root_node = Create_node(nullptr, 0, 0, w, h);
-//	Build_tree(Root_node);
-//}
-//
-//Node* Quad_tree::Create_node(Node* parent, float x, float y, float w, float h) {
-//	Node* new_node = new Node(parent, x, y, w, h);
-//	new_node->Child_node.resize(max_quadtree_child);
-//
-//	return new_node;
-//}
-//
-//void Quad_tree::Build_tree(Node* node) {
-//	if (node->depth >= 3) return;
-//	if (node == nullptr) return;
-//
-//	float x = node->rect.x;
-//	float y = node->rect.y;
-//	float w = (node->rect.w) / 2.0f;
-//	float h = (node->rect.h) / 2.0f;
-//
-//	node->Child_node[0] = Create_node(node, x, y, w, h);
-//	node->Child_node[1] = Create_node(node, x + w, y, w, h);
-//	node->Child_node[2] = Create_node(node, x, y + h, w, h);
-//	node->Child_node[3] = Create_node(node, x + w, y + h, w, h);
-//
-//	for (int i = 0; i < 4; i++) {
-//		Build_tree(node->Child_node[i]);
-//	}
-//
-//}
-//void Quad_tree::Add_static_obj(Base_object* obj) {
-//
-//	Node* node = Find_node(Root_node, obj);
-//
-//	if (node != nullptr) {
-//		node->Static_obj_list.push_back(obj);
-//	}
-//
-//}
-//
-//void Quad_tree::Add_dynamic_obj(Base_object* obj) {
-//
-//	Node* node = Find_node(Root_node, obj);
-//
-//	if (node != nullptr) {
-//		node->Dynamic_obj_list.push_back(obj);
-//	}
-//
-//}
-//
-//Node* Quad_tree::Find_node(Node* node, Base_object* obj) {
-//
-//	do {
-//		for (int i = 0; i < 4; i++) {
-//			if (node->Child_node[i] != nullptr && Collision::Is_subset(node->Child_node[i]->rect, obj->rect)) {
-//				Q.push(node->Child_node[i]);
-//				break;
-//			}
-//
-//		}
-//		if (Q.empty())
-//			break;
-//		node = Q.front();
-//		Q.pop();
-//
-//	} while (node);
-//	return node;
-//}
-//
-//
-//
-//std::vector<Base_object*> Quad_tree::Get_collision_list(Base_object* obj) {
-//	std::vector<Base_object*> list;
-//
-//	Get_collision_obj(this->Root_node, obj, list);
-//
-//	return list;
-//}
-//
-//void Quad_tree::Get_collision_obj(Node* node, Base_object* obj, std::vector<Base_object*>& list) {
-//
-//	if (node == nullptr) return;
-//	for (int i = 0; i < node->Static_obj_list.size(); i++) {								// 정적 오브젝트 충돌 확인
-//
-//		if (Collision::Cmp_circle(node->Static_obj_list[i]->circle, obj->circle)) {
-//			if (Collision::Cmp_rect(node->Static_obj_list[i]->rect, obj->rect)) {
-//				list.push_back(node->Static_obj_list[i]);
-//			}
-//		}
-//
-//	}
-//	for (int i = 0; i < node->Dynamic_obj_list.size(); i++) {								// 동적 오브젝트 충돌 확인
-//
-//		if (Collision::Cmp_circle(node->Dynamic_obj_list[i]->circle, obj->circle)) {
-//			if (Collision::Cmp_rect(node->Dynamic_obj_list[i]->rect, obj->rect)) {
-//				list.push_back(node->Dynamic_obj_list[i]);
-//			}
-//		}
-//
-//	}
-//	if (node->Child_node[0] != nullptr) {   // 꼭 필요? 어차피 재귀 종료 조건으로 들어가지 않나? -> 액세스 에러 방지
-//		for (int i = 0; i < 4; i++) {
-//			if (Collision::Cmp_rect(node->Child_node[i]->rect, obj->rect)) {			// child_node의 멤버 rect로 직접 비교? 위에서는 왜 obj 리스트랑 비교? -> 노드안에 오브젝트(플레이어)가 없다면 확인할 필요가 없으니까
-//				Get_collision_obj(node->Child_node[i], obj, list);
-//			}
-//		}
-//	}
-//}
+#include "Quad_tree.h"
+
+
+bool	Quad_tree::Create(ID3D11Device* pd3dDevice, Camera* Main_cam, DWORD rows_num, DWORD cols_num, std::vector<SimpleVertex>* pVertexList , int iMaxDepth ) {
+
+    m_pCamera = Main_cam;
+    //m_pMap = pMap;
+    m_MaxDepth = iMaxDepth;
+    m_rows_num = rows_num;
+    m_cols_num = cols_num;
+    
+    m_pRootNode = new Node(nullptr, 0, m_cols_num - 1, (m_cols_num * m_rows_num) - 1, m_cols_num * (m_rows_num - 1), m_cols_num, m_rows_num, pd3dDevice, pVertexList);
+    Build_tree(m_pRootNode);
+    return true;
+
+	return true;
+}
+
+void	Quad_tree::Build_tree(Node* node) {
+
+    if(node == nullptr) return;
+    if (Is_subdivided(node) == false)
+    {
+        node->m_bLeaf = true;
+        //m_Leaf_list.push_back(node);
+        return;
+    }
+    node->Create_child(node, m_cols_num, m_rows_num);
+        
+
+    Build_tree(node->m_Child[0]);
+    Build_tree(node->m_Child[1]);
+    Build_tree(node->m_Child[2]);
+    Build_tree(node->m_Child[3]);
+}
+
+bool	Quad_tree::Is_subdivided(Node* node) {
+ 
+        if ((node->m_Corner[1] - node->m_Corner[0]) == 1) return false;
+        if (node->m_Depth < m_MaxDepth) return true;
+        return false;
+ }
+
+bool	Quad_tree::Frame() {
+
+    m_Draw_list.clear();
+    VisibleNode(m_pRootNode);
+
+    return true;
+}
+
+//bool	Quad_tree::Render();
+
+Node* Quad_tree::VisibleNode(Node* node) {
+
+    P_POSITION Ret = m_pCamera->m_Frustum.Classify_OBB(node->m_OBB);
+    if (P_FRONT == Ret)// 완전포함.
+    {
+        m_Draw_list.push_back(node);
+        return node;
+    }
+    if (P_SPANNING == Ret) // 걸쳐있다.
+    {
+        if (node->m_bLeaf)
+        {
+            m_Draw_list.push_back(node);
+        }
+        else
+        {
+            for (int iNode = 0; iNode < 4; iNode++)
+            {
+                VisibleNode(node->m_Child[iNode]);
+            }
+        }
+    }
+
+}
+
+Quad_tree::~Quad_tree() {
+
+    if (m_pRootNode)
+    {
+        delete m_pRootNode;
+        m_pRootNode = nullptr;
+    }
+}

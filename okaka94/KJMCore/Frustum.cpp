@@ -167,9 +167,9 @@ P_POSITION	 Frustum::Classify_OBB(OBB box)
 	float		PlaneToCenter = 0.0;
 	float		fDistance = 0.0f;
 	Vector		Dir_v;
-	//T_POSITION  t_Position;
+	P_POSITION  Position;
 
-	//t_Position = P_FRONT;
+	Position = P_FRONT;
 	for (int iPlane = 0; iPlane < 6; iPlane++)
 	{
 		Dir_v = box.axis[0] * box.extent[0];
@@ -182,17 +182,19 @@ P_POSITION	 Frustum::Classify_OBB(OBB box)
 		PlaneToCenter = m_Plane[iPlane].a * box.v_center.x + m_Plane[iPlane].b * box.v_center.y +
 			m_Plane[iPlane].c * box.v_center.z + m_Plane[iPlane].d;
 
-		if (PlaneToCenter <= -(fDistance)) return P_BACK;
-
-		/*if (PlaneToCenter < 0)
-		{
-			t_Position = P_BACK;
-			if (fPlaneToCenter > -fDistance)
-			{
-				t_Position = P_SPANNING;
+		if (PlaneToCenter >= 0) {
+			if (PlaneToCenter < fDistance) {
+				Position = P_SPANNING;
+				break;
+			}
+		}
+		else {
+			Position = P_BACK;
+			if (PlaneToCenter > -fDistance) {
+				Position = P_SPANNING;
 			}
 			break;
-		}*/
+		}
 	}
-	return P_FRONT;
+	return Position;
 }

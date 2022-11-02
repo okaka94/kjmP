@@ -1,33 +1,27 @@
 #pragma once
-//#include "Space_partition.h"
+#include "Node.h"
+#include "Camera_debug.h"
 
-//static const int max_quadtree_child = 4;
-//
-//class Quad_tree : public Space_partition{
-//
-//public:
-//	//Node2D* Root_node;
-//public:
-//	std::vector<Base_object*>  Get_collision_list(Base_object* obj);
-//
-//	void	 Create(float w, float h);
-//	Node*	 Create_node(Node* parent, float x, float y, float w, float h);
-//	void	 Build_tree(Node* node);
-//	void	 Add_static_obj(Base_object* obj);
-//	void	 Add_dynamic_obj(Base_object* obj);
-//	Node*	 Find_node(Node* node, Base_object* obj);
-//
-//	void	 Get_collision_obj(Node* node, Base_object* obj, std::vector<Base_object*>& list);
-//	//void	 Reset_dynamic_obj_list(Node* node);
-//	void	Set_default() override;
-//
-//	Base_object* New_static_obj() override;
-//	Base_object* New_dynamic_obj() override;
-//
-//	~Quad_tree() {
-//		delete Root_node;
-//	}
-//};
-//
-//
-
+class Quad_tree
+{
+public:
+	Node*				m_pRootNode;
+	int					m_MaxDepth;
+	//TMap* m_pMap = nullptr;
+	Camera*				m_pCamera = nullptr;
+	//std::vector<Node*>	m_Leaf_list;
+	std::vector<Node*>	m_Draw_list;
+	DWORD				m_rows_num; 
+	DWORD				m_cols_num;
+public:
+	bool	Create(ID3D11Device* pd3dDevice , Camera* Main_cam, DWORD rows_num, DWORD cols_num, std::vector<SimpleVertex>* pVertexList ,int iMaxDepth = 3);
+	//bool	AddObject(TObject3D* pObj);
+	void	Build_tree(Node* node);
+	bool	Is_subdivided(Node* node);
+	//TNode* FindNode(TNode* pNode, TObject3D* pObj);
+	//void	Reset(Node* node);
+	bool	Frame();
+	//bool	Render();
+	Node*	VisibleNode(Node* node);
+	virtual ~Quad_tree();
+};
