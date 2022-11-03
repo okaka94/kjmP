@@ -1,7 +1,7 @@
 #include "Quad_tree.h"
 
 
-bool	Quad_tree::Create(ID3D11Device* pd3dDevice, Camera* Main_cam, DWORD rows_num, DWORD cols_num, std::vector<SimpleVertex>* pVertexList , int iMaxDepth ) {
+bool	Quad_tree::Create(ID3D11Device* pd3dDevice, Camera* Main_cam, DWORD rows_num, DWORD cols_num, std::vector<PNCTVertex>* pVertexList , int iMaxDepth ) {
 
     m_pCamera = Main_cam;
     //m_pMap = pMap;

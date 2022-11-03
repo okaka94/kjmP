@@ -19,6 +19,23 @@ struct SimpleVertex {
 	}
 };
 
+struct PNCTVertex {
+	Vector		p;
+	Vector		n;
+	Vector4D	c;
+	Vector2D	t;
+	PNCTVertex() {}
+	PNCTVertex(Vector vp, Vector vn, Vector4D vc, Vector2D vt)
+	{
+		p = vp;
+		n = vn;
+		c = vc;
+		t = vt;
+	}
+
+
+};
+
 struct VS_CONSTANT_BUFFER
 {
 	Matrix  World_matrix;
@@ -47,8 +64,8 @@ public:
 	Texture* m_pTexture;
 	Shader* m_pShader;
 
-	std::vector<SimpleVertex>	m_VertexList;
-	std::vector<SimpleVertex>	m_InitVertexList;
+	std::vector<PNCTVertex>	m_VertexList;
+	std::vector<PNCTVertex>	m_InitVertexList;
 	std::vector<DWORD>			m_IndexList;
 	ID3D11Buffer* m_pVertexBuffer;
 	ID3D11Buffer* m_pIndexBuffer;

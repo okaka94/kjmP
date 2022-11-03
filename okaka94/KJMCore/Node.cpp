@@ -20,7 +20,7 @@ void	Node::Create_child(Node* parent, DWORD col_num, DWORD row_num) {
 
 }
 
-void	Node::CreateIndexList(std::vector<SimpleVertex>* m_pVertexList, DWORD col_num, DWORD row_num) {
+void	Node::CreateIndexList(std::vector<PNCTVertex>* m_pVertexList, DWORD col_num, DWORD row_num) {
 
 	DWORD LT = m_Corner[0];
 	DWORD RT = m_Corner[1];
@@ -108,7 +108,7 @@ HRESULT	Node::CreateIndexBuffer(DWORD col_num, DWORD row_num) {
 
 }
 
-Node::Node(Node* parent, DWORD LT, DWORD RT, DWORD RB, DWORD LB, DWORD col_num, DWORD row_num, ID3D11Device* pd3dDevice, std::vector<SimpleVertex>* VertexList) {
+Node::Node(Node* parent, DWORD LT, DWORD RT, DWORD RB, DWORD LB, DWORD col_num, DWORD row_num, ID3D11Device* pd3dDevice, std::vector<PNCTVertex>* VertexList) {
 
 	if (parent != nullptr)
 	{

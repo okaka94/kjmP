@@ -132,7 +132,7 @@ HRESULT Base_object::CreateVertexBuffer() {
 	int num_vertex = m_VertexList.size();
 	D3D11_BUFFER_DESC	bd;
 	ZeroMemory(&bd, sizeof(bd));
-	bd.ByteWidth = sizeof(SimpleVertex) * num_vertex;
+	bd.ByteWidth = sizeof(PNCTVertex) * num_vertex;
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
@@ -180,8 +180,9 @@ HRESULT Base_object::CreateVertexLayout() {
 	// 정점 레이아웃 생성하기 color는 xyz 이후 데이터부터 시작이니 12바이트가 시작점(float 1개 = 4byte)
 	D3D11_INPUT_ELEMENT_DESC ied[] = {
 		{"POSITION",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
-		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0},
-		{"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0,28,D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"NORMAL",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0},
+		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,24,D3D11_INPUT_PER_VERTEX_DATA,0},
+		{"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0,40,D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 
 	UINT num_element = sizeof(ied) / sizeof(ied[0]);
@@ -208,7 +209,7 @@ bool	Base_object::LoadTexture(std::wstring filename) {
 bool Base_object::Pre_Render() {
 
 	// 삼각형 렌더링
-	UINT stride = sizeof(SimpleVertex); // 정점 1개 size(byte)
+	UINT stride = sizeof(PNCTVertex); // 정점 1개 size(byte)
 	UINT offset = 0;					// 정점 버퍼에서 출발 지점 (byte)
 
 	// 새롭게 생성하는 것 아니니까 context로

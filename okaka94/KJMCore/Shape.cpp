@@ -20,40 +20,40 @@ void Shape_box::CreateVertexList() {
 	m_VertexList.resize(24);
 
 	// 상단
-	m_VertexList[0].p = { -1.0f,  1.0f, -1.0f };	m_VertexList[0].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[0].t = { 0.0f,1.0f };
-	m_VertexList[1].p = { -1.0f,  1.0f, 1.0f };		m_VertexList[1].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[1].t = { 0.0f,0.0f };
-	m_VertexList[2].p = { 1.0f, 1.0f, 1.0f };		m_VertexList[2].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[2].t = { 1.0f,0.0f };
-	m_VertexList[3].p = { 1.0f, 1.0f, -1.0f };		m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[3].t = { 1.0f,1.0f };
+	m_VertexList[0].p = { -1.0f,  1.0f, -1.0f };	m_VertexList[0].n = { 0.0f,  1.0f, 0.0f };	m_VertexList[0].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[0].t = { 0.0f,1.0f };
+	m_VertexList[1].p = { -1.0f,  1.0f, 1.0f };		m_VertexList[1].n = { 0.0f,  1.0f, 0.0f };	m_VertexList[1].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[1].t = { 0.0f,0.0f };
+	m_VertexList[2].p = { 1.0f, 1.0f, 1.0f };		m_VertexList[2].n = { 0.0f,  1.0f, 0.0f };	m_VertexList[2].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[2].t = { 1.0f,0.0f };
+	m_VertexList[3].p = { 1.0f, 1.0f, -1.0f };		m_VertexList[3].n = { 0.0f,  1.0f, 0.0f };	m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };		m_VertexList[3].t = { 1.0f,1.0f };
 
-	// 하단
-	m_VertexList[4].p = { -1.0f,  -1.0f, -1.0f };	m_VertexList[4].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[4].t = { 1.0f,1.0f };
-	m_VertexList[5].p = { -1.0f,  -1.0f, 1.0f };	m_VertexList[5].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[5].t = { 1.0f,0.0f };
-	m_VertexList[6].p = { 1.0f, -1.0f, 1.0f };		m_VertexList[6].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[6].t = { 0.0f,0.0f };
-	m_VertexList[7].p = { 1.0f, -1.0f, -1.0f };		m_VertexList[7].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[7].t = { 0.0f,1.0f };
+	// 하단										
+	m_VertexList[4].p = { -1.0f,  -1.0f, -1.0f };	m_VertexList[4].n = { 0.0f,  -1.0f, 0.0f };		m_VertexList[4].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[4].t = { 1.0f,1.0f };
+	m_VertexList[5].p = { -1.0f,  -1.0f, 1.0f };	m_VertexList[5].n = { 0.0f,  -1.0f, 0.0f }; 	m_VertexList[5].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[5].t = { 1.0f,0.0f };
+	m_VertexList[6].p = { 1.0f, -1.0f, 1.0f };		m_VertexList[6].n = { 0.0f,  -1.0f, 0.0f }; 	m_VertexList[6].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[6].t = { 0.0f,0.0f };
+	m_VertexList[7].p = { 1.0f, -1.0f, -1.0f };		m_VertexList[7].n = { 0.0f,  -1.0f, 0.0f }; 	m_VertexList[7].c = { 1.0f, 0.0f, 1.0f, 1.0f };		m_VertexList[7].t = { 0.0f,1.0f };
 
-	// 앞면
-	m_VertexList[8].p = { -1.0f,  -1.0f, -1.0f };	m_VertexList[8].c = { 0.6f, 1.0f, 0.0f, 1.0f };		m_VertexList[8].t = { 0.0f,1.0f };
-	m_VertexList[9].p = { -1.0f,  1.0f, -1.0f };	m_VertexList[9].c = { 0.6f, 1.0f, 0.0f, 1.0f };		m_VertexList[9].t = { 0.0f,0.0f };
-	m_VertexList[10].p = { 1.0f, 1.0f, -1.0f };		m_VertexList[10].c = { 0.6f, 1.0f, 0.0f, 1.0f };	m_VertexList[10].t = { 1.0f,0.0f };
-	m_VertexList[11].p = { 1.0f, -1.0f, -1.0f };	m_VertexList[11].c = { 0.6f, 1.0f, 0.0f, 1.0f };	m_VertexList[11].t = { 1.0f,1.0f };
+	// 앞면										  
+	m_VertexList[8].p = { -1.0f,  -1.0f, -1.0f };	m_VertexList[8].n = { 0.0f,  0.0f, -1.0f };		m_VertexList[8].c = { 0.6f, 1.0f, 0.0f, 1.0f };		m_VertexList[8].t = { 0.0f,1.0f };
+	m_VertexList[9].p = { -1.0f,  1.0f, -1.0f };	m_VertexList[9].n = { 0.0f,  0.0f, -1.0f };		m_VertexList[9].c = { 0.6f, 1.0f, 0.0f, 1.0f };		m_VertexList[9].t = { 0.0f,0.0f };
+	m_VertexList[10].p = { 1.0f, 1.0f, -1.0f };		m_VertexList[10].n ={ 0.0f,  0.0f, -1.0f };		m_VertexList[10].c = { 0.6f, 1.0f, 0.0f, 1.0f };	m_VertexList[10].t = { 1.0f,0.0f };
+	m_VertexList[11].p = { 1.0f, -1.0f, -1.0f };	m_VertexList[11].n ={ 0.0f,  0.0f, -1.0f };		m_VertexList[11].c = { 0.6f, 1.0f, 0.0f, 1.0f };	m_VertexList[11].t = { 1.0f,1.0f };
 
-	// 뒷면
-	m_VertexList[12].p = { 1.0f,  -1.0f, 1.0f };	m_VertexList[12].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[12].t = { 0.0f,1.0f };
-	m_VertexList[13].p = { 1.0f,  1.0f, 1.0f };		m_VertexList[13].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[13].t = { 0.0f,0.0f };
-	m_VertexList[14].p = { -1.0f, 1.0f, 1.0f };		m_VertexList[14].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[14].t = { 1.0f,0.0f };
-	m_VertexList[15].p = { -1.0f, -1.0f, 1.0f };	m_VertexList[15].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[15].t = { 1.0f,1.0f };
+	// 뒷면										 
+	m_VertexList[12].p = { 1.0f,  -1.0f, 1.0f };	m_VertexList[12].n = { 0.0f,  0.0f, 1.0f };		m_VertexList[12].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[12].t = { 0.0f,1.0f };
+	m_VertexList[13].p = { 1.0f,  1.0f, 1.0f };		m_VertexList[13].n = { 0.0f,  0.0f, 1.0f };		m_VertexList[13].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[13].t = { 0.0f,0.0f };
+	m_VertexList[14].p = { -1.0f, 1.0f, 1.0f };		m_VertexList[14].n = { 0.0f,  0.0f, 1.0f };		m_VertexList[14].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[14].t = { 1.0f,0.0f };
+	m_VertexList[15].p = { -1.0f, -1.0f, 1.0f };	m_VertexList[15].n = { 0.0f,  0.0f, 1.0f };		m_VertexList[15].c = { 0.0f, 1.0f, 1.0f, 1.0f };	m_VertexList[15].t = { 1.0f,1.0f };
 
-	// 왼쪽면
-	m_VertexList[16].p = { -1.0f,  -1.0f, 1.0f };	m_VertexList[16].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[16].t = { 0.0f,1.0f };
-	m_VertexList[17].p = { -1.0f,  1.0f, 1.0f };	m_VertexList[17].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[17].t = { 0.0f,0.0f };
-	m_VertexList[18].p = { -1.0f, 1.0f, -1.0f };	m_VertexList[18].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[18].t = { 1.0f,0.0f };
-	m_VertexList[19].p = { -1.0f, -1.0f, -1.0f };	m_VertexList[19].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[19].t = { 1.0f,1.0f };
+	// 왼쪽면										
+	m_VertexList[16].p = { -1.0f,  -1.0f, 1.0f };	m_VertexList[16].n = { -1.0f,  0.0f, 0.0f };	m_VertexList[16].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[16].t = { 0.0f,1.0f };
+	m_VertexList[17].p = { -1.0f,  1.0f, 1.0f };	m_VertexList[17].n = { -1.0f,  0.0f, 0.0f };	m_VertexList[17].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[17].t = { 0.0f,0.0f };
+	m_VertexList[18].p = { -1.0f, 1.0f, -1.0f };	m_VertexList[18].n = { -1.0f,  0.0f, 0.0f };	m_VertexList[18].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[18].t = { 1.0f,0.0f };
+	m_VertexList[19].p = { -1.0f, -1.0f, -1.0f };	m_VertexList[19].n = { -1.0f,  0.0f, 0.0f };	m_VertexList[19].c = { 0.0f, 0.0f, 1.0f, 1.0f };	m_VertexList[19].t = { 1.0f,1.0f };
 
-	// 오른쪽면
-	m_VertexList[20].p = { 1.0f,  -1.0f, -1.0f };	m_VertexList[20].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[20].t = { 0.0f,1.0f };
-	m_VertexList[21].p = { 1.0f,  1.0f, -1.0f };	m_VertexList[21].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[21].t = { 0.0f,0.0f };
-	m_VertexList[22].p = { 1.0f, 1.0f, 1.0f };		m_VertexList[22].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[22].t = { 1.0f,0.0f };
-	m_VertexList[23].p = { 1.0f, -1.0f, 1.0f };		m_VertexList[23].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[23].t = { 1.0f,1.0f };
+	// 오른쪽면									
+	m_VertexList[20].p = { 1.0f,  -1.0f, -1.0f };	m_VertexList[20].n = { 1.0f,  0.0f, 0.0f };		m_VertexList[20].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[20].t = { 0.0f,1.0f };
+	m_VertexList[21].p = { 1.0f,  1.0f, -1.0f };	m_VertexList[21].n = { 1.0f,  0.0f, 0.0f };		m_VertexList[21].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[21].t = { 0.0f,0.0f };
+	m_VertexList[22].p = { 1.0f, 1.0f, 1.0f };		m_VertexList[22].n = { 1.0f,  0.0f, 0.0f };		m_VertexList[22].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[22].t = { 1.0f,0.0f };
+	m_VertexList[23].p = { 1.0f, -1.0f, 1.0f };		m_VertexList[23].n = { 1.0f,  0.0f, 0.0f };		m_VertexList[23].c = { 1.0f, 0.0f, 0.0f, 1.0f };	m_VertexList[23].t = { 1.0f,1.0f };
 
 
 	m_InitVertexList = m_VertexList;
@@ -125,8 +125,8 @@ void    Shape_line::CreateVertexList()
 {
 	
 	m_VertexList.resize(2);
-	m_VertexList[0] = SimpleVertex(Vector(0.0f, 0.0f, 0.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(0.0f, 0.0f));
-	m_VertexList[1] = SimpleVertex(Vector(0.0f, 0.0f, 1000.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(1.0f, 0.0f));
+	m_VertexList[0] = PNCTVertex(Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, -1.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(0.0f, 0.0f));
+	m_VertexList[1] = PNCTVertex(Vector(0.0f, 0.0f, 1000.0f), Vector(0.0f, 0.0f, -1.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(1.0f, 0.0f));
 	m_InitVertexList = m_VertexList;
 }
 void    Shape_line::CreateIndexList()
@@ -157,12 +157,12 @@ void    Shape_axis::CreateVertexList()
 {
 
 	m_VertexList.resize(6);
-	m_VertexList[0] = SimpleVertex(Vector(0.0f, 0.0f, 0.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(0.0f, 0.0f));
-	m_VertexList[1] = SimpleVertex(Vector(1.0f, 0.0f, 0.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(1.0f, 0.0f));
-	m_VertexList[2] = SimpleVertex(Vector(0.0f, 0.0f, 0.0f), Vector4D(0.0f, 1.0f, 0.0f, 1.0f), Vector2D(0.0f, 0.0f));
-	m_VertexList[3] = SimpleVertex(Vector(0.0f, 1.0f, 0.0f), Vector4D(0.0f, 1.0f, 0.0f, 1.0f), Vector2D(1.0f, 0.0f));
-	m_VertexList[4] = SimpleVertex(Vector(0.0f, 0.0f, 0.0f), Vector4D(0.0f, 0.0f, 1.0f, 1.0f), Vector2D(0.0f, 0.0f));
-	m_VertexList[5] = SimpleVertex(Vector(0.0f, 0.0f, 1.0f), Vector4D(0.0f, 0.0f, 1.0f, 1.0f), Vector2D(1.0f, 0.0f));
+	m_VertexList[0] = PNCTVertex(Vector(0.0f, 0.0f, 0.0f),Vector(0.0f, 0.0f, -1.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(0.0f, 0.0f));
+	m_VertexList[1] = PNCTVertex(Vector(1.0f, 0.0f, 0.0f),Vector(0.0f, 0.0f, -1.0f), Vector4D(1.0f, 0.0f, 0.0f, 1.0f), Vector2D(1.0f, 0.0f));
+	m_VertexList[2] = PNCTVertex(Vector(0.0f, 0.0f, 0.0f),Vector(0.0f, 0.0f, -1.0f), Vector4D(0.0f, 1.0f, 0.0f, 1.0f), Vector2D(0.0f, 0.0f));
+	m_VertexList[3] = PNCTVertex(Vector(0.0f, 1.0f, 0.0f),Vector(0.0f, 0.0f, -1.0f), Vector4D(0.0f, 1.0f, 0.0f, 1.0f), Vector2D(1.0f, 0.0f));
+	m_VertexList[4] = PNCTVertex(Vector(0.0f, 0.0f, 0.0f),Vector(0.0f, 0.0f, -1.0f), Vector4D(0.0f, 0.0f, 1.0f, 1.0f), Vector2D(0.0f, 0.0f));
+	m_VertexList[5] = PNCTVertex(Vector(0.0f, 0.0f, 1.0f),Vector(0.0f, 0.0f, -1.0f), Vector4D(0.0f, 0.0f, 1.0f, 1.0f), Vector2D(1.0f, 0.0f));
 	m_InitVertexList = m_VertexList;
 }
 void    Shape_axis::CreateIndexList()

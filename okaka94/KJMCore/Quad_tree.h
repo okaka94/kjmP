@@ -14,7 +14,7 @@ public:
 	DWORD				m_rows_num; 
 	DWORD				m_cols_num;
 public:
-	bool	Create(ID3D11Device* pd3dDevice , Camera* Main_cam, DWORD rows_num, DWORD cols_num, std::vector<SimpleVertex>* pVertexList ,int iMaxDepth = 3);
+	bool	Create(ID3D11Device* pd3dDevice , Camera* Main_cam, DWORD rows_num, DWORD cols_num, std::vector<PNCTVertex>* pVertexList ,int iMaxDepth = 3);
 	//bool	AddObject(TObject3D* pObj);
 	void	Build_tree(Node* node);
 	bool	Is_subdivided(Node* node);
