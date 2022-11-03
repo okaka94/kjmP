@@ -15,7 +15,7 @@ public:
 	}
 public:
 	std::vector<ID3D11Buffer*>				m_SubVB_list;
-	std::vector<std::vector<PNCTVertex>		m_VBdata_list;
+	std::vector<std::vector<PNCTVertex>>		m_VBdata_list;
 	std::vector<Texture*>					m_SubTEX_list;
 	std::vector<W_STR>						m_SubTEX_name_list;
 public:

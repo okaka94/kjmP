@@ -10,7 +10,7 @@ bool Sample::Init()
 	BG = new Map;
 	// 2^n + 1로 빌드해야 공간 분할시 셀이 쪼개지지 않음
 	BG->Build(m_pd3dDevice, 512 + 1, 512 + 1,&Main_cam);
-	BG->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/NormalMap/stone_wall.bmp");
+	BG->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_PNCT.txt", L"../../data/NormalMap/stone_wall.bmp");
 	BG->Create_Qtree(m_pd3dDevice, &Main_cam);
 
 	
