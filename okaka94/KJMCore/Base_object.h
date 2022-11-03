@@ -19,6 +19,23 @@ struct SimpleVertex {
 	}
 };
 
+struct PNCTVertex {
+	Vector		p;
+	Vector		n;
+	Vector4D	c;
+	Vector2D	t;
+	PNCTVertex() {}
+	PNCTVertex(Vector vp, Vector vn, Vector4D vc, Vector2D vt)
+	{
+		p = vp;
+		n = vn;
+		c = vc;
+		t = vt;
+	}
+
+
+};
+
 struct VS_CONSTANT_BUFFER
 {
 	Matrix  World_matrix;

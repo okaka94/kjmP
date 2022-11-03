@@ -5,6 +5,11 @@
 class Object3D : public Base_object
 {
 public:
+	Vector m_pos;
+	Vector m_LookV;
+	Vector m_UpV;
+	Vector m_RightV;
+public:
 	virtual void Set_axis() { return; }
 public:
 	Object3D() {};

@@ -96,6 +96,15 @@
     <ClInclude Include="Shape.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad_tree.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -171,6 +180,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad_tree.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

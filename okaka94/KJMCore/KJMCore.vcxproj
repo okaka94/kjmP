@@ -173,8 +173,11 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game_core.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Quad_tree.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Render_target.h" />
     <ClInclude Include="resource.h" />
@@ -202,8 +205,11 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Game_core.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Quad_tree.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Render_target.cpp" />
     <ClCompile Include="Shader.cpp" />
