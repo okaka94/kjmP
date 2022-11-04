@@ -15,7 +15,8 @@ public:
 	FbxScene*						m_pFbxScene;
 	FbxNode*						m_pRootNode;
 	std::map<FbxNode*, FBX_obj*>	m_Obj_map;
-	std::vector<FbxMesh*>			m_Obj_list;
+	std::vector<FbxMesh*>			m_Mesh_list;
+	std::vector<FBX_obj*>			m_Obj_list;
 	std::vector<FBX_obj*>			m_Draw_list;
 	ID3D11DeviceContext*			m_pContext = nullptr;
 

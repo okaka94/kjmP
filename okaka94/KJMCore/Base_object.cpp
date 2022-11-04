@@ -125,6 +125,29 @@ void Base_object::CreateIndexList() {
 
 }
 
+ID3D11Buffer* Base_object::ReturnVertexBuffer(ID3D11Device* pd3dDevice, void* pDataAddress, UINT iNumVertex, UINT iVertexSize) {
+
+	HRESULT hr;
+	ID3D11Buffer* pVB = nullptr;
+	D3D11_BUFFER_DESC       bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.ByteWidth = iVertexSize * iNumVertex; // 바이트 용량
+	// GPU 메모리에 할당
+	bd.Usage = D3D11_USAGE_DEFAULT; // 버퍼의 할당 장소 내지는 버퍼용도
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA  sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.pSysMem = pDataAddress;
+	hr = pd3dDevice->CreateBuffer(
+		&bd, // 버퍼 할당
+		&sd, // 초기 할당된 버퍼를 체우는 CPU메모리 주소
+		&pVB);
+	return pVB;
+
+}
+
+
 HRESULT Base_object::CreateVertexBuffer() {
 
 	HRESULT hr;

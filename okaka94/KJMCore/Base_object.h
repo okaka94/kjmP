@@ -70,11 +70,12 @@ public:
 	ID3D11Buffer* m_pVertexBuffer;
 	ID3D11Buffer* m_pIndexBuffer;
 	ID3D11InputLayout* m_pVertexLayout;
-	//
+
 	ID3D11ShaderResourceView* m_pTextureSRV = nullptr;
 	
 
 public:
+	ID3D11Buffer*	ReturnVertexBuffer(ID3D11Device* pd3dDevice, void* pDataAddress, UINT iNumVertex, UINT iVertexSize);
 	virtual void	CreateVertexList();
 	virtual void	CreateIndexList();
 	virtual void	CreateConstantData();
