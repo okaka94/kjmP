@@ -13,6 +13,8 @@ public:
 	Texture* Load(std::wstring name);
 	Texture* Find(std::wstring name);
 	bool Release();
+	W_STR		Get_split_name(std::wstring fullpath);
+	W_STR		Get_split_name(std::string fullpath);
 private:
 	Texture_manager();
 public:

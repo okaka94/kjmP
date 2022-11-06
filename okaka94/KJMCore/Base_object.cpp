@@ -39,6 +39,31 @@ bool Base_object::Create(ID3D11Device* pd3dDevice , ID3D11DeviceContext* pImmedi
 
 }
 
+bool Base_object::Create(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext, std::wstring shaderName, std::wstring texName) {
+	SetDevice(pd3dDevice, pImmediateContext);
+	m_Shader_name = shaderName;
+	m_Texture_name = texName;
+
+	if (FAILED(CreateConstantBuffer()))
+		return false;
+
+	if (FAILED(CreateVertexBuffer()))
+		return false;
+
+	if (FAILED(CreateIndexBuffer()))
+		return false;
+
+	if (!CreateShader(shaderName))
+		return false;
+
+	if (FAILED(CreateVertexLayout()))
+		return false;
+
+	if (!LoadTexture(texName))
+		return false;
+
+}
+
 
 Base_object::~Base_object() {
 

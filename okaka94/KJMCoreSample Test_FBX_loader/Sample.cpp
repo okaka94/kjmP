@@ -23,23 +23,37 @@ bool Sample::Init()
 		}
 	}
 
-	m_pMainCamera = new TCameraDebug;
-	m_pMainCamera->CreateViewMatrix(TVector3(0, 6, -50), TVector3(0, 0, 0), TVector3(0, 1, 0));
-	m_pMainCamera->CreateProjMatrix(1.0f, 10000.0f, T_PI * 0.25f,
-		(float)g_rtClient.right / (float)g_rtClient.bottom);
-
+	Main_cam = new Camera_debug;
+	Main_cam->Create_View_matrix(Vector(0, 6, -50), Vector(0, 0, 0), Vector(0, 1, 0));
+	Main_cam->Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+	
 	return true;
 }
 bool Sample::Frame()
 {
-		
+	Main_cam->Frame();
+	for (auto fbx : m_fbx_list)
+	{
+		fbx->Frame();
+	}
 
 
 	return true;
 }
 bool Sample::Render()
 {
-	
+	for (int iModel = 0; iModel < m_fbx_list.size(); iModel++)
+	{
+		for (int iObj = 0; iObj < m_fbx_list[iModel]->m_Draw_list.size(); iObj++)
+		{
+			Matrix matWorld;
+			matWorld._41 = 100 * iModel;
+			m_fbx_list[iModel]->m_Draw_list[iObj]->SetMatrix(&matWorld,
+				&Main_cam->m_View_matrix,
+				&Main_cam->m_Proj_matrix);
+			m_fbx_list[iModel]->m_Draw_list[iObj]->Render();
+		}
+	}
 	
 
 	return true;
@@ -47,9 +61,14 @@ bool Sample::Render()
 bool Sample::Release()
 {
 	
-
-	
-
+	for (auto fbx : m_fbx_list)
+	{
+		fbx->Release();
+	}
+	if (Main_cam) {
+		Main_cam->Release();
+		delete Main_cam;
+	}
 	return true;
 }
 

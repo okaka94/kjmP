@@ -5,7 +5,7 @@
 class Object3D : public Base_object
 {
 public:
-	W_STR  m_obj_name;
+	W_STR	m_obj_name;
 	Vector m_pos;
 	Vector m_LookV;
 	Vector m_UpV;

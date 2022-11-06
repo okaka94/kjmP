@@ -61,6 +61,8 @@ public:
 	VS_CONSTANT_BUFFER  m_cbData;
 	ID3D11Buffer* m_pConstantBuffer;
 public:
+	std::wstring m_Shader_name;
+	std::wstring m_Texture_name;
 	Texture* m_pTexture;
 	Shader* m_pShader;
 
@@ -70,11 +72,12 @@ public:
 	ID3D11Buffer* m_pVertexBuffer;
 	ID3D11Buffer* m_pIndexBuffer;
 	ID3D11InputLayout* m_pVertexLayout;
-	//
+
 	ID3D11ShaderResourceView* m_pTextureSRV = nullptr;
 	
 
 public:
+	ID3D11Buffer*	ReturnVertexBuffer(ID3D11Device* pd3dDevice, void* pDataAddress, UINT iNumVertex, UINT iVertexSize);
 	virtual void	CreateVertexList();
 	virtual void	CreateIndexList();
 	virtual void	CreateConstantData();
@@ -90,6 +93,7 @@ public:
 public:
 	void SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext);
 	virtual bool Create(ID3D11Device* pd3dDevice= nullptr, ID3D11DeviceContext* pImmediateContext = nullptr, const wchar_t* shaderName = 0 , const wchar_t* texName = 0 );
+	virtual bool Create(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext , std::wstring shaderName , std::wstring texName );
 	
 	virtual bool Init();
 	virtual bool Frame();

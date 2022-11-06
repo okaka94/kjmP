@@ -68,6 +68,7 @@ bool	FBX_obj::Post_Render() {
 		m_pImmediateContext->DrawIndexed(m_IndexList.size(), 0, 0);
 	}
 
+	return true;
 }
 
 bool	FBX_obj::Release() {

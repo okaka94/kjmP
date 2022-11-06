@@ -93,6 +93,7 @@ public:
 public:
 	void SetDevice(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext);
 	virtual bool Create(ID3D11Device* pd3dDevice= nullptr, ID3D11DeviceContext* pImmediateContext = nullptr, const wchar_t* shaderName = 0 , const wchar_t* texName = 0 );
+	virtual bool Create(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediateContext , std::wstring shaderName , std::wstring texName );
 	
 	virtual bool Init();
 	virtual bool Frame();
