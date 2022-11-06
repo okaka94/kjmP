@@ -6,7 +6,8 @@ bool Sample::Init()
 	FBX_loader* Loader = new FBX_loader;
 	if (Loader->Init())
 	{
-		Loader->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
+		//Loader->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
+		Loader->Load("../../data/fbx/box.fbx");
 	}
 	m_fbx_list.push_back(Loader);
 
