@@ -16,6 +16,8 @@ bool Base_object::Frame() {
 
 bool Base_object::Create(ID3D11Device* pd3dDevice , ID3D11DeviceContext* pImmediateContext , const wchar_t* shaderName, const wchar_t* texName) {
 	SetDevice(pd3dDevice, pImmediateContext);
+	m_Shader_name = shaderName;
+	m_Texture_name = texName;
 
 	if (FAILED(CreateConstantBuffer()))
 		return false;

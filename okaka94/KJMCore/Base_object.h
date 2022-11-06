@@ -61,6 +61,8 @@ public:
 	VS_CONSTANT_BUFFER  m_cbData;
 	ID3D11Buffer* m_pConstantBuffer;
 public:
+	std::wstring m_Shader_name;
+	std::wstring m_Texture_name;
 	Texture* m_pTexture;
 	Shader* m_pShader;
 
