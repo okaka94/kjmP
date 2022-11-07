@@ -203,7 +203,8 @@ HRESULT Base_object::CreateIndexBuffer() {
 	ZeroMemory(&bd, sizeof(bd));
 	bd.ByteWidth = sizeof(DWORD) * num_vertex;
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 	D3D11_SUBRESOURCE_DATA sd;
 	ZeroMemory(&sd, sizeof(sd));
@@ -259,24 +260,20 @@ bool	Base_object::LoadTexture(std::wstring filename) {
 bool Base_object::Pre_Render() {
 
 	// 삼각형 렌더링
-	UINT stride = sizeof(PNCTVertex); // 정점 1개 size(byte)
-	UINT offset = 0;					// 정점 버퍼에서 출발 지점 (byte)
+	
 
-	// 새롭게 생성하는 것 아니니까 context로
-	m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
-	m_pImmediateContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, offset);
+	m_pImmediateContext->PSSetShaderResources(0, 1, &m_pTextureSRV);
 	m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
-	m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 	m_pImmediateContext->VSSetShader(m_pShader->m_pVS, NULL, 0);
 	m_pImmediateContext->PSSetShader(m_pShader->m_pPS, NULL, 0);
-	// texture
-	//ID3D11ShaderResourceView* SRV = m_pTexture->Get_SRV();
-	//m_pTexture->Apply(m_pImmediateContext, 0);
-	m_pImmediateContext->PSSetShaderResources(0, 1, &m_pTextureSRV);
-
-	// constant buffer
+	UINT stride = sizeof(PNCTVertex); // 정점 1개 size(byte)
+	UINT offset = 0;					// 정점 버퍼에서 출발 지점 (byte)
+	m_pImmediateContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	m_pImmediateContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);	
 	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
+
+
+	
 	
 	return true;
 }

@@ -24,9 +24,9 @@ bool Game_core::CoreInit() {
 	if (Device::Init() == false)
 		return false;
 	
-	DXState::SetState(m_pd3dDevice);
-	Texture_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
-	Shader_manager::GetInstance().SetDevice(m_pd3dDevice, m_pImmediateContext);
+	DXState::SetState(m_pd3dDevice.Get());
+	Texture_manager::GetInstance().SetDevice(m_pd3dDevice.Get(), m_pImmediateContext.Get());
+	Shader_manager::GetInstance().SetDevice(m_pd3dDevice.Get(), m_pImmediateContext.Get());
 	Sound_manager::GetInstance().Init();
 	Timer::GetInstance().Init();
 	Input::GetInstance().Init();	
@@ -37,11 +37,12 @@ bool Game_core::CoreInit() {
 		Writer::GetInstance().Set(backbuffer);
 		backbuffer->Release();
 
-	//std::wstring shaderfilename = L"../../data/shader/DefaultRT.hlsl";
+	std::wstring shaderfilename = L"../../data/shader/DefaultShape_PNCT.txt";
+		//std::wstring shaderfilename = L"../../data/shader/DefaultRT.hlsl";
 	
-	m_BG.Create(m_pd3dDevice,m_pImmediateContext, L"DefaultShape_Constant.txt", L"../../data/_RAINBOW.bmp");
+	m_BG.Create(m_pd3dDevice.Get(),m_pImmediateContext.Get(), shaderfilename, L"../../data/_RAINBOW.bmp");
 
-	m_RT.Create(m_pd3dDevice, m_pImmediateContext, 2048, 2048);
+	m_RT.Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), 2048, 2048);
 	return Init();						
 }
 
@@ -57,13 +58,14 @@ bool Game_core::CoreFrame() {
 }
 
 bool Game_core::CorePre_Render() {
-	// m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);			// OM : Output-Merger
-	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, m_pDSV);			// NULL ÀÚ¸®¿¡ ±íÀÌ ½ºÅÙ½Ç ºä
+	
+	m_pImmediateContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSV.Get());			// NULL ÀÚ¸®¿¡ ±íÀÌ ½ºÅÙ½Ç ºä
 	
 	float color[4] = { 0.1f,0.2f,0.1f,1.0f };
-	m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);			// Set all the elements in a render target to one value.
-	m_pImmediateContext->ClearDepthStencilView(m_pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	m_pImmediateContext->ClearRenderTargetView(m_pRTV.Get(), color);			// Set all the elements in a render target to one value.
+	m_pImmediateContext->ClearDepthStencilView(m_pDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	m_pImmediateContext->PSSetSamplers(0, 1, &DXState::g_pDefaultSS);
+	m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_pImmediateContext->RSSetViewports(1, &m_vp);
 	m_pImmediateContext->RSSetState(DXState::g_pDefaultRSSolid);
 	// Blend state ¼³Á¤
@@ -76,13 +78,13 @@ bool Game_core::CorePre_Render() {
 bool Game_core::CoreRender() {
 
 	CorePre_Render();		
-	m_RT.m_pOldRTV = m_pRTV;
-	m_RT.m_pOldDSV = m_pDSV;
+	m_RT.m_pOldRTV = m_pRTV.Get();
+	m_RT.m_pOldDSV = m_pDSV.Get();
 	m_RT.m_vpOld[0] = m_vp;
 
 	if (Input::GetInstance().GetKey('V') == KEY_HOLD)
 	{
-		m_pImmediateContext->RSSetState(DXState::g_pDefaultRSWireFrame);
+		m_pImmediateContext.Get()->RSSetState(DXState::g_pDefaultRSWireFrame);
 		Render();
 		tex_render = false;
 	}
@@ -90,19 +92,19 @@ bool Game_core::CoreRender() {
 
 		if(Input::GetInstance().GetKey('C') == KEY_HOLD)
 		{
-			m_pImmediateContext->RSSetState(DXState::g_pDefaultRSWireFrame);
+			m_pImmediateContext.Get()->RSSetState(DXState::g_pDefaultRSWireFrame);
 		}
 	
-		if (m_RT.Begin(m_pImmediateContext))
+		if (m_RT.Begin(m_pImmediateContext.Get()))
 		{			
 			Render();
-			m_RT.End(m_pImmediateContext);
+			m_RT.End(m_pImmediateContext.Get());
 		}
 
 		if (m_RT.m_pSRV)
 		{
 			//m_BG.m_pTextureSRV = m_RT.m_pDsvSRV.Get();
-			m_BG.m_pTextureSRV = m_RT.m_pSRV;
+			m_BG.m_pTextureSRV = m_RT.m_pSRV.Get();
 		}
 	}
 	CorePost_Render();

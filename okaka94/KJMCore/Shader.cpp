@@ -29,9 +29,14 @@ HRESULT Shader::Load(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediate, 
 	m_pd3dDevice = pd3dDevice;
 	m_pImmediateContext = pImmediate;
 
+	DWORD dwShaderFlags = D3DCOMPILE_SKIP_OPTIMIZATION;
+#if defined( _DEBUG ) 
+	dwShaderFlags |= D3DCOMPILE_DEBUG;
+#endif
+
 	ID3DBlob* pErrorCode = nullptr;
 	// Á¤Á¡ ¼ÎÀÌ´õ ÄÄÆÄÀÏ
-	hr = D3DCompileFromFile(name.c_str(), NULL, NULL, "VS", "vs_5_0", 0, 0, &m_pVSCode, &pErrorCode);
+	hr = D3DCompileFromFile(name.c_str(), NULL, NULL, "VS", "vs_5_0", dwShaderFlags, 0, &m_pVSCode, &pErrorCode);
 
 	if (FAILED(hr)) {
 		if (pErrorCode) {
@@ -44,7 +49,7 @@ HRESULT Shader::Load(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pImmediate, 
 	hr = m_pd3dDevice->CreateVertexShader(m_pVSCode->GetBufferPointer(), m_pVSCode->GetBufferSize(), NULL, &m_pVS);
 
 	// ÇÈ¼¿ ¼ÎÀÌ´õ ÄÄÆÄÀÏ
-	hr = D3DCompileFromFile(name.c_str(), NULL, NULL, "PS", "ps_5_0", 0, 0, &m_pPSCode, &pErrorCode);
+	hr = D3DCompileFromFile(name.c_str(), NULL, NULL, "PS", "ps_5_0", dwShaderFlags, 0, &m_pPSCode, &pErrorCode);
 	if (FAILED(hr)) {
 		if (pErrorCode) {
 			OutputDebugStringA((char*)pErrorCode->GetBufferPointer());

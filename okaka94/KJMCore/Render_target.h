@@ -4,12 +4,12 @@
 class Render_target
 {
 public:
-	ID3D11RenderTargetView*					m_pRTV = nullptr;
-	ID3D11DepthStencilView*					m_pDSV = nullptr;
-	ID3D11ShaderResourceView*				m_pSRV = nullptr;
-	ID3D11ShaderResourceView*				m_pDS_SRV = nullptr;  // 表捞滚欺 府家胶轰
-	ID3D11Texture2D*						m_pTexture = nullptr;
-	//D3D11_DEPTH_STENCIL_VIEW_DESC			m_DSV_desc;
+	ComPtr<ID3D11RenderTargetView>					m_pRTV;
+	ComPtr<ID3D11DepthStencilView>					m_pDSV;
+	ComPtr<ID3D11ShaderResourceView>				m_pSRV;
+	ComPtr<ID3D11ShaderResourceView>				m_pDS_SRV;  // 表捞滚欺 府家胶轰
+	ComPtr<ID3D11Texture2D>						m_pTexture;
+	D3D11_DEPTH_STENCIL_VIEW_DESC			m_DSV_desc;
 	D3D11_TEXTURE2D_DESC					m_Tex_desc;
 	D3D11_VIEWPORT							m_VP;
 

@@ -7,6 +7,7 @@
 #include <string>
 #include <queue>
 #include "Vector.h"		 
+#include <wrl.h> // windows runtime c++ templace library(wrl)
 //문자열 변환 관련
 #include <tchar.h>
 #include <codecvt>
@@ -17,6 +18,8 @@ extern HWND g_hWnd;
 extern RECT g_rtClient;
 extern float g_fGameTimer;
 extern float g_fSecPerFrame;
+
+using namespace Microsoft::WRL;
 
 enum SCENE_SWITCH {
 	TITLE,

@@ -24,7 +24,7 @@ bool		FBX_loader::Render() {
 }
 
 bool		FBX_loader::Release() {
-	for (auto obj : m_Draw_list) {
+	for (auto obj : m_Obj_list) {
 		obj->Release();
 	}
 	

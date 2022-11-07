@@ -11,12 +11,12 @@
 class Device : public Window
 {
 public:
-	ID3D11Device* m_pd3dDevice = nullptr;
-	ID3D11DeviceContext* m_pImmediateContext = nullptr;
-	IDXGIFactory* m_pGIFactory = nullptr;
-	IDXGISwapChain* m_pSwapChain = nullptr;
-	ID3D11RenderTargetView* m_pRTV = nullptr;
-	ID3D11DepthStencilView* m_pDSV = nullptr;
+	ComPtr<ID3D11Device> m_pd3dDevice = nullptr;
+	ComPtr<ID3D11DeviceContext> m_pImmediateContext = nullptr;
+	ComPtr<IDXGIFactory> m_pGIFactory = nullptr;
+	ComPtr<IDXGISwapChain> m_pSwapChain = nullptr;
+	ComPtr<ID3D11RenderTargetView> m_pRTV = nullptr;
+	ComPtr<ID3D11DepthStencilView> m_pDSV = nullptr;
 	D3D11_VIEWPORT	m_vp;
 
 public:

@@ -24,15 +24,15 @@ bool Render_target::Create(ID3D11Device* pd3dDevice,ID3D11DeviceContext* pImmedi
 	m_Tex_desc.MiscFlags = 0;
 	m_Tex_desc.ArraySize = 1;
 
-	if (FAILED(hr = pd3dDevice->CreateTexture2D(&m_Tex_desc, NULL, &m_pTexture)))
+	if (FAILED(hr = pd3dDevice->CreateTexture2D(&m_Tex_desc, NULL, m_pTexture.GetAddressOf())))
 	{
 		return hr;
 	}
-	if (FAILED(hr = pd3dDevice->CreateShaderResourceView(m_pTexture, NULL, &m_pSRV)))
+	if (FAILED(hr = pd3dDevice->CreateShaderResourceView(m_pTexture.Get(), NULL, m_pSRV.GetAddressOf())))
 	{
 		return hr;
 	}
-	if (FAILED(hr = pd3dDevice->CreateRenderTargetView(m_pTexture, NULL, &m_pRTV)))
+	if (FAILED(hr = pd3dDevice->CreateRenderTargetView(m_pTexture.Get(), NULL, m_pRTV.GetAddressOf())))
 	{
 		return hr;
 	}
@@ -40,7 +40,7 @@ bool Render_target::Create(ID3D11Device* pd3dDevice,ID3D11DeviceContext* pImmedi
 	
 	/// Depth Buffer
 	
-	ID3D11Texture2D* pDSTexture = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> pDSTexture = nullptr;
 	D3D11_TEXTURE2D_DESC DescDepth;
 	DescDepth.Width = fWidth;
 	DescDepth.Height = fHeight;
@@ -63,7 +63,7 @@ bool Render_target::Create(ID3D11Device* pd3dDevice,ID3D11DeviceContext* pImmedi
 	ZeroMemory(&dsvDesc, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
 	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	if (FAILED(hr = pd3dDevice->CreateDepthStencilView(pDSTexture, &dsvDesc, &m_pDSV)))
+	if (FAILED(hr = pd3dDevice->CreateDepthStencilView(pDSTexture.Get(), &dsvDesc, &m_pDSV)))
 	{
 		return hr;
 	}
@@ -73,7 +73,7 @@ bool Render_target::Create(ID3D11Device* pd3dDevice,ID3D11DeviceContext* pImmedi
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 	srvDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-	if (FAILED(hr = pd3dDevice->CreateShaderResourceView(pDSTexture, &srvDesc, &m_pDS_SRV)))
+	if (FAILED(hr = pd3dDevice->CreateShaderResourceView(pDSTexture.Get(), &srvDesc, &m_pDS_SRV)))
 	{
 		return hr;
 	}
@@ -88,10 +88,10 @@ bool Render_target::Begin(ID3D11DeviceContext* pContext)
 
 	ID3D11RenderTargetView* pNullRTV = NULL;
 	pContext->OMSetRenderTargets(1, &pNullRTV, NULL);
-	pContext->OMSetRenderTargets(1, &m_pRTV, m_pDSV);
+	pContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSV.Get());
 	const FLOAT color[] = { 1, 1, 1, 1 };
-	pContext->ClearRenderTargetView(m_pRTV, color);
-	pContext->ClearDepthStencilView(m_pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0, 0);
+	pContext->ClearRenderTargetView(m_pRTV.Get(), color);
+	pContext->ClearDepthStencilView(m_pDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0, 0);
 	pContext->RSSetViewports(1, &m_VP);
 	return true;
 }
@@ -103,15 +103,6 @@ void Render_target::End(ID3D11DeviceContext* pContext)
 	m_pOldDSV->Release();*/
 }
 bool Render_target::Release() {
-
-	
-	if (m_pRTV) m_pRTV->Release();
-	if (m_pDSV) m_pDSV->Release();
-	if (m_pSRV) m_pSRV->Release();
-	if (m_pDS_SRV) m_pDS_SRV->Release();
-	if (m_pTexture) m_pTexture->Release();
-	if (m_pOldRTV) m_pOldRTV->Release();
-	if (m_pOldDSV) m_pOldDSV->Release();
 
 	return true;
 }

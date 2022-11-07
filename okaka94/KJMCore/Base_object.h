@@ -41,7 +41,7 @@ struct VS_CONSTANT_BUFFER
 	Matrix  World_matrix;
 	Matrix  View_matrix;
 	Matrix  Proj_matrix;
-	Vector4D	g_Color;
+	Vector4D	g_Color = { 1,1,1,1 };
 	//float    fTimer;
 	//float    y;
 	//float    z;

@@ -15,5 +15,7 @@ public:
 	virtual bool Frame() override;
 	virtual bool Render() override;
 	virtual bool Release() override;
+	void    ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext);
+
 };
 

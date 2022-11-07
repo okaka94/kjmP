@@ -29,12 +29,6 @@ bool Device::Render() {
 
 bool Device::Release() {
 
-    if (m_pd3dDevice) m_pd3dDevice->Release();
-    if (m_pImmediateContext) m_pImmediateContext->Release();
-    if (m_pGIFactory) m_pGIFactory->Release();
-    if (m_pSwapChain) m_pSwapChain->Release();
-    if (m_pRTV) m_pRTV->Release();
-    if (m_pDSV) m_pDSV->Release();
     return true;
 }
 
@@ -42,11 +36,11 @@ bool Device::Release() {
 HRESULT Device::CreateDevice() {
     HRESULT hr;
     D3D_FEATURE_LEVEL	pFeatureLevel;
-    //UINT				Flags = 0;
-    UINT				Flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;   // 2d 호환
-//#ifdef _DEBUG
-//    createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-//#endif
+    UINT Flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+    
+#ifdef _DEBUG
+    Flags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
     D3D_FEATURE_LEVEL	pFeatureLevels[] = { D3D_FEATURE_LEVEL_11_0, };
     UINT				FeatureLevels = 1;
     hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, Flags, pFeatureLevels, FeatureLevels, D3D11_SDK_VERSION, &m_pd3dDevice, &pFeatureLevel, &m_pImmediateContext);
@@ -55,7 +49,7 @@ HRESULT Device::CreateDevice() {
 }
 
 HRESULT Device::CreateDXGIDevice() {
-    HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&m_pGIFactory);
+    HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)m_pGIFactory.GetAddressOf());
     return hr;
 }
 
@@ -79,7 +73,7 @@ HRESULT Device::CreateSwapChain() {
 
     sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-    return m_pGIFactory->CreateSwapChain(m_pd3dDevice, &sd, &m_pSwapChain);
+    return m_pGIFactory->CreateSwapChain(m_pd3dDevice.Get(), &sd, m_pSwapChain.GetAddressOf());
 }
 
 
@@ -87,7 +81,7 @@ HRESULT Device::CreateRenderTargetView() {
     HRESULT hr;
     ID3D11Texture2D* pBackBuffer = nullptr;
     m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
-    hr = m_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRTV);
+    hr = m_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, m_pRTV.GetAddressOf());
     pBackBuffer->Release();
 
     return hr;
@@ -96,13 +90,13 @@ HRESULT Device::CreateRenderTargetView() {
 HRESULT Device::CreateDepthStencilView() {
 
     HRESULT hr;
-    //D3D11_RENDER_TARGET_VIEW_DESC rtvd;
-    //m_pRTV->GetDesc(&rtvd);
+    D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+    m_pRTV->GetDesc(&rtvd);
     DXGI_SWAP_CHAIN_DESC scd;
     m_pSwapChain->GetDesc(&scd);
 
     // 1번 텍스처를 생성한다.
-    ID3D11Texture2D* pDSTexture = nullptr;
+    ComPtr<ID3D11Texture2D> pDSTexture = nullptr;
     D3D11_TEXTURE2D_DESC td;
     ZeroMemory(&td, sizeof(td));
     td.Width = scd.BufferDesc.Width;
@@ -116,19 +110,19 @@ HRESULT Device::CreateDepthStencilView() {
     td.MiscFlags = 0;
     td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 
-    hr = m_pd3dDevice->CreateTexture2D(&td, NULL, &pDSTexture);
+    hr = m_pd3dDevice->CreateTexture2D(&td, NULL, pDSTexture.GetAddressOf());
 
     // 2번 깊이스텐실 뷰로 생성한다.
     D3D11_DEPTH_STENCIL_VIEW_DESC dtvd;
     ZeroMemory(&dtvd, sizeof(dtvd));
     dtvd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     dtvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-    hr = m_pd3dDevice->CreateDepthStencilView(pDSTexture, &dtvd, &m_pDSV);
+    hr = m_pd3dDevice->CreateDepthStencilView(pDSTexture.Get(), &dtvd, m_pDSV.GetAddressOf());
     // 3번 뷰 적용
     //m_pImmediateContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(),
        //m_pDepthStencilView.Get());
     // 4번 깊이스텐실 뷰 상태 객체 생성해서 적용
-    pDSTexture->Release();
+    //pDSTexture->Release();
 
     return hr;
 }
@@ -150,7 +144,8 @@ HRESULT Device::Resize_device(UINT width, UINT height) {
     if (m_pd3dDevice == nullptr) return S_OK; // window 생성 후 device 생성 전에 resize 호출한 경우 바로 리턴
     DeleteDXResource(); // 사용중인 렌더타겟 해제 작업
     m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL); // 렌더타겟 해제
-    m_pRTV->Release();
+    m_pRTV.ReleaseAndGetAddressOf();
+    m_pDSV.ReleaseAndGetAddressOf();
 
 
     // 버퍼 크기 조정
@@ -160,6 +155,8 @@ HRESULT Device::Resize_device(UINT width, UINT height) {
 
     // 변경된 백 버퍼의 크기로 RTV 및 뷰포트 재생성
     if (FAILED(CreateRenderTargetView()))
+        return false;
+    if (FAILED(CreateDepthStencilView()))
         return false;
     CreateViewport();
 
