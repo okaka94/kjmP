@@ -12,6 +12,8 @@
 #include <tchar.h>
 #include <codecvt>
 #include <atlconv.h> 
+// lib
+#include "TMath.h"
 
 #define CORE
 extern HWND g_hWnd;

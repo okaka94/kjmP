@@ -61,7 +61,7 @@ bool Game_core::CorePre_Render() {
 	
 	m_pImmediateContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSV.Get());			// NULL ÀÚ¸®¿¡ ±íÀÌ ½ºÅÙ½Ç ºä
 	
-	float color[4] = { 0.1f,0.2f,0.1f,1.0f };
+	float color[4] = { 1,1,1,1 };
 	m_pImmediateContext->ClearRenderTargetView(m_pRTV.Get(), color);			// Set all the elements in a render target to one value.
 	m_pImmediateContext->ClearDepthStencilView(m_pDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	m_pImmediateContext->PSSetSamplers(0, 1, &DXState::g_pDefaultSS);

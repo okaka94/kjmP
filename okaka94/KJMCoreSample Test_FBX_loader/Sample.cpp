@@ -59,8 +59,8 @@ bool Sample::Init()
 	FBX_loader* Loader = new FBX_loader;
 	if (Loader->Init())
 	{
-		//Loader->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
-		Loader->Load("../../data/fbx/box.fbx");
+		Loader->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
+		//Loader->Load("../../data/fbx/SM_Rock.FBX");
 	}
 	m_fbx_list.push_back(Loader);
 
@@ -78,7 +78,7 @@ bool Sample::Init()
 	}
 
 	Main_cam = new Camera_debug;
-	Main_cam->Create_View_matrix(Vector(0, 6, -50), Vector(0, 0, 0), Vector(0, 1, 0));
+	Main_cam->Create_View_matrix(Vector(0, 50, -350), Vector(0, 0, 0), Vector(0, 1, 0));
 	Main_cam->Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 	
 	return true;
