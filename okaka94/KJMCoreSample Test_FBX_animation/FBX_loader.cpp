@@ -378,7 +378,8 @@ int			FBX_loader::Get_SubMaterial_index(int poly, FbxLayerElementMaterial* Mater
 
 void	FBX_loader::Load_animation(FBX_obj* obj) {
 	FbxNode* node = obj->m_pFbxNode;
-	FbxAnimStack* Anim_stack = m_pFbxScene->GetSrcObject<FbxAnimStack>(0);
+	//the highest level container for animation data. An animation stack is equivalent to one take of animation.
+	FbxAnimStack* Anim_stack = m_pFbxScene->GetSrcObject<FbxAnimStack>(0);			
 	FbxLongLong Start_frame = 0;
 	FbxLongLong End_frame = 0;
 	FbxTime::EMode Time_mode;
@@ -387,24 +388,24 @@ void	FBX_loader::Load_animation(FBX_obj* obj) {
 		FbxTakeInfo* Take = m_pFbxScene->GetTakeInfo(Take_name);
 		FbxTime::SetGlobalTimeMode(FbxTime::eFrames30);
 		Time_mode = FbxTime::GetGlobalTimeMode();
-		FbxTimeSpan Lcl_time_span = Take->mLocalTimeSpan;
-		FbxTime	Start = Lcl_time_span.GetStart();
+		FbxTimeSpan Lcl_time_span = Take->mLocalTimeSpan;			//TimeSpan 생성자는 Start Time , Stop Time
+		FbxTime	Start = Lcl_time_span.GetStart();					// Animation Take의 TaimeSpan을 통해 Start time과 Stop time 받아오기
 		FbxTime	End = Lcl_time_span.GetStop();
 		// duration
 		FbxTime Duration = Lcl_time_span.GetDuration();
-		Start_frame = Start.GetFrameCount(Time_mode);
+		Start_frame = Start.GetFrameCount(Time_mode);				// Anim Take의 Time정보를 이전에 Global Set한 Time_mode에 맞는 프레임단위로 변환하여 저장
 		End_frame = End.GetFrameCount(Time_mode);
 	}
-	obj->m_Anim_scene.Start_frame = Start_frame;
+	obj->m_Anim_scene.Start_frame = Start_frame;					// 받아온 Take의 정보를 해당 오브젝트의 Anim_scene 구조체에 입력
 	obj->m_Anim_scene.End_frame = End_frame;
 	obj->m_Anim_scene.Frame_speed = 30.0f;
 	obj->m_Anim_scene.TickPerFrame = 160;
 	FbxTime Time;
-	for (FbxLongLong Frame = Start_frame; Frame <= End_frame; Frame++) {
+	for (FbxLongLong Frame = Start_frame; Frame <= End_frame; Frame++) {	// 프레임은 정수형 0~50 프레임 사이의 글로벌 변환 행렬을 리스트화
 		Time.SetFrame(Frame, Time_mode);
 		Anim_track Track;
 		Track.frame = Frame;
-		FbxAMatrix fbx_mat = node->EvaluateGlobalTransform(Time);
+		FbxAMatrix fbx_mat = node->EvaluateGlobalTransform(Time);	//EvaluateGlobalTransform의 인자는 Time이므로 프레임별 Time을 다시 구해서 해당 프레임의 Time값을 넘겨 행렬을 받아오면 됨
 		Track.Anim_matrix = Convert_DX_mat(fbx_mat);
 		obj->m_Anim_track_list.push_back(Track);
 	}

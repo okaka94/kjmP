@@ -53,6 +53,7 @@ void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 	//pd3dDeviceContext->OMSetDepthStencilState(NULL, 0);
 	//pd3dDeviceContext->RSSetState(NULL);
 }
+
 bool Sample::Init()
 {
 		
@@ -112,8 +113,9 @@ bool Sample::Render()
 
 	for (int file = 0; file < m_fbx_list.size(); file++) {
 		for (int obj = 0; obj < m_fbx_list[file]->m_Draw_list.size(); obj++) {
-			FBX_obj* fbx_obj = m_fbx_list[file]->m_Draw_list[obj];
-			fbx_obj->m_Anim_frame = fbx_obj->m_Anim_frame + g_fSecPerFrame * fbx_obj->m_Anim_speed * fbx_obj->m_Anim_scene.Frame_speed * fbx_obj->m_Anim_inverse;
+			FBX_obj* fbx_obj = m_fbx_list[file]->m_Draw_list[obj];	// file의 draw_list에 있는 fbx_obj 할당
+			// 1초당 Frame_speed(현재 설정값 30프레임)만큼 증가하도록 계산 , m_Anim_speed = 애니메이션 속도 설정값 
+			fbx_obj->m_Anim_frame += g_fSecPerFrame * fbx_obj->m_Anim_speed * fbx_obj->m_Anim_scene.Frame_speed * fbx_obj->m_Anim_inverse;
 			if (fbx_obj->m_Anim_frame > fbx_obj->m_Anim_scene.End_frame || fbx_obj->m_Anim_frame < fbx_obj->m_Anim_scene.Start_frame) {
 				fbx_obj->m_Anim_frame = min(fbx_obj->m_Anim_frame, fbx_obj->m_Anim_scene.End_frame);
 				fbx_obj->m_Anim_frame = max(fbx_obj->m_Anim_frame, fbx_obj->m_Anim_scene.Start_frame);
