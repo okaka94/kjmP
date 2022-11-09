@@ -6,6 +6,7 @@
 #include "Collision.h"
 
 
+
 struct SimpleVertex {
 	Vector		p;
 	Vector4D	c;

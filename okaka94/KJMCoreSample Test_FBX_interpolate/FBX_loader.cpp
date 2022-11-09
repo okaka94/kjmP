@@ -407,6 +407,7 @@ void	FBX_loader::Load_animation(FBX_obj* obj) {
 		Track.frame = Frame;
 		FbxAMatrix fbx_mat = node->EvaluateGlobalTransform(Time);	//EvaluateGlobalTransform의 인자는 Time이므로 프레임별 Time을 다시 구해서 해당 프레임의 Time값을 넘겨 행렬을 받아오면 됨
 		Track.Anim_matrix = Convert_DX_mat(fbx_mat);
+		Track.Anim_matrix.Decompose(Track.S, Track.R, Track.T);
 		obj->m_Anim_track_list.push_back(Track);
 	}
 

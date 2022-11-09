@@ -1,5 +1,6 @@
 #pragma once
 #include "Base_object.h"
+#include "Quaternion.h"
 
 
 class Object3D : public Base_object

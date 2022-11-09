@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector.h"
 
+class Quaternion;
+
 struct float3x3 {
 	union {
 		struct {
@@ -24,7 +26,7 @@ struct float4x4 {
 	};
 };
 
-class Matrix3x3 : public float3x3    // 3x3 구조체 상속
+class Matrix3x3 : public XMFLOAT3X3    // 3x3 구조체 상속
 {
 public:
 	Matrix3x3();					// 생성시 단위 행렬로 만들기
@@ -38,7 +40,7 @@ public:
 };
 
 
-class Matrix : public float4x4    // 4x4 구조체 상속
+class Matrix : public XMFLOAT4X4    // 4x4 구조체 상속
 {
 public:
 	Matrix();					// 생성시 단위 행렬로 만들기
@@ -61,7 +63,8 @@ public:
 	Matrix OrthoLH(float w, float h, float n, float f);									// 좌표값에 곱할 수 있도록 행렬만 반환해줌 (리턴값과 곱해야 변환값 나옴)
 	Matrix OrthoOffCenterLH(float l, float r, float b, float t, float n, float f);
 	Matrix PerspectiveFovLH(float n, float f, float FOV_Y, float aspect);				// aspect = W / H (종횡비)
-
+	// Anim Track
+	bool   Decompose(Vector& scale, Quaternion& rotation, Vector& translation);
 
 public:
 	Matrix operator* (Matrix& Operand_m);

@@ -1,4 +1,5 @@
 #include "Matrix.h"
+#include "Quaternion.h"
 
 ///////////////////////////////////////// 3x3 matrix ////////////////////////////
 void Matrix3x3::Set_I_matrix() {
@@ -279,4 +280,17 @@ Matrix Matrix::PerspectiveFovLH(float n, float f, float FOV_Y, float aspect) {
 	memcpy((void*)&result, this, 16 * sizeof(float));
 
 	return result;
+}
+
+bool   Matrix::Decompose(Vector& scale, Quaternion& rotation, Vector& translation) {
+	XMVECTOR s, r, t;
+
+	if (!XMMatrixDecompose(&s, &r, &t, *(XMMATRIX*)this))
+		return false;
+
+	XMStoreFloat3(&scale, s);
+	XMStoreFloat4(&rotation, r);
+	XMStoreFloat3(&translation, t);
+
+	return true;
 }

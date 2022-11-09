@@ -114,14 +114,16 @@ bool Sample::Render()
 	for (int file = 0; file < m_fbx_list.size(); file++) {
 		for (int obj = 0; obj < m_fbx_list[file]->m_Draw_list.size(); obj++) {
 			FBX_obj* fbx_obj = m_fbx_list[file]->m_Draw_list[obj];	// file의 draw_list에 있는 fbx_obj 할당
-			fbx_obj->m_Anim_frame += g_fSecPerFrame *0.5 * fbx_obj->m_Anim_scene.Frame_speed * fbx_obj->m_Anim_inverse;
+			fbx_obj->m_Anim_frame += g_fSecPerFrame *0.3f * fbx_obj->m_Anim_scene.Frame_speed * fbx_obj->m_Anim_inverse;
 			if (fbx_obj->m_Anim_frame > fbx_obj->m_Anim_scene.End_frame || fbx_obj->m_Anim_frame < fbx_obj->m_Anim_scene.Start_frame) {
 				fbx_obj->m_Anim_frame = min(fbx_obj->m_Anim_frame, fbx_obj->m_Anim_scene.End_frame);
 				fbx_obj->m_Anim_frame = max(fbx_obj->m_Anim_frame, fbx_obj->m_Anim_scene.Start_frame);
 				fbx_obj->m_Anim_inverse *= -1.0f;
 			}
-			Matrix world_mat = fbx_obj->m_Anim_track_list[fbx_obj->m_Anim_frame].Anim_matrix;
-			fbx_obj->SetMatrix(&world_mat, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+			fbx_obj->m_obj_Anim_matrix = fbx_obj->Interpolate(fbx_obj->m_Anim_frame);
+			//fbx_obj->m_obj_Anim_matrix = fbx_obj->m_Anim_track_list[fbx_obj->m_Anim_frame].Anim_matrix;
+			fbx_obj->m_World_matrix = fbx_obj->m_obj_Anim_matrix;
+			fbx_obj->SetMatrix(&fbx_obj->m_World_matrix, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 			fbx_obj->Render();
 		}
 	}

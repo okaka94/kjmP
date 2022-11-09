@@ -1,7 +1,7 @@
 #pragma once
 #include "Collision.h"
 
-class Quaternion : public Float4
+class Quaternion : public XMFLOAT4
 {
 public:
 	Quaternion();
@@ -29,5 +29,6 @@ public:
 	Quaternion  Ret_rotated_quat(Vector axis, float angle);
 	Matrix		RotationQ_to_Mat();
 	void		Normalize_axis();
+	void		Set_Slerp(const Quaternion& q1, const Quaternion& q2, float t);
 };
 

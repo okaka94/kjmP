@@ -5,23 +5,23 @@ Quaternion::Quaternion() {
 	Set_identity();
 }
 
-Quaternion::Quaternion(float x, float y, float z, float w) {
-	v[0] = x;
-	v[1] = y;
-	v[2] = z; 
-	v[3] = w;
+Quaternion::Quaternion(float X, float Y, float Z, float W) {
+	x = X;
+	y = Y;
+	z = Z; 
+	w = W;
 }
 Quaternion::Quaternion(Vector V, float s) {
-	v[0] = V.x;
-	v[1] = V.y;
-	v[2] = V.z;
-	v[3] = s;
+	x = V.x;
+	y = V.y;
+	z = V.z;
+	w = s;
 }
 Quaternion::Quaternion(const Quaternion& V) {
-	v[0] = V.x;
-	v[1] = V.y;
-	v[2] = V.z;
-	v[3] = V.w;
+	x = V.x;
+	y = V.y;
+	z = V.z;
+	w = V.w;
 }
 
 
@@ -170,17 +170,8 @@ Matrix		Quaternion::RotationQ_to_Mat() {
 
 	Matrix result;
 	
-	/*Vector axis;
-	axis.x = x;
-	axis.y = y;
-	axis.z = z;
-	axis.Normalize_vector();
-	
-	float X = axis.x * sin(w / 2);
-	float Y = axis.y * sin(w / 2);
-	float Z = axis.z * sin(w / 2);
-	float W = cos(w / 2);*/
 
+	/*{
 	Normalize_axis();
 
 	float X = x * sin(w / 2);
@@ -203,6 +194,11 @@ Matrix		Quaternion::RotationQ_to_Mat() {
 	result._31 = (2 * X * Z) - (2 * W * Y);
 	result._32 = (2 * Y * Z) + (2 * W * X);
 	result._33 = 1 - (2 * XX) - (2 * YY);
+	}*/
+
+	
+	XMVECTOR quatv = XMLoadFloat4(this);
+	XMStoreFloat4x4(&result, XMMatrixRotationQuaternion(quatv));
 
 	return result;
 }
@@ -220,4 +216,14 @@ void Quaternion::Normalize_axis() {
 	y = axis.y;
 	z = axis.z;
 
+}
+
+void  Quaternion::Set_Slerp(const Quaternion& q1, const Quaternion& q2, float t) {
+
+	XMVECTOR Q0 = XMLoadFloat4(&q1);
+	XMVECTOR Q1 = XMLoadFloat4(&q2);
+
+	
+	XMStoreFloat4(this, XMQuaternionSlerp(Q0, Q1, t));
+	
 }

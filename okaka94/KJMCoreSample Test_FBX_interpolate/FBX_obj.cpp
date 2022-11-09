@@ -98,6 +98,33 @@ Matrix	FBX_obj::Interpolate(float target_frame) {
 	if (start_point.frame == end_point.frame)
 		return start_point.Anim_matrix;												// 기점과 종점이 같으면 보간할 값이 없으므로 둘중 하나의 행렬 리턴
 
+	float t = (target_frame - start_point.frame) / (end_point.frame - start_point.frame);
+	Vector pos;
+	pos.Set_Lerp(start_point.T, end_point.T, t);
+	
+	Vector scale;
+	scale.Set_Lerp(start_point.S, end_point.S, t);
 
+	Quaternion rot_quat;
+	rot_quat.Set_Slerp(start_point.R, end_point.R, t);
+	
+	Matrix scale_mat;
+	scale_mat.Set_Scale_matrix(scale.x, scale.y, scale.z);
+	/*TBASIS_EX::TMatrix matScale;
+	TBASIS_EX::D3DXMatrixScaling(&matScale, scale.x, scale.y, scale.z);*/
+
+	Matrix rot_mat;
+	rot_mat = rot_quat.RotationQ_to_Mat();
+
+	/*TBASIS_EX::TMatrix matRotation;
+	TBASIS_EX::D3DXMatrixRotationQuaternion(&matRotation, &qRotation);*/
+
+	Matrix result = scale_mat * rot_mat;
+	//	TBASIS_EX::TMatrix  matCurrent = matScale * matRotation;
+	result._41 = pos.x;
+	result._42 = pos.y;
+	result._43 = pos.z;
+
+	return result;
 
 }

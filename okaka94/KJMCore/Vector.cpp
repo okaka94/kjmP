@@ -7,9 +7,9 @@ Vector2D::Vector2D() {
 	x = y = 0.0f;
 }
 
-Vector2D::Vector2D(float x, float y) {
-	v[0] = x;
-	v[1] = y;
+Vector2D::Vector2D(float X, float Y) {
+	x = X;
+	y = Y;
 }
 
 Vector2D::Vector2D(const Vector2D& v) {
@@ -108,10 +108,10 @@ Vector::Vector() {
 	x = y = z = 0.0f;
 }
 
-Vector::Vector(float x, float y,float z) {
-	v[0] = x;
-	v[1] = y;
-	v[2] = z;
+Vector::Vector(float X, float Y,float Z) {
+	x = X;
+	y = Y;
+	z = Z;
 }
 
 Vector::Vector(const Vector& v) {
@@ -292,17 +292,28 @@ Vector	 Vector::operator *   (Matrix& Operand_m) {
 	return Result;
 }
 
+void		Vector::Set_Lerp(const Vector& v1, const Vector& v2, float t) {
+
+	XMVECTOR x1 = XMLoadFloat3(&v1);
+	XMVECTOR x2 = XMLoadFloat3(&v2);
+	XMVECTOR X = XMVectorLerp(x1, x2, t);
+
+	
+	XMStoreFloat3(this, X);
+	
+}
+
 
 //////////////////////////////////////////// 4d //////////////////////////////////
 Vector4D::Vector4D() {
 	x = y = z = w =0.0f;
 }
 
-Vector4D::Vector4D(float x, float y, float z, float w) {
-	v[0] = x;
-	v[1] = y;
-	v[2] = z;
-	v[3] = w;
+Vector4D::Vector4D(float X, float Y, float Z, float W) {
+	x = X;
+	y = Y;
+	z = Z;
+	w = W;
 }
 
 Vector4D::Vector4D(const Vector4D& v) {

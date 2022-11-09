@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <math.h>
 #include <windows.h>
@@ -7,6 +8,32 @@
 #define PI			3.141592f
 #define DEGREE(X)	((X)*(180.0f/PI))
 #define RADIAN(X)	((X)*(PI/180.0f))
+
+/// //////////////////////////// DX Math Lib
+#include <d3d11_1.h> 
+//#include <d3dx11.h> 
+#if !defined(__d3d11_h__) && !defined(__d3d11_x_h__) && !defined(__d3d12_h__) && !defined(__d3d12_x_h__)
+#error include d3d11.h or d3d12.h before including TMath.h
+#endif
+
+#if !defined(_XBOX_ONE) || !defined(_TITLE)
+//#include <dxgi1_2.h>
+#endif
+
+#include <functional>
+#include <assert.h>
+#include <memory.h>
+
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
+
+#ifndef XM_CONSTEXPR
+#define XM_CONSTEXPR
+#endif
+
+using namespace DirectX;
+using namespace DirectX::PackedVector;
 
 class Matrix;
 
@@ -21,7 +48,7 @@ struct Float2 {						// 공용체상태로 바로 상속이 안됨
 };
 
 
-class Vector2D : public Float2
+class Vector2D : public XMFLOAT2
 {
 public:
 	Vector2D();
@@ -59,7 +86,7 @@ struct Float3 {						// 공용체상태로 바로 상속이 안됨
 };
 
 
-class Vector : public Float3
+class Vector : public XMFLOAT3
 {
 public:
 	Vector();
@@ -88,7 +115,7 @@ public:
 	void		Normalize_vector();
 	Vector		Ret_norm_vector();
 	float		Get_angle(Vector& v);		// 내적을 구해서 세타 값 구하기
-
+	void		Set_Lerp(const Vector& v1, const Vector& v2, float t);
 
 };
 
@@ -105,7 +132,7 @@ struct Float4 {						// 공용체상태로 바로 상속이 안됨
 };
 
 
-class Vector4D : public Float4
+class Vector4D : public XMFLOAT4
 {
 public:
 	Vector4D();

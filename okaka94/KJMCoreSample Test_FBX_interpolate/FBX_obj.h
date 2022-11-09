@@ -12,7 +12,7 @@ struct Anim_track {
 	Matrix		Anim_matrix;
 	Matrix		Pure_Anim_matrix;
 	Vector		T;
-	TBASIS_EX::TQuaternion	R;
+	Quaternion	R;
 	Vector		S;
 };
 
@@ -28,6 +28,7 @@ class FBX_obj : public Object3D
 {
 /// ////// FBX Loader로 분리 필요
 public:
+	Matrix					m_obj_Anim_matrix;
 	Anim_scene				m_Anim_scene;
 	float					m_Anim_frame;
 	float					m_Anim_inverse = 1.0f;
@@ -44,10 +45,10 @@ public:
 		m_pParent = parent;
 	}
 public:
-	std::vector<ID3D11Buffer*>				m_SubVB_list;
+	std::vector<ID3D11Buffer*>					m_SubVB_list;
 	std::vector<std::vector<PNCTVertex>>		m_VBdata_list;
-	std::vector<Texture*>					m_SubTEX_list;
-	std::vector<W_STR>						m_SubTEX_name_list;
+	std::vector<Texture*>						m_SubTEX_list;
+	std::vector<W_STR>							m_SubTEX_name_list;
 public:
 	void	CreateVertexList();
 	HRESULT	CreateVertexBuffer();
@@ -56,6 +57,7 @@ public:
 	bool	Post_Render();
 	bool	Release();
 	Matrix	Interpolate(float frame);
+	
 
 };
 
