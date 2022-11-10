@@ -37,6 +37,23 @@ struct PNCTVertex {
 
 };
 
+struct IW_VERTEX {
+	Vector4D	i;
+	Vector4D	w;
+	IW_VERTEX() {}
+	IW_VERTEX(Vector4D vIndex, Vector4D vWeight)
+	{
+		i = vIndex;
+		w = vWeight;
+	}
+};
+
+struct VS_BONE_CONSTANT_BUFFER
+{
+	Matrix  Bone_mat[255];
+};
+
+
 struct VS_CONSTANT_BUFFER
 {
 	Matrix  World_matrix;

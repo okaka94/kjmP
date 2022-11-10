@@ -63,8 +63,10 @@ public:
 	Matrix OrthoLH(float w, float h, float n, float f);									// 좌표값에 곱할 수 있도록 행렬만 반환해줌 (리턴값과 곱해야 변환값 나옴)
 	Matrix OrthoOffCenterLH(float l, float r, float b, float t, float n, float f);
 	Matrix PerspectiveFovLH(float n, float f, float FOV_Y, float aspect);				// aspect = W / H (종횡비)
-	// Anim Track
+	// Anim
 	bool   Decompose(Vector& scale, Quaternion& rotation, Vector& translation);
+	Matrix Transpose();
+	Matrix Inverse();
 
 public:
 	Matrix operator* (Matrix& Operand_m);

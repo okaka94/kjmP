@@ -57,13 +57,22 @@ void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 bool Sample::Init()
 {
 		
-	FBX_loader* Loader = new FBX_loader;
-	if (Loader->Init())
+	//FBX_loader* Turret = new FBX_loader;
+	//if (Turret->Init())
+	//{
+	//	Turret->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
+	//	//Loader->Load("../../data/fbx/SM_Rock.FBX");
+	//}
+	//m_fbx_list.push_back(Turret);
+
+	FBX_loader* Man = new FBX_loader;
+	if (Man->Init())
 	{
-		Loader->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
+		Man->Load("../../data/fbx/Man.FBX");
 		//Loader->Load("../../data/fbx/SM_Rock.FBX");
 	}
-	m_fbx_list.push_back(Loader);
+	m_fbx_list.push_back(Man);
+
 
 	W_STR szDefaultDir = L"../../data/fbx/";
 	std::wstring shaderfilename = L"../../data/shader/DefaultShape_PNCT.txt";

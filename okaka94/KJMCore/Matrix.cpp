@@ -294,3 +294,18 @@ bool   Matrix::Decompose(Vector& scale, Quaternion& rotation, Vector& translatio
 
 	return true;
 }
+
+Matrix Matrix::Transpose() {
+	FXMMATRIX M = XMLoadFloat4x4(this);
+	Matrix R;
+	XMStoreFloat4x4(&R, XMMatrixTranspose(M));
+	return R;
+}
+
+Matrix Matrix::Inverse() {
+	FXMMATRIX M = XMLoadFloat4x4(this);
+	Matrix R;
+	XMVECTOR det;
+	XMStoreFloat4x4(&R, XMMatrixInverse(&det, M));
+	return R;
+}
