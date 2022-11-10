@@ -1,6 +1,6 @@
 #include "FBX_loader.h"
 
-HRESULT	FBX_loader::Create_Bone_CB(ID3D11Device* pDevice) {
+HRESULT	FBX_loader::CreateConstantBuffer(ID3D11Device* pDevice) {
 
 	HRESULT hr;
 	for (int Bone = 0; Bone < 255; Bone++) {
@@ -35,7 +35,7 @@ bool		FBX_loader::Init() {
 
 void		FBX_loader::Update_anim(ID3D11DeviceContext* pContext) {
 
-		m_Anim_frame += g_fSecPerFrame * 0.3f * m_Anim_scene.Frame_speed * m_Anim_inverse;
+		m_Anim_frame += g_fSecPerFrame *  m_Anim_scene.Frame_speed * m_Anim_inverse;
 		if (m_Anim_frame > m_Anim_scene.End_frame || m_Anim_frame < m_Anim_scene.Start_frame) {
 			m_Anim_frame = min(m_Anim_frame, m_Anim_scene.End_frame);
 			m_Anim_frame = max(m_Anim_frame, m_Anim_scene.Start_frame);
@@ -265,6 +265,7 @@ void		FBX_loader::Parse_mesh(FbxMesh* mesh, Skinning_FBX_obj* obj) {
 	}
 	if (material_num > 1) {
 		obj->m_VBdata_list.resize(material_num);
+		obj->m_VBdata_list_IW.resize(material_num);
 		obj->m_SubTEX_name_list.resize(material_num);
 		for (int idx = 0; idx < material_num; idx++) {
 			obj->m_SubTEX_name_list[idx] = Texture_manager::GetInstance().Get_split_name(Tex_name_list[idx]);

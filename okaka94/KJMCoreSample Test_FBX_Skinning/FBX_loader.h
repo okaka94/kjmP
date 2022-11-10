@@ -30,7 +30,9 @@ public:
 
 	VS_BONE_CONSTANT_BUFFER			m_bone_cbData;
 	ID3D11Buffer*					m_Bone_CB;
-	HRESULT	Create_Bone_CB(ID3D11Device* pDevice);
+	HRESULT	CreateConstantBuffer(ID3D11Device* pDevice);
+	
+		
 
 public:
 	bool		Init();

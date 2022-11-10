@@ -83,6 +83,11 @@ public:
 	std::wstring m_Texture_name;
 	Texture* m_pTexture;
 	Shader* m_pShader;
+public:
+	ID3D11VertexShader* m_pVS;
+	ID3D11PixelShader* m_pPS;
+	ID3DBlob* m_pVSCode = nullptr;
+	ID3DBlob* m_pPSCode = nullptr;
 
 	std::vector<PNCTVertex>	m_VertexList;
 	std::vector<PNCTVertex>	m_InitVertexList;

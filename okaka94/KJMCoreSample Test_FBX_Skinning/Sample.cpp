@@ -56,26 +56,27 @@ void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 
 bool Sample::Init()
 {
-	/*	
-	FBX_loader* Turret = new FBX_loader;
-	if (Turret->Init())
-	{
-		Turret->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
 		
-	}
-	m_fbx_list.push_back(Turret);*/
+	//FBX_loader* Turret = new FBX_loader;
+	//if (Turret->Init())
+	//{
+	//	Turret->Load("../../data/fbx/Turret_Deploy1/Turret_Deploy1.fbx");
+	//	Turret->CreateConstantBuffer(m_pd3dDevice.Get());
+	//}
+	//m_fbx_list.push_back(Turret);
 
 	FBX_loader* Man = new FBX_loader;
 	if (Man->Init())
 	{
-		Man->Load("../../data/fbx/Man.FBX");
+		if (Man->Load("../../data/fbx/Man.FBX")) {
+			Man->CreateConstantBuffer(m_pd3dDevice.Get());
+		}
 
 	}
 	m_fbx_list.push_back(Man);
 
 
 	W_STR szDefaultDir = L"../../data/fbx/";
-	//std::wstring shaderfilename = L"../../data/shader/DefaultShape_PNCT.txt";
 	std::wstring shaderfilename = L"Skinning.txt";
 
 	for (auto fbx : m_fbx_list)
@@ -89,7 +90,7 @@ bool Sample::Init()
 	}
 
 	Main_cam = new Camera_debug;
-	Main_cam->Create_View_matrix(Vector(0, 1, -20), Vector(0, 0, 0), Vector(0, 1, 0));
+	Main_cam->Create_View_matrix(Vector(0, 1, -50), Vector(0, 0, 0), Vector(0, 1, 0));
 	Main_cam->Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 	
 	return true;
@@ -118,6 +119,7 @@ bool Sample::Render()
 			Skinning_FBX_obj* fbx_obj = m_fbx_list[file]->m_Draw_list[obj];
 			Matrix world;
 			fbx_obj->SetMatrix(&world, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+			//fbx_obj->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 			fbx_obj->Render();
 		}
 	}

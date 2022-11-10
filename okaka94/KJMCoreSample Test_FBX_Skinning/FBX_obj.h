@@ -103,9 +103,9 @@ public:
 	VS_BONE_CONSTANT_BUFFER					m_bone_cbData;
 	ID3D11Buffer*							m_Skin_Bone_CB;
 public:
-	HRESULT	Create_Bone_CB()
+	HRESULT	CreateConstantBuffer()
 	{
-		Object3D::CreateConstantBuffer();
+		Base_object::CreateConstantBuffer();
 
 		HRESULT hr;
 		for (int Bone = 0; Bone < 255; Bone++)
@@ -132,7 +132,7 @@ public:
 	HRESULT CreateVertexLayout()
 	{
 		HRESULT hr;
-		if (m_pShader->m_pVSCode == nullptr)
+		if (m_pVSCode == nullptr)
 		{
 			return E_FAIL;
 		}
@@ -149,7 +149,7 @@ public:
 			{ "WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1,16,D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 		UINT NumElements = sizeof(ied) / sizeof(ied[0]);
-		hr = m_pd3dDevice->CreateInputLayout(ied, NumElements, m_pShader->m_pVSCode->GetBufferPointer(), m_pShader->m_pVSCode->GetBufferSize(), &m_pVertexLayout);
+		hr = m_pd3dDevice->CreateInputLayout(ied, NumElements, m_pVSCode->GetBufferPointer(), m_pVSCode->GetBufferSize(), &m_pVertexLayout);
 		
 
 		return hr;
@@ -186,7 +186,7 @@ public:
 		return hr;
 	}
 
-	bool	PostRender()
+	bool	Post_Render()
 	{
 		if (m_skinned)
 		{

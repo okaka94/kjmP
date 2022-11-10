@@ -218,7 +218,13 @@ bool	Base_object::CreateShader(std::wstring filename) {
 	
 	m_pShader = Shader_manager::GetInstance().Load(filename);
 
-	if (m_pShader) return true;
+	if (m_pShader) {
+		m_pVS = m_pShader->m_pVS;
+		m_pPS = m_pShader->m_pPS;
+		m_pVSCode = m_pShader->m_pVSCode;
+		return true;
+	}
+		
 
 
 	return false;
@@ -237,7 +243,7 @@ HRESULT Base_object::CreateVertexLayout() {
 	};
 
 	UINT num_element = sizeof(ied) / sizeof(ied[0]);
-	hr = m_pd3dDevice->CreateInputLayout(ied, num_element, m_pShader->m_pVSCode->GetBufferPointer(), m_pShader->m_pVSCode->GetBufferSize(), &m_pVertexLayout);
+	hr = m_pd3dDevice->CreateInputLayout(ied, num_element, m_pVSCode->GetBufferPointer(),m_pVSCode->GetBufferSize(), &m_pVertexLayout);
 
 	return hr;
 }
