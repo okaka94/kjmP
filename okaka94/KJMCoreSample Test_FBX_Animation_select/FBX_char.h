@@ -38,8 +38,6 @@ public:
 	Matrix									m_Proj_matrix;
 
 	// action file list
-	FBX_loader*								m_FBX_action = nullptr;
-	std::map<std::wstring, FBX_loader*>     m_FBX_action_list;
 
 public:
 	HRESULT		CreateConstantBuffer(ID3D11Device* pDevice);

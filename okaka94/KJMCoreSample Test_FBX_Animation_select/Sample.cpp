@@ -79,25 +79,6 @@ bool Sample::Init()
 	m_fbx_table.insert(std::make_pair(L"Man", fbx_idx++));
 	m_fbx_list.push_back(Man);
 
-	FBX_loader* Swat_turn = new FBX_loader;
-	if (Swat_turn->Init())
-	{
-		if (Swat_turn->Load("../../data/fbx/Swat@turning_right_45_degrees.fbx"))
-		{
-			Swat_turn->CreateConstantBuffer(m_pd3dDevice.Get());
-		}
-	}
-	m_fbx_table.insert(std::make_pair(L"Swat_turn", fbx_idx++));
-	m_fbx_list.push_back(Swat_turn);
-
-	FBX_loader* Swat = new FBX_loader;
-	if (Swat->Init())
-	{
-		Swat->Load("../../data/fbx/Swat.fbx");
-	}
-	m_fbx_table.insert(std::make_pair(L"Swat", fbx_idx++));
-	m_fbx_list.push_back(Swat);
-
 
 	W_STR szDefaultDir = L"../../data/fbx/";
 	std::wstring shaderfilename = L"Skinning.txt";
@@ -111,38 +92,11 @@ bool Sample::Init()
 			pObj->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), shaderfilename, szLoad);
 		}
 	}
-	UINT FBX_INDEX = 0;
-
-
-	User_char = new FBX_char;
-	FBX_INDEX = m_fbx_table.find(L"Swat")->second;
-	User_char->m_FBX_loader = m_fbx_list[FBX_INDEX];
-	FBX_INDEX = m_fbx_table.find(L"Swat_turn")->second;
-	User_char->m_FBX_action = m_fbx_list[FBX_INDEX];
-	User_char->CreateConstantBuffer(m_pd3dDevice.Get());
-
-	if (User_char->m_FBX_action)
-	{
-		User_char->m_Anim_scene = User_char->m_FBX_action->m_Anim_scene;
-		User_char->m_FBX_action_list.insert(std::make_pair(L"walking", User_char->m_FBX_action));
-		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->m_Anim_scene.Start_frame;
-		User_char->m_Current_action.End_frame = 50;// pFbxLoaderA->m_AnimScene.iEndFrame;
-	}
-	else
-	{
-		User_char->m_Anim_scene = User_char->m_FBX_loader->m_Anim_scene;
-		Action_table action;
-		action.Start_frame = User_char->m_Anim_scene.Start_frame;
-		action.End_frame = User_char->m_Anim_scene.End_frame;
-		action.Loop_state = true;
-		User_char->m_Action_map.insert(std::make_pair(L"idle", action));
-	}
-
 
 	for (int iObj = 0; iObj < 5; iObj++)
 	{
 		FBX_char* pNpc = new FBX_char;
-		
+		UINT FBX_INDEX = 0;
 		FBX_INDEX = m_fbx_table.find(L"Man")->second;
 		pNpc->m_FBX_loader = m_fbx_list[FBX_INDEX];
 		pNpc->m_World_matrix._41 = -4.0f + iObj * 2;
@@ -176,7 +130,6 @@ bool Sample::Frame()
 		npc->Update_anim(m_pImmediateContext.Get());
 	}
 
-	User_char->Update_anim(m_pImmediateContext.Get());
 
 	return true;
 }
@@ -188,9 +141,6 @@ bool Sample::Render()
 		m_NpcList[iNpc]->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 		m_NpcList[iNpc]->Render(m_pImmediateContext.Get());
 	}
-
-	User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
-	User_char->Render(m_pImmediateContext.Get());
 
 	return true;
 }
@@ -212,10 +162,6 @@ bool Sample::Release()
 		Main_cam->Release();
 		delete Main_cam;
 	}
-
-	User_char->Release();
-	delete User_char;
-
 	return true;
 }
 

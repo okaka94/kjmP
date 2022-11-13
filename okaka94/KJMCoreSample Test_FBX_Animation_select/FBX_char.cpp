@@ -56,17 +56,17 @@ void		FBX_char::Update_anim(ID3D11DeviceContext* pContext) {
 	else {
 		if (m_Anim_frame >= m_Current_action.End_frame) {
 			//Idle상태 애니메이션 추가하기
-			//m_Current_action = m_Action_map.find(L"Idle")->second; 
+			m_Current_action = m_Action_map.find(L"Idle")->second; 
 			m_Anim_frame = m_Current_action.Start_frame;
 		}
 	}
 	// 바인드포즈 애니메이션일 때 
-	if (m_FBX_action)
+	/*if (m_pAnionFbxFile)
 	{
-		m_FBX_action->Update_bone_data(pContext, m_Anim_frame, m_bone_cbData);
-		m_FBX_loader->Update_sub_bone_data(pContext, m_bone_cbData, m_bone_cbData_list);
+		m_pAnionFbxFile->UpdateSkeleton(pContext, m_fAnimFrame, m_cbDataBone);
+		m_pFbxFile->UpdateSkinning(pContext, m_cbDataBone, m_cbDrawGeom);
 	}
-	else
+	else*/
 	{
 		m_FBX_loader->Update_bone_data(pContext, m_Anim_frame, m_bone_cbData);
 		m_FBX_loader->Update_sub_bone_data(pContext, m_bone_cbData, m_bone_cbData_list);

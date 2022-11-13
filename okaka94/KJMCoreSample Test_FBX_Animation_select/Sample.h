@@ -12,7 +12,6 @@ public:
 	std::vector<FBX_loader*> m_fbx_list;
 	Camera_debug* Main_cam;
 
-	FBX_char*				User_char;
 	std::vector< FBX_char*> m_NpcList;
 			
 public:
