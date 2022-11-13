@@ -93,8 +93,29 @@ bool Sample::Init()
 		}
 	}
 
+	for (int iObj = 0; iObj < 5; iObj++)
+	{
+		FBX_char* pNpc = new FBX_char;
+		UINT FBX_INDEX = 0;
+		FBX_INDEX = m_fbx_table.find(L"Man")->second;
+		pNpc->m_FBX_loader = m_fbx_list[FBX_INDEX];
+		pNpc->m_World_matrix._41 = -4.0f + iObj * 2;
+		pNpc->m_Anim_scene = pNpc->m_FBX_loader->m_Anim_scene;
+		pNpc->CreateConstantBuffer(m_pd3dDevice.Get());
+		Action_table action;
+		action.Start_frame = 61;
+		action.End_frame = 91;
+		action.Loop_state = true;
+		pNpc->m_Action_map.insert(std::make_pair(L"walk", action));
+		pNpc->m_Current_action = pNpc->m_Action_map.find(L"walk")->second;
+
+		m_NpcList.push_back(pNpc);
+	}
+
+
+
 	Main_cam = new Camera_debug;
-	Main_cam->Create_View_matrix(Vector(0, 1, -50), Vector(0, 0, 0), Vector(0, 1, 0));
+	Main_cam->Create_View_matrix(Vector(0, 1, -20), Vector(0, 0, 0), Vector(0, 1, 0));
 	Main_cam->Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 	
 	return true;
@@ -104,9 +125,9 @@ bool Sample::Frame()
 	ClearD3D11DeviceContext(m_pImmediateContext.Get());
 	Main_cam->Frame();
 
-	for (auto fbx : m_fbx_list)
+	for (auto npc : m_NpcList)
 	{
-		fbx->Update_anim(m_pImmediateContext.Get());
+		npc->Update_anim(m_pImmediateContext.Get());
 	}
 
 
@@ -114,20 +135,12 @@ bool Sample::Frame()
 }
 bool Sample::Render()
 {
-	
-	for (int file = 0; file < m_fbx_list.size(); file++) {
-		m_pImmediateContext->VSSetConstantBuffers(1, 1, &m_fbx_list[file]->m_Bone_CB);
 
-		for (int obj = 0; obj < m_fbx_list[file]->m_Draw_list.size(); obj++) {
-		
-			Skinning_FBX_obj* fbx_obj = m_fbx_list[file]->m_Draw_list[obj];
-			Matrix world;
-			fbx_obj->SetMatrix(&world, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
-			//fbx_obj->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
-			fbx_obj->Render();
-		}
+	for (int iNpc = 0; iNpc < m_NpcList.size(); iNpc++)
+	{
+		m_NpcList[iNpc]->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+		m_NpcList[iNpc]->Render(m_pImmediateContext.Get());
 	}
-	
 
 	return true;
 }
@@ -138,6 +151,13 @@ bool Sample::Release()
 	{
 		fbx->Release();
 	}
+
+	for (auto npc : m_NpcList)
+	{
+		npc->Release();
+		delete npc;
+	}
+
 	if (Main_cam) {
 		Main_cam->Release();
 		delete Main_cam;

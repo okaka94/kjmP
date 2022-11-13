@@ -21,7 +21,7 @@ public:
 	std::map<std::wstring, Action_table>	m_Action_map;
 
 	Action_table							m_Current_action;
-	Anim_scene								m_Anim_scene;
+	//Anim_scene								m_Anim_scene;
 	float									m_Anim_frame;
 	float									m_Anim_inverse = 1.0f;
 	float									m_Anim_speed = 1.0f;

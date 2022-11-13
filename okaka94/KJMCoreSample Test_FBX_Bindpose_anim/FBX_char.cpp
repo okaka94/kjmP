@@ -68,35 +68,66 @@ void		FBX_char::Update_anim(ID3D11DeviceContext* pContext) {
 	}
 	else*/
 	{
-		m_pFbxFile->UpdateSkeleton(pContext, m_fAnimFrame, m_cbDataBone);
-		m_pFbxFile->UpdateSkinning(pContext, m_cbDataBone, m_cbDrawGeom);
+		m_FBX_loader->Update_bone_data(pContext, m_Anim_frame, m_bone_cbData);
+		m_FBX_loader->Update_sub_bone_data(pContext, m_bone_cbData, m_bone_cbData_list);
 	}
 
-
-	std::vector<Matrix> Current_anim_mat_list;
-	for (int Bone = 0; Bone < m_Obj_list.size(); Bone++) {
-		Matrix Anim_mat = m_Obj_list[Bone]->Interpolate(m_Anim_frame, m_Anim_scene);
-		m_bone_cbData.Bone_mat[Bone] = Anim_mat.Transpose();
-		Current_anim_mat_list.push_back(Anim_mat);
+	for (int Bone = 0; Bone < m_FBX_loader->m_Obj_list.size(); Bone++)
+	{
+		m_bone_cbData.Bone_mat[Bone] = m_bone_cbData.Bone_mat[Bone].Transpose();
 	}
-	pContext->UpdateSubresource(m_Bone_CB, 0, nullptr, &m_bone_cbData, 0, 0);
+	pContext->UpdateSubresource(m_Skin_Bone_CB, 0, nullptr, &m_bone_cbData, 0, 0);
 
-	for (int draw = 0; draw < m_Draw_list.size(); draw++) {
-		if (m_Draw_list[draw]->m_Bindpose_mat_map.size()) {
-			for (int Bone = 0; Bone < m_Obj_list.size(); Bone++) {
-				auto iter = m_Draw_list[draw]->m_Bindpose_mat_map.find(Bone);
-				if (iter != m_Draw_list[draw]->m_Bindpose_mat_map.end()) {
-					Matrix Bind_mat = iter->second;
-					Matrix Anim_mat = Bind_mat * Current_anim_mat_list[Bone];
-					m_bone_cbData.Bone_mat[Bone] = Anim_mat.Transpose();
-				}
-			}
-			pContext->UpdateSubresource(m_Draw_list[draw]->m_Skin_Bone_CB, 0, nullptr, &m_bone_cbData, 0, 0);
+
+	for (int ibone = 0; ibone < m_Sub_Bone_CB_list.size(); ibone++)
+	{
+		pContext->UpdateSubresource(
+			m_Sub_Bone_CB_list[ibone], 0, nullptr,
+			&m_bone_cbData_list[ibone], 0, 0);
+	}
+}
+
+void		FBX_char::SetMatrix(Matrix* World, Matrix* View, Matrix* Proj) {
+
+	if (World != nullptr)
+	{
+		m_World_matrix = *World;
+	}
+	if (View != nullptr)
+	{
+		m_View_matrix = *View;
+	}
+	if (Proj != nullptr)
+	{
+		m_Proj_matrix = *Proj;
+	}
+
+}
+
+bool		FBX_char::Render(ID3D11DeviceContext* pContext) {
+
+	pContext->VSSetConstantBuffers(1, 1, &m_Skin_Bone_CB);
+	for (int iMesh = 0; iMesh < m_FBX_loader->m_Draw_list.size(); iMesh++)
+	{
+		if (m_FBX_loader->m_Draw_list[iMesh]->m_skinned)
+		{
+			pContext->VSSetConstantBuffers(1, 1, &m_Sub_Bone_CB_list[iMesh]);
 		}
+		m_FBX_loader->m_Draw_list[iMesh]->SetMatrix(&m_World_matrix, &m_View_matrix, &m_Proj_matrix);
+		m_FBX_loader->m_Draw_list[iMesh]->Render();
 	}
+	return true;
+
+}
+
+bool		FBX_char::Release() {
+
+	if (m_Skin_Bone_CB) m_Skin_Bone_CB->Release();
+	for (auto bone : m_Sub_Bone_CB_list)
+	{
+		bone->Release();
+	}
+	return true;
 
 
 }
-void		FBX_char::SetMatrix(Matrix* World, Matrix* View, Matrix* Proj);
-bool		FBX_char::Render(ID3D11DeviceContext* pContext);
-bool		FBX_char::Release();

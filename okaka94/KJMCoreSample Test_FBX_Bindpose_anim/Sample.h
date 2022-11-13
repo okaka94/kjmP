@@ -2,6 +2,7 @@
 #include "Game_core.h"
 #include "FBX_loader.h"
 #include "Camera_debug.h"
+#include "FBX_char.h"
 
 
 class Sample : public Game_core
@@ -10,6 +11,8 @@ public:
 	std::map<std::wstring, UINT> m_fbx_table;
 	std::vector<FBX_loader*> m_fbx_list;
 	Camera_debug* Main_cam;
+
+	std::vector< FBX_char*> m_NpcList;
 			
 public:
 	virtual bool Init() override;

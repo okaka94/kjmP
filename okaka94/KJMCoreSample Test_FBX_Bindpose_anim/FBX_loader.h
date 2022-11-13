@@ -38,6 +38,8 @@ public:
 	bool		Init();
 	bool		Frame();
 	void		Update_anim(ID3D11DeviceContext* pContext);
+	void		Update_bone_data(ID3D11DeviceContext* pContext, float frame, VS_BONE_CONSTANT_BUFFER& cbData);
+	void		Update_sub_bone_data(ID3D11DeviceContext* pContext, VS_BONE_CONSTANT_BUFFER& cbInputData, std::vector< VS_BONE_CONSTANT_BUFFER>& cbOutputData);
 	bool		Render();
 	bool		Release();
 	bool		Load(C_STR filename);

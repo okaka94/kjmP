@@ -62,9 +62,40 @@ void		FBX_loader::Update_anim(ID3D11DeviceContext* pContext) {
 				}
 				pContext->UpdateSubresource(m_Draw_list[draw]->m_Skin_Bone_CB, 0, nullptr, &m_bone_cbData, 0, 0);
 			}
-		}
-		
+		}	
 }
+
+void		FBX_loader::Update_bone_data(ID3D11DeviceContext* pContext, float frame, VS_BONE_CONSTANT_BUFFER& cbData) {
+
+	for (int iBone = 0; iBone < m_Obj_list.size(); iBone++)
+	{
+		Matrix matAnimation = m_Obj_list[iBone]->Interpolate(frame, m_Anim_scene);
+		cbData.Bone_mat[iBone] = matAnimation;
+	}
+
+}
+
+void		FBX_loader::Update_sub_bone_data(ID3D11DeviceContext* pContext, VS_BONE_CONSTANT_BUFFER& cbInputData, std::vector< VS_BONE_CONSTANT_BUFFER>& cbOutputData) {
+
+	for (int iDraw = 0; iDraw < m_Draw_list.size(); iDraw++)
+	{
+		if (m_Draw_list[iDraw]->m_Bindpose_mat_map.size())
+		{
+			for (int Bone = 0; Bone < m_Obj_list.size(); Bone++)
+			{
+				auto iter = m_Draw_list[iDraw]->m_Bindpose_mat_map.find(Bone);
+				if (iter != m_Draw_list[iDraw]->m_Bindpose_mat_map.end())
+				{
+					Matrix Bind_mat = iter->second;
+					Matrix Anim_mat = Bind_mat * cbInputData.Bone_mat[Bone];
+					cbOutputData[iDraw].Bone_mat[Bone] = Anim_mat.Transpose();
+				}
+			}
+		}
+	}
+}
+
+
 
 bool		FBX_loader::Render() {
 	for (auto obj : m_Draw_list) {

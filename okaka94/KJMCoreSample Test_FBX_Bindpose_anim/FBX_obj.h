@@ -188,10 +188,7 @@ public:
 
 	bool	Post_Render()
 	{
-		if (m_skinned)
-		{
-			m_pImmediateContext->VSSetConstantBuffers(1, 1, &m_Skin_Bone_CB);
-		}
+		
 		if (m_pIndexBuffer == nullptr)
 		{
 			if (m_VBdata_list.size() > 0)
