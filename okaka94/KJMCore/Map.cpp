@@ -7,7 +7,7 @@ bool Map::Build(ID3D11Device* pd3dDevice, UINT width, UINT height, Camera* cam) 
 	
 	int half_width = width / 2;
 	int half_height = height / 2;
-	float cell_size = 1.0f;									// 정점간 거리 조절로 셀 하나의 크기 조정 가능
+	//float cell_size = 1.0f;									// 정점간 거리 조절로 셀 하나의 크기 조정 가능
 
 	for (int row = 0; row < height; row++) {	
 		for (int col = 0; col < width; col++) {
@@ -148,4 +148,71 @@ Vector Map::Calc_face_normal(UINT i0, UINT i1, UINT i2) {
 	face_normal.Normalize_vector();
 		
 	return face_normal;
+}
+
+float Map::Get_height(float x, float z) {
+
+
+	int cell_cols_num = cols_num - 1;
+	int cell_rows_num = rows_num - 1;
+
+	float cell_x = (float)(cell_cols_num * cell_size / 2.0f + x);
+	float cell_z = (float)(cell_rows_num * cell_size / 2.0f + z);
+
+	cell_x = cell_x / cell_size;
+	cell_z = cell_z / cell_size;
+
+	float vertex_col = ::floorf(cell_x);
+	float vertex_row = ::floorf(cell_z);
+
+	
+	if (vertex_col < 0.0f)  vertex_col = 0.0f;
+	if (vertex_row < 0.0f)  vertex_row = 0.0f;
+	if ((float)(cell_cols_num - 2) < vertex_col)	vertex_col = (float)(cell_cols_num - 2);
+	if ((float)(cell_rows_num - 2) < vertex_row)	vertex_row = (float)(cell_rows_num - 2);
+
+	
+	//  A   B
+	//  *---*
+	//  | / |
+	//  *---*  
+	//  C   D
+	float A = Get_height_map((int)vertex_row, (int)vertex_col);
+	float B = Get_height_map((int)vertex_row, (int)vertex_col + 1);
+	float C = Get_height_map((int)vertex_row + 1, (int)vertex_col);
+	float D = Get_height_map((int)vertex_row + 1, (int)vertex_col + 1);
+
+	float delta_x = cell_x - vertex_col;
+	float delta_z = cell_z - vertex_row;
+	float height = 0.0f;
+
+	// 위 삼각형
+	if (delta_z < (1.0f - delta_x))  //ABC
+	{
+		float height_diff_x = B - A; // A->B
+		float height_diff_z = C - A; // A->C	
+						  
+		height = A + Lerp(0.0f, height_diff_x, delta_x) + Lerp(0.0f, height_diff_z, delta_z);
+	}
+	// 아래페이스를 기준으로 보간한다.
+	else // DCB
+	{
+		float uy = C - D; // D->C
+		float vy = B - D; // D->B
+						  
+		height = D + Lerp(0.0f, uy, 1.0f - delta_x) + Lerp(0.0f, vy, 1.0f - delta_z);
+	}
+	return height;
+}
+
+
+float Map::Get_height_map(int row, int col) {
+
+	return m_VertexList[row * (cols_num) + col].p.y;		 // (cols_num) == width ?? row_num이 맞는지?
+
+}
+
+float Map::Lerp(float fStart, float fEnd, float fTangent)
+{
+	return fStart - (fStart * fTangent) + (fEnd * fTangent);
 }

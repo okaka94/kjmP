@@ -102,32 +102,9 @@ bool Sample::Init()
 			pObj->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), shaderfilename, szLoad);
 		}
 	}
-	UINT FBX_INDEX = 0;
+	
 
 
-	User_char = new FBX_char;
-	FBX_INDEX = m_fbx_table.find(L"Swat")->second;
-	User_char->m_FBX_loader = m_fbx_list[FBX_INDEX];
-	FBX_INDEX = m_fbx_table.find(L"Swat_turn")->second;
-	User_char->m_FBX_action = m_fbx_list[FBX_INDEX];
-	User_char->CreateConstantBuffer(m_pd3dDevice.Get());
-
-	if (User_char->m_FBX_action)
-	{
-		User_char->m_Anim_scene = User_char->m_FBX_action->m_Anim_scene;
-		User_char->m_FBX_action_list.insert(std::make_pair(L"walking", User_char->m_FBX_action));
-		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->m_Anim_scene.Start_frame;
-		User_char->m_Current_action.End_frame = 50;// pFbxLoaderA->m_AnimScene.iEndFrame;
-	}
-	else
-	{
-		User_char->m_Anim_scene = User_char->m_FBX_loader->m_Anim_scene;
-		Action_table action;
-		action.Start_frame = User_char->m_Anim_scene.Start_frame;
-		action.End_frame = User_char->m_Anim_scene.End_frame;
-		action.Loop_state = true;
-		User_char->m_Action_map.insert(std::make_pair(L"idle", action));
-	}
 
 
 	//for (int iObj = 0; iObj < 5; iObj++)
@@ -152,7 +129,7 @@ bool Sample::Init()
 
 
 	Main_cam = new Camera_debug;
-	Main_cam->Create_View_matrix(Vector(0, 1, -20), Vector(0, 0, 0), Vector(0, 1, 0));
+	//Main_cam->Create_View_matrix(Vector(0, 20, -20), Vector(0, 0, 0), Vector(0, 1, 0));
 	Main_cam->Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 
 
@@ -162,13 +139,44 @@ bool Sample::Init()
 	BG->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"DefaultShape_PNCT.txt", L"../../data/NormalMap/stone_wall.bmp");
 	BG->Create_Qtree(m_pd3dDevice.Get(), Main_cam);
 
+	UINT FBX_INDEX = 0;
+
+
+	User_char = new FBX_char;
+	FBX_INDEX = m_fbx_table.find(L"Swat")->second;
+	User_char->m_FBX_loader = m_fbx_list[FBX_INDEX];
+	FBX_INDEX = m_fbx_table.find(L"Swat_turn")->second;
+	User_char->m_FBX_action = m_fbx_list[FBX_INDEX];
+
+	User_char->m_World_matrix._42 = BG->Get_height(0, 0);
+
+	User_char->CreateConstantBuffer(m_pd3dDevice.Get());
+
+	if (User_char->m_FBX_action)
+	{
+		User_char->m_Anim_scene = User_char->m_FBX_action->m_Anim_scene;
+		User_char->m_FBX_action_list.insert(std::make_pair(L"walking", User_char->m_FBX_action));
+		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->m_Anim_scene.Start_frame;
+		User_char->m_Current_action.End_frame = 50;// pFbxLoaderA->m_AnimScene.iEndFrame;
+	}
+	else
+	{
+		User_char->m_Anim_scene = User_char->m_FBX_loader->m_Anim_scene;
+		Action_table action;
+		action.Start_frame = User_char->m_Anim_scene.Start_frame;
+		action.End_frame = User_char->m_Anim_scene.End_frame;
+		action.Loop_state = true;
+		User_char->m_Action_map.insert(std::make_pair(L"idle", action));
+	}
+	
+	Main_cam->Create_View_matrix(Vector(0, 50, -20), Vector(0, BG->Get_height(0, 0), 0), Vector(0, 1, 0));
 	
 	return true;
 }
 bool Sample::Frame()
 {
 	ClearD3D11DeviceContext(m_pImmediateContext.Get());
-	Main_cam->Frame();
+	//Main_cam->Frame();
 
 	/*for (auto npc : m_NpcList)
 	{
