@@ -128,3 +128,16 @@ bool Window::Run() {
 Window::Window() {
     g_pWindow = this;
 }
+
+
+void	Window::Set_tool_window(HWND hWnd) {
+
+    m_hWnd = hWnd;
+    g_hWnd = hWnd;
+    GetWindowRect(hWnd, &m_rtWindow);
+    GetClientRect(hWnd, &m_rtClient);
+    g_rtClient = m_rtClient;
+    m_iClientWidth = m_rtClient.right - m_rtClient.left;
+    m_iClientHeight = m_rtClient.bottom - m_rtClient.top;
+
+}

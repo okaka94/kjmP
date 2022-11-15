@@ -38,7 +38,9 @@ public:
 	virtual bool Render() { return true; };
 	virtual bool Release() { return true; };
 	bool		 Run();
+	bool		 Run_tool();
 	virtual HRESULT CreateDXResource();
 	virtual HRESULT DeleteDXResource();
+
 	
 };

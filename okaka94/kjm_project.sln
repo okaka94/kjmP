@@ -177,6 +177,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Height_m
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_Obj_Map_height", "KJMCoreSample Test_Obj_Map_height\KJMCoreSample Test_Obj_Map_height.vcxproj", "{3FCA027C-0024-4953-BBE3-D8FAADBC4481}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KJMCoreSample Test_MFC_create", "KJMCoreSample Test_MFC_create\KJMCoreSample Test_MFC_create.vcxproj", "{01FA586E-3098-43DC-869D-FD7941B00492}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -801,6 +803,14 @@ Global
 		{3FCA027C-0024-4953-BBE3-D8FAADBC4481}.Release|x64.Build.0 = Release|x64
 		{3FCA027C-0024-4953-BBE3-D8FAADBC4481}.Release|x86.ActiveCfg = Release|Win32
 		{3FCA027C-0024-4953-BBE3-D8FAADBC4481}.Release|x86.Build.0 = Release|Win32
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Debug|x64.ActiveCfg = Debug|x64
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Debug|x64.Build.0 = Debug|x64
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Debug|x86.ActiveCfg = Debug|Win32
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Debug|x86.Build.0 = Debug|Win32
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Release|x64.ActiveCfg = Release|x64
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Release|x64.Build.0 = Release|x64
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Release|x86.ActiveCfg = Release|Win32
+		{01FA586E-3098-43DC-869D-FD7941B00492}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

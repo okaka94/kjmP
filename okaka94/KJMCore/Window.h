@@ -14,6 +14,7 @@ public:
 
 public:
 	bool			SetWindow(HINSTANCE hInstance, const WCHAR* szTitle, UINT iWidth = 1024, UINT iHeight = 768);
+	void			Set_tool_window(HWND hWnd);
 	ATOM			MyRegisterClass();
 	BOOL			InitInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight);
 	virtual bool			Run();

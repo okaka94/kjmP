@@ -142,6 +142,10 @@ HRESULT Device::Resize_device(UINT width, UINT height) {
 
     HRESULT hr;
     if (m_pd3dDevice == nullptr) return S_OK; // window 생성 후 device 생성 전에 resize 호출한 경우 바로 리턴
+
+    g_rtClient.right = width;
+    g_rtClient.bottom = height;
+
     DeleteDXResource(); // 사용중인 렌더타겟 해제 작업
     m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL); // 렌더타겟 해제
     m_pRTV.ReleaseAndGetAddressOf();

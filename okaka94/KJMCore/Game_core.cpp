@@ -169,3 +169,12 @@ bool Game_core::Run() {
 
 	return true;
 }
+
+bool	Game_core::Run_tool() {
+	
+	if (!CoreFrame() || !CoreRender()) {					// frame() or render() 실패시 run() 종료
+		m_game_run = false;
+		return false;
+	}
+	return true;
+}

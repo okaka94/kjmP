@@ -4,14 +4,14 @@ bool Sample::Init()
 {
 		
 	Main_cam.Create_View_matrix(Vector(0, 50, -30), Vector(0, 0, 0), Vector(0, 1, 0));
-	Main_cam.Create_Proj_matrix(1.0f, 1000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
-	Main_cam.m_Frustum.Create_frustum_box(m_pd3dDevice, m_pImmediateContext);
+	Main_cam.Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+	Main_cam.m_Frustum.Create_frustum_box(m_pd3dDevice.Get(), m_pImmediateContext.Get());
 
 	BG = new Map;
 	// 2^n + 1로 빌드해야 공간 분할시 셀이 쪼개지지 않음
-	BG->Build(m_pd3dDevice, 512 + 1, 512 + 1,&Main_cam);
-	BG->Create(m_pd3dDevice, m_pImmediateContext, L"DefaultShape_PNCT.txt", L"../../data/NormalMap/stone_wall.bmp");
-	BG->Create_Qtree(m_pd3dDevice, &Main_cam);
+	BG->Build(m_pd3dDevice.Get(), 512 + 1, 512 + 1,&Main_cam);
+	BG->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"DefaultShape_PNCT.txt", L"../../data/NormalMap/stone_wall.bmp");
+	BG->Create_Qtree(m_pd3dDevice.Get(), &Main_cam);
 
 	
 	//MM_cam.Create_View_matrix(Vector(0, 70, 0.0), Vector(0, 0, 1), Vector(0, 1, 0));
