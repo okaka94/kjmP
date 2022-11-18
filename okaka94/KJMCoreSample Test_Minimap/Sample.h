@@ -12,6 +12,11 @@ public:
 	Player_object2D*	Player;
 	std::vector<NPC_object2D*>		NPC_list;
 	Vector2D			POV = { 0,0 };		// 카메라 위치는 원점이 디폴트 
+
+	Matrix		 m_world_mat;
+	Shape_box* Box_A = nullptr;
+	Vector		 m_vBoxPosition[100];
+
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;

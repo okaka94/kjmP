@@ -15,6 +15,10 @@ public:
 	Camera		 MM_cam;
 	Camera_debug Main_cam;	
 	Map*		 BG = nullptr;
+
+	Matrix		 m_world_mat;
+	Shape_box* Box_A = nullptr;
+	Vector		 m_vBoxPosition[100];
 		
 public:
 	virtual bool Init() override;

@@ -13,9 +13,17 @@ bool Sample::Init()
 	BG->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"DefaultShape_PNCT.txt", L"../../data/NormalMap/stone_wall.bmp");
 	BG->Create_Qtree(m_pd3dDevice.Get(), &Main_cam);
 
-	
+	Box_A = new Shape_box;
+	Box_A->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
+	Box_A->m_World_matrix.Set_Translation_matrix(0, 0, 0);
 	//MM_cam.Create_View_matrix(Vector(0, 70, 0.0), Vector(0, 0, 1), Vector(0, 1, 0));
 	//MM_cam.Create_Proj_matrix(1.0f, 1000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+
+	for (int iBox = 0; iBox < 100; iBox++)
+	{
+		//m_vBoxPosition[iBox] = Vector(25 - rand() % 50, 0.0f, 25 - rand() % 50);
+
+	}
 		
 
 
@@ -32,8 +40,41 @@ bool Sample::Frame()
 bool Sample::Render()
 {
 	
+	for (int iBox = 0; iBox < 100; iBox++)
+	{
+		m_world_mat._41 = m_vBoxPosition[iBox].x;
+		m_world_mat._42 = m_vBoxPosition[iBox].y;
+		m_world_mat._43 = m_vBoxPosition[iBox].z;
+
+		Vector center = m_vBoxPosition[iBox];
+
+		OBB Box;
+		Box.set_AABB(center, 1, 1, sqrt(3));
+
+		//SphereObj.v_center = m_vBoxPosition[iBox];
+		//SphereObj.r = sqrt(3.0f);
+
+
+		Box_A->SetMatrix(&m_world_mat, &Main_cam.m_View_matrix, &Main_cam.m_Proj_matrix);
+		P_POSITION ret = Main_cam.m_Frustum.Classify_OBB(Box);
+		if (ret)
+		{
+			Box_A->m_cbData.g_Color = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+			//Box_A->m_cbData.g_Color = Vector4D(1.0f, 0.0f, 0.0f, 1.0f);
+			Box_A->UpdateConstantBuffer();
+			Box_A->Render();
+		}
+
+	}
+	W_STR text = mtw("Number of rendered nodes: ") + std::to_wstring(BG->Map_Qtree.m_Draw_list.size());
+	Writer::GetInstance().Draw(5, 90, text, { 1,0,1,1 });
+
 	BG->SetMatrix(nullptr, &Main_cam.m_View_matrix, &Main_cam.m_Proj_matrix);
 	BG->Render();
+	
+	
+	
+	
 	
 	
 	//// mini map
