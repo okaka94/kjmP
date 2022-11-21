@@ -13,7 +13,7 @@ public:
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DIALOG1 };
+	enum { IDD = IDD_CREATEMAP};
 #endif
 
 protected:
@@ -21,5 +21,13 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	UINT COMPONENT;
+//	UINT COMPONENT;
+	CString Component;
+	CString Length;
+	CString Section;
+	afx_msg void OnBnClickedOk();
+	virtual BOOL OnInitDialog();
+	afx_msg void OnBnClickedApply();
+	CString Map_Width;
+	CString Map_Height;
 };

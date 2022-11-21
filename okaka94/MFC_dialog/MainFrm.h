@@ -8,6 +8,8 @@
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
 
+#include "CreateMap.h"
+
 class CMainFrame : public CFrameWndEx
 {
 	
@@ -58,7 +60,9 @@ protected:
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 public:
 //	afx_msg void OnCreatemap();
+	CreateMap* MapDlg =nullptr;
 	afx_msg void OnCreatemap();
+	afx_msg void OnBnClickedApply();
 };
 
 

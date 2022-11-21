@@ -7,7 +7,7 @@
 #include "MFC_dialog.h"
 
 #include "MainFrm.h"
-#include "CreateMap.h"
+//#include "CreateMap.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,6 +30,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_SETTINGCHANGE()
 //	ON_COMMAND(ID_Create_map, &CMainFrame::OnCreatemap)
 ON_COMMAND(ID_Create_map, &CMainFrame::OnCreatemap)
+ON_BN_CLICKED(IDC_APPLY, &CMainFrame::OnBnClickedApply)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -50,6 +51,13 @@ CMainFrame::CMainFrame() noexcept
 
 CMainFrame::~CMainFrame()
 {
+	//if (MapDlg->IsWindowEnabled()) {
+	if (MapDlg) {
+		MapDlg->DestroyWindow();
+		delete MapDlg;
+		MapDlg = NULL;
+	}         
+	
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -414,8 +422,23 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 
 void CMainFrame::OnCreatemap()
 {
-	CreateMap MapDlg;
+	//CreateMap MapDlg;
+	//
+	//MapDlg.DoModal();
 
-	MapDlg.DoModal();
+	MapDlg = new CreateMap;
+	MapDlg->Create(IDD_CREATEMAP);
+	MapDlg->ShowWindow(SW_SHOW);
+
+	
+	
+	//int k = _ttoi(MapDlg.Component);
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+}
+
+
+void CMainFrame::OnBnClickedApply()
+{
+
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

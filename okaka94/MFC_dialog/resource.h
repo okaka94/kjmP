@@ -84,13 +84,20 @@
 #define IDS_FIND_TAB                    302
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
-#define IDD_DIALOG1                     310
+#define IDD_CREATEMAP                   310
 #define IDC_EDIT3                       1008
+#define IDC_Component                   1008
 #define IDC_EDIT4                       1009
+#define IDC_Section                     1009
 #define IDC_EDIT5                       1010
+#define IDC_Length                      1010
 #define IDC_SCROLLBAR2                  1012
 #define IDC_SCROLLBAR3                  1013
 #define IDC_SCROLLBAR4                  1014
+#define IDC_APPLY                       1015
+#define IDC_EDIT1                       1016
+#define IDC_HEIGHT                      1016
+#define IDC_WIDTH                       1017
 #define ID_Create_map                   32776
 #define ID_Load_map                     32777
 #define ID_Save_map                     32780
@@ -101,7 +108,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        312
 #define _APS_NEXT_COMMAND_VALUE         32781
-#define _APS_NEXT_CONTROL_VALUE         1013
+#define _APS_NEXT_CONTROL_VALUE         1017
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

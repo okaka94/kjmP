@@ -9,13 +9,27 @@ bool Map::Build(ID3D11Device* pd3dDevice, UINT width, UINT height, Camera* cam) 
 	int half_height = height / 2;
 	//float cell_size = 1.0f;									// 정점간 거리 조절로 셀 하나의 크기 조정 가능
 
-	for (int row = 0; row < height; row++) {	
-		for (int col = 0; col < width; col++) {
-			m_VertexList[row * width + col].p = { (float)(col - half_width) * cell_size,
-			m_Height_list[row * width + col] * max_Height,
-			(float)(half_height - row) * cell_size };  // z 좌표는 - 연산 (좌상단 정점 -1,0,1)
-			m_VertexList[row * width + col].c = { 1.0f,1.0f,1.0f,1.0f };
-			m_VertexList[row * width + col].t = { (float)col / (width - 1)*10, (float)row / (height - 1)*10 };			// uv좌표계는 0 ~ 1로 정규화
+	if (m_Height_list.size() == 0) {
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				m_VertexList[row * width + col].p = { (float)(col - half_width) * cell_size,
+				0,
+				(float)(half_height - row) * cell_size };  // z 좌표는 - 연산 (좌상단 정점 -1,0,1)
+				m_VertexList[row * width + col].c = { 1.0f,1.0f,1.0f,1.0f };
+				m_VertexList[row * width + col].t = { (float)col / (width - 1) * 10, (float)row / (height - 1) * 10 };			// uv좌표계는 0 ~ 1로 정규화
+			}
+		}
+	}
+
+	else{
+		for (int row = 0; row < height; row++) {	
+			for (int col = 0; col < width; col++) {
+				m_VertexList[row * width + col].p = { (float)(col - half_width) * cell_size,
+				m_Height_list[row * width + col] * max_Height,
+				(float)(half_height - row) * cell_size };  // z 좌표는 - 연산 (좌상단 정점 -1,0,1)
+				m_VertexList[row * width + col].c = { 1.0f,1.0f,1.0f,1.0f };
+				m_VertexList[row * width + col].t = { (float)col / (width - 1)*10, (float)row / (height - 1)*10 };			// uv좌표계는 0 ~ 1로 정규화
+			}
 		}
 	}
 
