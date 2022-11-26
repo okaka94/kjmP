@@ -60,21 +60,22 @@ bool Sample::Init()
 
 	
 
-	/*FBX_loader* jump_1 = new FBX_loader;
+	FBX_loader* jump_1 = new FBX_loader;
 	if (jump_1->Init())
 	{
-		if (jump_1->Load("../../data/fbx/jump_1.fbx"))
+		if (jump_1->Load("../../data/fbx/jump_no_tex.fbx"))
 		{
 			jump_1->CreateConstantBuffer(m_pd3dDevice.Get());
 		}
 	}
 	m_fbx_table.insert(std::make_pair(L"jump_1", fbx_idx++));
-	m_fbx_list.push_back(jump_1);*/
+	m_fbx_list.push_back(jump_1);
 
 	FBX_loader* Chell = new FBX_loader;
 	if (Chell->Init())
 	{
-		Chell->Load("../../data/fbx/Chell_Jump.fbx");
+		//Chell->Load("../../data/fbx/Chell_Jump1.fbx");
+		Chell->Load("../../data/fbx/Chell1.fbx");
 	}
 	m_fbx_table.insert(std::make_pair(L"Chell", fbx_idx++));
 	m_fbx_list.push_back(Chell);
@@ -98,8 +99,8 @@ bool Sample::Init()
 	User_char = new FBX_char;
 	FBX_INDEX = m_fbx_table.find(L"Chell")->second;
 	User_char->m_FBX_loader = m_fbx_list[FBX_INDEX];
-	//FBX_INDEX = m_fbx_table.find(L"jump_1")->second;
-	//User_char->m_FBX_action = m_fbx_list[FBX_INDEX];
+	FBX_INDEX = m_fbx_table.find(L"jump_1")->second;
+	User_char->m_FBX_action = m_fbx_list[FBX_INDEX];
 	User_char->CreateConstantBuffer(m_pd3dDevice.Get());
 
 	if (User_char->m_FBX_action)
