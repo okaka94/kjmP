@@ -74,7 +74,7 @@ bool Sample::Init()
 	FBX_loader* Chell = new FBX_loader;
 	if (Chell->Init())
 	{
-		Chell->Load("../../data/fbx/Chell2.fbx");
+		Chell->Load("../../data/fbx/Chell1.fbx");
 	}
 	m_fbx_table.insert(std::make_pair(L"Chell", fbx_idx++));
 	m_fbx_list.push_back(Chell);

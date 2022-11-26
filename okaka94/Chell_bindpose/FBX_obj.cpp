@@ -2,6 +2,34 @@
 
 
 void	FBX_obj::CreateVertexList() {
+
+	if (m_VertexList.size() > 0)
+	{
+		m_InitVertexList = m_VertexList;
+		return;
+	}
+
+	m_VertexList.resize(4);
+
+	m_VertexList[0].p = { -1.0f,  1.0f, 0.0f };
+	m_VertexList[0].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_VertexList[0].t = { 0.0f,0.0f };
+
+	m_VertexList[1].p = { 1.0f,  1.0f, 0.0f };
+	m_VertexList[1].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_VertexList[1].t = { 1.0f,0.0f };
+
+	m_VertexList[2].p = { -1.0f, -1.0f, 0.0f };
+	m_VertexList[2].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_VertexList[2].t = { 0.0f,1.0f };
+
+
+	m_VertexList[3].p = { 1.0f, -1.0f, 0.0f };
+	m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_VertexList[3].t = { 1.0f,1.0f };
+
+	m_InitVertexList = m_VertexList;
+
 	return;
 }
 

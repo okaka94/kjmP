@@ -186,12 +186,12 @@ void		FBX_loader::Pre_Process(FbxNode* node) {
 	int child_num = node->GetChildCount();
 	for (int n = 0; n < child_num; n++) {
 		FbxNode* child_node = node->GetChild(n);   // n¹øÂ° child_node¸¦ Get
-		//FbxNodeAttribute::EType type = child_node->GetNodeAttribute()->GetAttributeType();
-		//if (type == FbxNodeAttribute::eMesh ||
-		//	type == FbxNodeAttribute::eSkeleton ||
-		//	type == FbxNodeAttribute::eNull) {
+		FbxNodeAttribute::EType type = child_node->GetNodeAttribute()->GetAttributeType();
+		if (type == FbxNodeAttribute::eMesh ||
+			type == FbxNodeAttribute::eSkeleton ||
+			type == FbxNodeAttribute::eNull) {
 			Pre_Process(child_node);
-		//}
+		}
 	}
 }
 bool	FBX_loader::Parse_mesh_skinning(FbxMesh* mesh, Skinning_FBX_obj* obj) {
