@@ -60,7 +60,7 @@ bool Sample::Init()
 
 	
 
-	FBX_loader* jump_1 = new FBX_loader;
+	/*FBX_loader* jump_1 = new FBX_loader;
 	if (jump_1->Init())
 	{
 		if (jump_1->Load("../../data/fbx/jump_1.fbx"))
@@ -69,12 +69,12 @@ bool Sample::Init()
 		}
 	}
 	m_fbx_table.insert(std::make_pair(L"jump_1", fbx_idx++));
-	m_fbx_list.push_back(jump_1);
+	m_fbx_list.push_back(jump_1);*/
 
 	FBX_loader* Chell = new FBX_loader;
 	if (Chell->Init())
 	{
-		Chell->Load("../../data/fbx/Chell1.fbx");
+		Chell->Load("../../data/fbx/Chell_Jump.fbx");
 	}
 	m_fbx_table.insert(std::make_pair(L"Chell", fbx_idx++));
 	m_fbx_list.push_back(Chell);
@@ -98,8 +98,8 @@ bool Sample::Init()
 	User_char = new FBX_char;
 	FBX_INDEX = m_fbx_table.find(L"Chell")->second;
 	User_char->m_FBX_loader = m_fbx_list[FBX_INDEX];
-	FBX_INDEX = m_fbx_table.find(L"jump_1")->second;
-	User_char->m_FBX_action = m_fbx_list[FBX_INDEX];
+	//FBX_INDEX = m_fbx_table.find(L"jump_1")->second;
+	//User_char->m_FBX_action = m_fbx_list[FBX_INDEX];
 	User_char->CreateConstantBuffer(m_pd3dDevice.Get());
 
 	if (User_char->m_FBX_action)
@@ -117,6 +117,8 @@ bool Sample::Init()
 		action.End_frame = User_char->m_Anim_scene.End_frame;
 		action.Loop_state = true;
 		User_char->m_Action_map.insert(std::make_pair(L"idle", action));
+		
+		User_char->m_Current_action = User_char->m_Action_map.find(L"idle")->second;
 	}
 
 
@@ -134,6 +136,7 @@ bool Sample::Frame()
 	Main_cam->Frame();
 
 	
+
 	User_char->Update_anim(m_pImmediateContext.Get());
 
 	return true;
@@ -143,6 +146,11 @@ bool Sample::Render()
 
 	User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 	User_char->Render(m_pImmediateContext.Get());
+
+	std::wstring frame = L"Anim_frame : ";
+	frame += std::to_wstring(User_char->m_Anim_frame);
+	Writer::GetInstance().m_szDefaultText = frame;
+	//Writer::GetInstance().Render();
 
 	return true;
 }

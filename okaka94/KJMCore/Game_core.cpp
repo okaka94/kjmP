@@ -124,7 +124,7 @@ bool Game_core::CorePost_Render() {
 
 	Timer::GetInstance().Render();
 	Input::GetInstance().Render();
-	Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
+	//Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
 	Writer::GetInstance().Render();
 
 	m_pSwapChain->Present(0, 0);											// Presents a rendered image to the user.

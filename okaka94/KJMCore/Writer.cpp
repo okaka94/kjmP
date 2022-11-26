@@ -53,7 +53,7 @@ bool Writer::Frame() {
 
 bool Writer::Render() {
 
-	Draw(0, 0, m_szDefaultText, { 1,0,1,1 });
+	Draw(0, 0, m_szDefaultText, { 1,1,1,1 });
 	return true;
 }
 
@@ -63,7 +63,7 @@ bool Writer::Draw(float x, float y, std::wstring text, D2D1_COLOR_F color) {
 
 	D2D1_RECT_F rt = { x,y,g_rtClient.right,g_rtClient.bottom };
 	m_pTextColor->SetColor(color);
-	m_pTextColor->SetOpacity(1.0f);
+	m_pTextColor->SetOpacity(0.8f);
 	m_d2dRT->DrawText(text.c_str(), text.size(), m_pTextFormat, rt, m_pTextColor);
 	m_d2dRT->EndDraw();
 
