@@ -63,7 +63,7 @@ bool Sample::Init()
 	FBX_loader* jump_1 = new FBX_loader;
 	if (jump_1->Init())
 	{
-		if (jump_1->Load("../../data/fbx/jump_no_tex.fbx"))
+		if (jump_1->Load("../../data/fbx/Chell@RunE.fbx"))
 		{
 			jump_1->CreateConstantBuffer(m_pd3dDevice.Get());
 		}
@@ -75,7 +75,7 @@ bool Sample::Init()
 	if (Chell->Init())
 	{
 		//Chell->Load("../../data/fbx/Chell_Jump1.fbx");
-		Chell->Load("../../data/fbx/Chell1.fbx");
+		Chell->Load("../../data/fbx/Chell.fbx");
 	}
 	m_fbx_table.insert(std::make_pair(L"Chell", fbx_idx++));
 	m_fbx_list.push_back(Chell);
