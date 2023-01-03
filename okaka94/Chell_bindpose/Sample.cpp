@@ -63,7 +63,7 @@ bool Sample::Init()
 	FBX_loader* jump_1 = new FBX_loader;
 	if (jump_1->Init())
 	{
-		if (jump_1->Load("../../data/fbx/Chell@RunE.fbx"))
+		if (jump_1->Load("../../data/fbx/Chell@RunS.fbx"))
 		{
 			jump_1->CreateConstantBuffer(m_pd3dDevice.Get());
 		}
