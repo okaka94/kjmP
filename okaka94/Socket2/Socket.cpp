@@ -24,19 +24,40 @@ int main() {
 
 	int ret = connect(sock, (sockaddr*)&sa, sizeof(sa));					// Connect socket
 	if (ret == SOCKET_ERROR) {
+		int error = WSAGetLastError();
+		printf("%d\n", error);
 		return 1;
 	}
+	
+	u_long mode = TRUE;														// True : Non-block , False : Block
+	ioctlsocket(sock, FIONBIO, &mode);										// Control Socket. set non-block mode
+
 	while (1) {
-	char SendMsgBuf[256] = { 0, };
-	fgets(SendMsgBuf, 256, stdin);
 
-	int MsgBytes = send(sock, SendMsgBuf, strlen(SendMsgBuf), 0);			// Send
+		char SendMsgBuf[256] = { 0, };
+		fgets(SendMsgBuf, 256, stdin);
 
-	char RecvMsgBuf[256] = { 0, };
-	int RecvBytes = recv(sock, RecvMsgBuf, 256, 0);							// Receive
-	printf("%s\n", RecvMsgBuf);
+		int MsgBytes = send(sock, SendMsgBuf, strlen(SendMsgBuf), 0);			// Send
+		if (MsgBytes == SOCKET_ERROR) {
+			if (WSAGetLastError() != WSAEWOULDBLOCK) {							// Error -> close socket & return
+				closesocket(sock);
+				return 1;
+			}
+			continue;															// WSAEWOULDBLOCK : Send nothing. continue
+		}
+
+		char RecvMsgBuf[256] = { 0, };
+		int RecvBytes = recv(sock, RecvMsgBuf, 256, 0);							// Receive
+		if (RecvBytes == SOCKET_ERROR) {
+			if (WSAGetLastError() != WSAEWOULDBLOCK) {
+				closesocket(sock);
+				return 1;
+			}
+			continue;
+		}
+		printf("%s\n", RecvMsgBuf);
 	}
-
+	
 	closesocket(sock);														// Close
 
 	WSACleanup();			//CLEANUP
@@ -70,22 +91,50 @@ int main() {
 	SOCKADDR_IN client_sa;
 	int length = sizeof(client_sa);
 	SOCKET client_sock = accept(sock, (sockaddr*)&client_sa, &length);		// Accept . return client socket
-
+	if (client_sock == SOCKET_ERROR) {
+		closesocket(sock);
+		WSACleanup();
+		return 1;
+	}
 	printf("클라이언트 접속 : IP : %s , PORT %d\n", 
 		inet_ntoa(client_sa.sin_addr),										// inet_ntoa() : ip address to string(ASCII)
 		ntohs(client_sa.sin_port));											// ntohs() : big-endian to little-endian
 		
+	u_long mode = TRUE;
+	ioctlsocket(client_sock, FIONBIO, &mode);
+
 	while (1) {
 
-	char RecvMsgBuf[256] = { 0, };
-	int RecvBytes = recv(client_sock, RecvMsgBuf, 256, 0);							// Receive
-	printf("%s\n", RecvMsgBuf);
+		char RecvMsgBuf[256] = { 0, };
+		int RecvBytes = recv(client_sock, RecvMsgBuf, 256, 0);							// Receive
+		if (RecvBytes == 0) {															// recv() returns 0 : Client disconnects
+			
+			printf("클라이언트 접속 종료 : IP : %s , PORT %d\n",
+				inet_ntoa(client_sa.sin_addr),
+				ntohs(client_sa.sin_port));
+			closesocket(client_sock);
+			break;
+		}
+		if (RecvBytes == SOCKET_ERROR) {
+			if (WSAGetLastError() != WSAEWOULDBLOCK) {
+				closesocket(client_sock);
+				break;
+			}
+		}
+		else {
+			printf("%d\n", RecvMsgBuf);
+		}
 
-	char SendMsgBuf[256] = { 0, };
-	fgets(SendMsgBuf, 256, stdin);
-
-	int MsgBytes = send(client_sock, SendMsgBuf, strlen(SendMsgBuf), 0);			// Send
-
+		char SendMsgBuf[256] = { 0, };
+		if (RecvBytes > 0) {
+			int MsgBytes = send(client_sock, SendMsgBuf, strlen(SendMsgBuf), 0);			// Send
+			if (MsgBytes == SOCKET_ERROR) {
+				if (WSAGetLastError() != WSAEWOULDBLOCK) {
+					closesocket(client_sock);
+					break;
+				}
+			}
+		}
 	}
 	closesocket(sock);														// Close
 
