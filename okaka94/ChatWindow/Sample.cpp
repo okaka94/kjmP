@@ -16,11 +16,11 @@ LRESULT Sample::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 		case WM_CREATE: {
 			_edit = CreateWindow(L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER,
-				500, 10, 200, 25, hWnd, (HMENU)1000, m_hInstance, NULL);
+				500, 569, 250, 25, hWnd, (HMENU)1000, m_hInstance, NULL);
 			_sendBtn = CreateWindow(L"button", L"Send", WS_CHILD | WS_VISIBLE | WS_BORDER | BS_PUSHBUTTON,
-				700, 10, 50, 25, hWnd, (HMENU)1001, m_hInstance, NULL);
+				750, 569, 50, 25, hWnd, (HMENU)1001, m_hInstance, NULL);
 			_listBox = CreateWindow(L"listbox", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL,
-				0, 0, 500, 600, hWnd, (HMENU)1002, m_hInstance, NULL);
+				0, 0, 500, 609, hWnd, (HMENU)1002, m_hInstance, NULL);
 			std::wstring fmt = L"%s";
 			Print(fmt.c_str(), L"대화 시작");
 		}break;
