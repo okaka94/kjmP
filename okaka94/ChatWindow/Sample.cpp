@@ -68,12 +68,17 @@ bool Sample::Run() {
 bool Sample::Init() {
 
 	std::wstring fmt = L"IP[%s] : PORT[%d] %s";
-	if (_net.StartNet("192.168.0.45", 10000)) {
-		Print(fmt.c_str(), L"192.168.0.45", 10000, L"접속 성공");
+
+	std::string ip = "127.0.0.1";
+	short port = 10000;
+	
+	if (_net.StartNet(ip, port)) { //192.168.0.45", 10000)) {
+		Print(fmt.c_str(), to_mw(ip).c_str(), port, L"접속 성공");
 	}
 	else {
-		Print(fmt.c_str(), L"192.168.0.45", 10000, L"접속 실패");
+		Print(fmt.c_str(), to_mw(ip).c_str(), port, L"접속 실패");
 	}
+
 	return true;
 }
 
@@ -87,7 +92,7 @@ void Sample::NetProcess() {
 
 			case PACKET_CHATNAME_REQ: {
 				std::wstring fmt = L"%s";
-				Print(fmt.c_str(), L"대화명을 입력해주세요 : ");
+				Print(fmt.c_str(), L"대화명을 입력해주세요.");
 			}break;
 
 			case PACKET_NEW_USER: {
@@ -97,7 +102,7 @@ void Sample::NetProcess() {
 
 			case PACKET_NAME_ACK: {
 				std::wstring fmt = L"%s%s";
-				Print(fmt.c_str(), to_mw(packet._msg).c_str(), L"대화방 입장(대화명 승인)");
+				Print(fmt.c_str(), L"대화방 입장 : ", to_mw(packet._msg).c_str());
 			}break;
 		}
 	}

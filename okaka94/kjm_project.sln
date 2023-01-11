@@ -203,6 +203,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SocketWin", "SocketWin\Sock
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatWindow", "ChatWindow\ChatWindow.vcxproj", "{F4732A32-A056-416F-8093-7F2B49044D00}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatWindow_callback", "ChatWindow_callback\ChatWindow_callback.vcxproj", "{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -907,6 +909,14 @@ Global
 		{F4732A32-A056-416F-8093-7F2B49044D00}.Release|x64.Build.0 = Release|x64
 		{F4732A32-A056-416F-8093-7F2B49044D00}.Release|x86.ActiveCfg = Release|Win32
 		{F4732A32-A056-416F-8093-7F2B49044D00}.Release|x86.Build.0 = Release|Win32
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Debug|x64.ActiveCfg = Debug|x64
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Debug|x64.Build.0 = Debug|x64
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Debug|x86.ActiveCfg = Debug|Win32
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Debug|x86.Build.0 = Debug|Win32
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Release|x64.ActiveCfg = Release|x64
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Release|x64.Build.0 = Release|x64
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Release|x86.ActiveCfg = Release|Win32
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1000,6 +1010,7 @@ Global
 		{73624ABB-EBD1-42EA-AF88-FC4D81574E4F} = {1F66701B-8462-4227-85C8-4699098C8B4F}
 		{66C88A68-0B76-40A8-B0D1-4B2E8FF91A01} = {1F66701B-8462-4227-85C8-4699098C8B4F}
 		{F4732A32-A056-416F-8093-7F2B49044D00} = {1F66701B-8462-4227-85C8-4699098C8B4F}
+		{AA3E9B64-9FE5-44E0-A8EF-5B4B3DC1217D} = {1F66701B-8462-4227-85C8-4699098C8B4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53D2CBEB-40EF-4E5A-BDC4-BFDFCCBD52FC}

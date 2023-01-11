@@ -71,6 +71,7 @@ int Network::SendMsg(SOCKET sock, const char* msg, short type) {
 bool Network::StartNet(std::string ip, int port) {
 	_sock = socket(AF_INET, SOCK_STREAM, 0);
 	SOCKADDR_IN sa;
+	sa.sin_family = AF_INET;
 	sa.sin_addr.s_addr = inet_addr(ip.c_str());
 	sa.sin_port = htons(port);
 	int ret = connect(_sock, (sockaddr*)&sa, sizeof(sa));

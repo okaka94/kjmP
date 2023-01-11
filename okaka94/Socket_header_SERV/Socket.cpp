@@ -106,7 +106,8 @@ DWORD WINAPI ServerThread(LPVOID IpThreadParam) {
 				case PACKET_NAME_REQ: {
 					memcpy(recvIter->_name, packet._msg, strlen(packet._msg));
 					packet._header._type = PACKET_NEW_USER;
-					SendMsg(recvIter->_sock, nullptr, PACKET_NAME_ACK);
+					//SendMsg(recvIter->_sock, nullptr, PACKET_NAME_ACK);
+					SendMsg(recvIter->_sock, packet._msg, PACKET_NAME_ACK);
 				}break;
 				}
 				
@@ -178,6 +179,8 @@ int main() {
 		}
 		printf("클라이언트 접속 : IP : %s, PORT : %d\n",
 			inet_ntoa(client_sa.sin_addr), ntohs(client_sa.sin_port));
+
+		SendMsg(client_sock, nullptr, PACKET_CHATNAME_REQ);
 
 		u_long Mode = TRUE;
 		ioctlsocket(client_sock, FIONBIO, &Mode);
