@@ -18,9 +18,9 @@ public:
 	void	NameAck(PACKET& p);
 
 public:
-	// preprocess , postprocess , preframe, postrender »Æ¿Œ
+	
 	void	Print(const WCHAR* msg, ...);
-	void	NetProcess();
+	void	NetProcess();					// preprocess() + postprocess()
 	bool	Run() override;
 	LRESULT	MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 	bool	Init() override;

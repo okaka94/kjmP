@@ -92,54 +92,54 @@ void Network::SendProcess() {
 	_sendPacketList.clear();
 }
 
-DWORD WINAPI RecvThread(LPVOID ThreadParam) {
-	Network* net = (Network*)ThreadParam;
-	SOCKET sock = net->_sock;
-	int recvPacketSize = PACKET_HEADER_SIZE;
-	int totalRecvBytes = 0;
-	while (1) {
-		char recvMsg[256] = { 0, };
-		int recvBytes = recv(net->_sock, recvMsg, PACKET_HEADER_SIZE - totalRecvBytes, 0);
-		if (recvBytes == 0) {
-			printf("서버 정상 종료\n");
-			return true;
-		}
-		totalRecvBytes += recvBytes;
-		if (totalRecvBytes == PACKET_HEADER_SIZE) {
-			PACKET packet;
-			ZeroMemory(&packet, sizeof(PACKET));
-			memcpy(&packet._header, recvMsg, PACKET_HEADER_SIZE);
-
-			char* msg = (char*)&packet;
-			int numRecvBytes = 0;
-			do {
-				if (packet._header._len == PACKET_HEADER_SIZE) {
-					break;
-				}
-				int recvBytes = recv(net->_sock, &packet._msg[numRecvBytes], 
-									 packet._header._len - PACKET_HEADER_SIZE - numRecvBytes, 0);
-
-				if (recvBytes == 0) {
-					printf("서버 정상 종료\n");
-					break;
-				}
-				if (recvBytes == SOCKET_ERROR) {
-					if (WSAGetLastError() != WSAEWOULDBLOCK) {
-						closesocket(net->_sock);
-						printf("서버 비정상 종료\n");
-						return 1;
-					}
-					continue;
-				}
-				numRecvBytes += recvBytes;
-			} while ((packet._header._len - PACKET_HEADER_SIZE) > numRecvBytes);
-
-			net->_packetList.push_back(packet);
-			totalRecvBytes = 0;
-		}
-	}
-	closesocket(sock);
-}
+//DWORD WINAPI RecvThread(LPVOID ThreadParam) {
+//	Network* net = (Network*)ThreadParam;
+//	SOCKET sock = net->_sock;
+//	int recvPacketSize = PACKET_HEADER_SIZE;
+//	int totalRecvBytes = 0;
+//	while (1) {
+//		char recvMsg[256] = { 0, };
+//		int recvBytes = recv(net->_sock, recvMsg, PACKET_HEADER_SIZE - totalRecvBytes, 0);
+//		if (recvBytes == 0) {
+//			printf("서버 정상 종료\n");
+//			return true;
+//		}
+//		totalRecvBytes += recvBytes;
+//		if (totalRecvBytes == PACKET_HEADER_SIZE) {
+//			PACKET packet;
+//			ZeroMemory(&packet, sizeof(PACKET));
+//			memcpy(&packet._header, recvMsg, PACKET_HEADER_SIZE);
+//
+//			char* msg = (char*)&packet;
+//			int numRecvBytes = 0;
+//			do {
+//				if (packet._header._len == PACKET_HEADER_SIZE) {
+//					break;
+//				}
+//				int recvBytes = recv(net->_sock, &packet._msg[numRecvBytes], 
+//									 packet._header._len - PACKET_HEADER_SIZE - numRecvBytes, 0);
+//
+//				if (recvBytes == 0) {
+//					printf("서버 정상 종료\n");
+//					break;
+//				}
+//				if (recvBytes == SOCKET_ERROR) {
+//					if (WSAGetLastError() != WSAEWOULDBLOCK) {
+//						closesocket(net->_sock);
+//						printf("서버 비정상 종료\n");
+//						return 1;
+//					}
+//					continue;
+//				}
+//				numRecvBytes += recvBytes;
+//			} while ((packet._header._len - PACKET_HEADER_SIZE) > numRecvBytes);
+//
+//			net->_packetList.push_back(packet);
+//			totalRecvBytes = 0;
+//		}
+//	}
+//	closesocket(sock);
+//}
 
 int Network::SendMsg(SOCKET sock, const char* data, int size ,short type) {
 	
