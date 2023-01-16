@@ -14,30 +14,6 @@ void Sample::Print(const WCHAR* fmt, ...) {													// variable argument
 
 LRESULT Sample::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
-	case NETWORK_MSG: {
-		if (WSAGETSELECTERROR(lParam) != 0) {
-			PostQuitMessage(0);
-			break;
-		}
-		WORD selector = WSAGETSELECTEVENT(lParam);
-		switch (selector) {
-			case FD_CONNECT: {
-				_net._isConnected = true;
-			}break;
-
-			case FD_READ: {
-				_net.RecvProcess();
-			}break;
-
-			case FD_WRITE: {
-				//sendprocess
-			}break;
-
-			case FD_CLOSE: {
-				_net._isConnected = false;
-			}break;
-		}
-	}break;
 	case WM_CREATE: {
 		_edit = CreateWindow(L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER,
 			500, 569, 250, 25, hWnd, (HMENU)1000, m_hInstance, NULL);
@@ -95,8 +71,8 @@ bool Sample::Init() {
 
 	_net._fnExecutor[PACKET_CHATNAME_REQ] = std::bind(&Sample::ChatNameReq, this, std::placeholders::_1);
 	_net._fnExecutor[PACKET_CHAR_MSG] = std::bind(&Sample::ChatMsg, this, std::placeholders::_1);
-	_net._fnExecutor[PACKET_NEW_USER] = std::bind(&Sample::NewUser, this, std::placeholders::_1);
-	_net._fnExecutor[PACKET_NAME_ACK] = std::bind(&Sample::NameAck, this, std::placeholders::_1);
+	//_net._fnExecutor[PACKET_NEW_USER] = std::bind(&Sample::NewUser, this, std::placeholders::_1);
+	//_net._fnExecutor[PACKET_NAME_ACK] = std::bind(&Sample::NameAck, this, std::placeholders::_1);
 	
 	std::wstring fmt = L"IP[%s] : PORT[%d] %s";
 
@@ -104,10 +80,10 @@ bool Sample::Init() {
 	short port = 10000;
 
 	if (_net.StartNet(ip, port)) { //192.168.0.45", 10000)) {
-		Print(fmt.c_str(), to_mw(ip).c_str(), port, L"접속 성공");
+		Print(fmt.c_str(), to_mw(ip).c_str(), port, L"서버 성공");
 	}
 	else {
-		Print(fmt.c_str(), to_mw(ip).c_str(), port, L"접속 실패");
+		Print(fmt.c_str(), to_mw(ip).c_str(), port, L"서버 실패");
 	}
 
 	return true;

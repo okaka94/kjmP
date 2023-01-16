@@ -14,8 +14,8 @@ class Sample : public Game_core
 public:
 	void	ChatMsg(PACKET& p);
 	void	ChatNameReq(PACKET& p);
-	void	NewUser(PACKET& p);
-	void	NameAck(PACKET& p);
+	//void	NewUser(PACKET& p);
+	//void	NameAck(PACKET& p);
 
 public:
 	

@@ -1,6 +1,113 @@
 #include "Network.h"
 
 void Network::PacketProcess() {
+
+	FD_ZERO(&_rSet);
+	FD_ZERO(&_wSet);
+	FD_SET(_sock, &_rSet);
+	FD_SET(_sock, &_wSet);
+	for (auto& user : _userList) {
+		FD_SET(user._sock, &_rSet);
+		FD_SET(user._sock, &_wSet);
+	}
+	timeval time;
+	time.tv_sec  = 0;
+	time.tv_usec = 1000;
+	
+	int ret = select(0, &_rSet, &_wSet, NULL, &time);
+	if (ret == SOCKET_ERROR) { return; }
+	if (ret == 0) { return; }
+
+	if (FD_ISSET(_sock, &_rSet)) {
+		SOCKADDR_IN clientSa;
+		int length = sizeof(clientSa);
+		SOCKET clientSock = accept(_sock, (sockaddr*)&clientSa, &length);
+		if (clientSock == SOCKET_ERROR) {
+			closesocket(_sock);
+			WSACleanup();
+			return;
+		}
+		printf("클라이언트 접속 : IP : %s, PORT : %d\n",
+			inet_ntoa(clientSa.sin_addr), ntohs(clientSa.sin_port));
+
+		u_long Mode = TRUE;
+		ioctlsocket(clientSock, FIONBIO, &Mode);
+
+		User user;
+		user._sock = clientSock;
+		user._sa = clientSa;
+		_userList.push_back(user);
+
+		SendMsg(clientSock, nullptr, 0, PACKET_CHATNAME_REQ);
+	}
+
+	for (auto recvIter = _userList.begin(); _userList.end() != recvIter;) {
+		PACKET packet;
+		ZeroMemory(&packet, sizeof(PACKET));
+
+		if (FD_ISSET(recvIter->_sock, &_rSet)) {
+			int recvPacketSize = PACKET_HEADER_SIZE;
+			// 패킷헤더 단위로 recv하고 헤더 다 받은 뒤에 본문 다시 recv
+			int recvBytes = recv(recvIter->_sock, recvIter->_msg, PACKET_HEADER_SIZE - recvIter->_totalRecvBytes, 0);
+			if (recvBytes == 0) {
+				printf("클라이언트 접속 종료 : IP : %s, PORT : %d\n",
+					inet_ntoa(recvIter->_sa.sin_addr), ntohs(recvIter->_sa.sin_port));
+				recvIter = _userList.erase(recvIter);
+				continue;
+			}
+			DWORD error = WSAGetLastError();
+			if (recvBytes == SOCKET_ERROR) {
+				if (error != WSAEWOULDBLOCK) {
+					closesocket(recvIter->_sock);
+					recvIter = _userList.erase(recvIter);
+				}
+				else {
+					recvIter++;
+				}
+				continue;
+			}
+						
+
+			recvIter->_totalRecvBytes += recvBytes;
+			if (recvIter->_totalRecvBytes == PACKET_HEADER_SIZE) {
+				memcpy(&packet._header, recvIter->_msg, PACKET_HEADER_SIZE);
+
+				char* msg = (char*)&packet;
+				int numRecvBytes = 0;
+				do {
+					int recvBytes = recv(recvIter->_sock, &packet._msg[numRecvBytes],
+						packet._header._len - PACKET_HEADER_SIZE - numRecvBytes, 0);
+					if (recvBytes == 0) {
+						printf("서버 정상 종료\n");
+						break;
+					}
+					if (recvBytes == SOCKET_ERROR) {
+						if (WSAGetLastError() != WSAEWOULDBLOCK) {
+							closesocket(recvIter->_sock);
+							printf("서버 비정상 종료\n");
+							return;
+						}
+						continue;
+					}
+					numRecvBytes += recvBytes;
+				} while ((packet._header._len - PACKET_HEADER_SIZE) > numRecvBytes);
+			}
+
+			if (recvBytes > 0) {
+				_recvPacketList.push_back(packet);
+			}
+
+			recvIter->_totalRecvBytes = 0;
+		}
+		if (FD_ISSET(recvIter->_sock, &_wSet)) {
+			if (packet._header._type == PACKET_NAME_REQ) {
+				SendMsg(recvIter->_sock, nullptr, 0, PACKET_NAME_ACK);
+			}
+		}
+		recvIter++;
+	}
+
+
 	for (auto& packet : _recvPacketList) {
 		Network::FnIter iter = _fnExecutor.find(packet._header._type);
 		if (iter != _fnExecutor.end()) {
@@ -74,22 +181,27 @@ void Network::RecvProcess() {
 void Network::AddSend(SOCKET sock, const char* data, int size, short type) {
 	PACKET packet;
 	MakePacket(packet, data, size, type);
-	_sendPacketList.push_back(packet);
+	_broadcastingPacketList.push_back(packet);
 }
 
 void Network::SendProcess() {
-	for (auto& packet : _sendPacketList) {
-		char* sendMsg = (char*)&packet;
-		int sendBytes = send(_sock, sendMsg, packet._header._len, 0);
+	for (auto& packet : _broadcastingPacketList) {
+		for (auto sendIter = _userList.begin(); _userList.end() != sendIter; ) {
+			int sendBytes = send(sendIter->_sock, (char*)&packet, packet._header._len, 0);
 
-		if (sendBytes == SOCKET_ERROR) {
-			if (WSAGetLastError() != WSAEWOULDBLOCK) {
-				closesocket(_sock);
-				break;
+			if (sendBytes == SOCKET_ERROR) {
+				if (WSAGetLastError() != WSAEWOULDBLOCK) {
+					printf("클라이언트 비정상 종료 : IP : %s , PORT : %d\n",
+						inet_ntoa(sendIter->_sa.sin_addr), ntohs(sendIter->_sa.sin_port));
+					closesocket(sendIter->_sock);
+					sendIter = _userList.erase(sendIter);
+					continue;
+				}
 			}
-		}
+			sendIter++;
+		}		
 	}
-	_sendPacketList.clear();
+	_broadcastingPacketList.clear();
 }
 
 //DWORD WINAPI RecvThread(LPVOID ThreadParam) {
@@ -161,24 +273,21 @@ int Network::SendMsg(SOCKET sock, const char* data, int size ,short type) {
 bool Network::StartNet(std::string ip, int port) {
 	_sock = socket(AF_INET, SOCK_STREAM, 0);
 
-	int ret = WSAAsyncSelect(_sock, g_hWnd, NETWORK_MSG , FD_CONNECT | FD_READ | FD_WRITE | FD_CLOSE);
-	if (ret == SOCKET_ERROR) {
-		return false;
-	}
-
 	SOCKADDR_IN sa;
 	sa.sin_family = AF_INET;
 	sa.sin_addr.s_addr = inet_addr(ip.c_str());
 	sa.sin_port = htons(port);
-	ret = connect(_sock, (sockaddr*)&sa, sizeof(sa));
-	//if (ret == SOCKET_ERROR) {
-	//	int error = WSAGetLastError();
-	//	printf("%d ", error);
-	//	return false;
-	//}
-	//DWORD threadID;
-	//_clientThread = CreateThread(0, 0, RecvThread, (LPVOID)this, 0, &threadID);
 
+	int ret = bind(_sock, (sockaddr*)&sa, sizeof(sa));
+	if (ret == SOCKET_ERROR) {
+		return 1;
+	}
+	
+	ret = listen(_sock, SOMAXCONN);
+	if (ret == SOCKET_ERROR) {
+		return 1;
+	}
+	
 	return true;
 }
 

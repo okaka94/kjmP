@@ -1,20 +1,31 @@
 #pragma once
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-
 #include "Std.h"
 #include "protocol.h"
 
-
+struct User {
+	SOCKET		_sock;
+	SOCKADDR_IN	_sa;
+	char		_name[9] = { 0, };
+	char		_msg[255] = { 0, };
+	int			_totalRecvBytes = 0;
+};
 
 class Network
 {
 public:
-	bool				_isConnected = false;
-	SOCKET				_sock;
-	HANDLE				_clientThread;
-	std::list<PACKET>	_recvPacketList;
-	std::list<PACKET>	_sendPacketList;
+	FD_SET				_rSet;
+	FD_SET				_wSet;
+	std::list<User>		_userList;
+
+public:
+	bool								_isConnected = false;
+	SOCKET								_sock;
+	//HANDLE				_clientThread;
+	std::list<PACKET>					_recvPacketList;
+	std::list<std::pair<SOCKET,PACKET>>	_sendPacketList;
+	std::list<PACKET>					_broadcastingPacketList;
 
 public:
 	typedef std::function<void(PACKET& p)> CallFunction;
