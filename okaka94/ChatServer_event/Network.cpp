@@ -16,103 +16,112 @@ void Network::PacketProcess() {
 	if (idx == WSA_WAIT_FAILED) return;		// 실패시 리턴 - WSAGetLasError로 확인 가능
 	if (idx == WSA_WAIT_TIMEOUT) return;	// 시간 초과, I/O 완료 루틴 실행 X
 	
-	/// ///////////////////////////////////////////////////////////////---------------------
+	idx -= WSA_WAIT_EVENT_0;
+	if (idx == 0) {
+		WSANETWORKEVENTS netEvent;
+		int ret = WSAEnumNetworkEvents(_sock, _eventArr[idx], &netEvent);
+		if (ret != SOCKET_ERROR) {
+			if (netEvent.lNetworkEvents & FD_ACCEPT) {										// ACCEPT EVENT
+				SOCKADDR_IN clientSa;
+				int length = sizeof(clientSa);
+				SOCKET clientSock = accept(_sock, (sockaddr*)&clientSa, &length);
+				if (clientSock == SOCKET_ERROR) {
+					closesocket(_sock);
+					WSACleanup();
+					return;
+				}
+				printf("클라이언트 접속 : IP : %s, PORT : %d\n",
+					inet_ntoa(clientSa.sin_addr), ntohs(clientSa.sin_port));
+
+				u_long mode = TRUE;
+				ioctlsocket(clientSock, FIONBIO, &mode);
+
+				User user;
+				user._sock = clientSock;
+				user._sa = clientSa;
+				_userList.push_back(user);
+
+				HANDLE listenEvent = WSACreateEvent();										// Manual Reset Event
+				_eventArr[_userList.size()] = listenEvent;
+				_socketArr[_userList.size()] = clientSock;
+				WSAEventSelect(clientSock, listenEvent, FD_READ | FD_WRITE | FD_CLOSE);
+				SendMsg(clientSock, nullptr, 0, PACKET_CHATNAME_REQ);
+			}
+		}
+		return;
+
+	}
+
 	
+	for (int event = idx; event < _userList.size() + 1; event++) {
+		User* user = FindUser(_socketArr[event]);
+		if (user->_hasLeft) continue;
+		DWORD signal = WSAWaitForMultipleEvents(1, &_eventArr[event], TRUE, 0, FALSE);
 
-	int ret = select(0, &_rSet, &_wSet, NULL, &time);
-	if (ret == SOCKET_ERROR) { return; }
-	if (ret == 0) { return; }
+		if (signal == WSA_WAIT_FAILED) continue;
+		if (signal == WSA_WAIT_TIMEOUT) continue;
 
-	if (FD_ISSET(_sock, &_rSet)) {
-		SOCKADDR_IN clientSa;
-		int length = sizeof(clientSa);
-		SOCKET clientSock = accept(_sock, (sockaddr*)&clientSa, &length);
-		if (clientSock == SOCKET_ERROR) {
-			closesocket(_sock);
-			WSACleanup();
-			return;
-		}
-		printf("클라이언트 접속 : IP : %s, PORT : %d\n",
-			inet_ntoa(clientSa.sin_addr), ntohs(clientSa.sin_port));
-
-		u_long Mode = TRUE;
-		ioctlsocket(clientSock, FIONBIO, &Mode);
-
-		User user;
-		user._sock = clientSock;
-		user._sa = clientSa;
-		_userList.push_back(user);
-
-		SendMsg(clientSock, nullptr, 0, PACKET_CHATNAME_REQ);
-	}
-
-	for (auto recvIter = _userList.begin(); _userList.end() != recvIter;) {
-		PACKET packet;
-		ZeroMemory(&packet, sizeof(PACKET));
-
-		if (FD_ISSET(recvIter->_sock, &_rSet)) {
-			int recvPacketSize = PACKET_HEADER_SIZE;
-			// 패킷헤더 단위로 recv하고 헤더 다 받은 뒤에 본문 다시 recv
-			int recvBytes = recv(recvIter->_sock, recvIter->_msg, PACKET_HEADER_SIZE - recvIter->_totalRecvBytes, 0);
-			if (recvBytes == 0) {
-				printf("클라이언트 접속 종료 : IP : %s, PORT : %d\n",
-					inet_ntoa(recvIter->_sa.sin_addr), ntohs(recvIter->_sa.sin_port));
-				recvIter = _userList.erase(recvIter);
-				continue;
-			}
-			DWORD error = WSAGetLastError();
-			if (recvBytes == SOCKET_ERROR) {
-				if (error != WSAEWOULDBLOCK) {
-					closesocket(recvIter->_sock);
-					recvIter = _userList.erase(recvIter);
+		WSANETWORKEVENTS netEvent;
+		int ret = WSAEnumNetworkEvents(user->_sock, _eventArr[idx], &netEvent);
+		if (ret != SOCKET_ERROR) {
+			PACKET packet;
+			ZeroMemory(&packet, sizeof(PACKET));
+			if (netEvent.lNetworkEvents & FD_READ) {
+				int recvPacketSize = PACKET_HEADER_SIZE;
+				int recvBytes = recv(user->_sock, user->_msg, PACKET_HEADER_SIZE - user->_totalRecvBytes, 0);
+				if (recvBytes == 0) {
+					user->_hasLeft = true;
+					continue;
 				}
-				else {
-					recvIter++;
-				}
-				continue;
-			}
-						
-
-			recvIter->_totalRecvBytes += recvBytes;
-			if (recvIter->_totalRecvBytes == PACKET_HEADER_SIZE) {
-				memcpy(&packet._header, recvIter->_msg, PACKET_HEADER_SIZE);
-
-				char* msg = (char*)&packet;
-				int numRecvBytes = 0;
-				do {
-					int recvBytes = recv(recvIter->_sock, &packet._msg[numRecvBytes],
-						packet._header._len - PACKET_HEADER_SIZE - numRecvBytes, 0);
-					if (recvBytes == 0) {
-						printf("서버 정상 종료\n");
-						break;
+				DWORD error = WSAGetLastError();
+				if (recvBytes == SOCKET_ERROR) {
+					if (error != WSAEWOULDBLOCK) {
+						user->_hasLeft = true;
 					}
-					if (recvBytes == SOCKET_ERROR) {
-						if (WSAGetLastError() != WSAEWOULDBLOCK) {
-							closesocket(recvIter->_sock);
-							printf("서버 비정상 종료\n");
-							return;
+					continue;
+				}
+
+				user->_totalRecvBytes += recvBytes;
+				if (user->_totalRecvBytes == PACKET_HEADER_SIZE) {
+					memcpy(&packet._header, user->_msg, PACKET_HEADER_SIZE);
+					char* msg = (char*)&packet;
+					int numRecvBytes = 0;
+					do {
+						int recvBytes = recv(user->_sock, &packet._msg[numRecvBytes], packet._header._len - PACKET_HEADER_SIZE - numRecvBytes, 0);
+
+						if (recvBytes == 0) {
+							user->_hasLeft = true;
+							break;
 						}
-						continue;
+						if (recvBytes == SOCKET_ERROR) {
+							if (WSAGetLastError() != WSAEWOULDBLOCK) {
+								user->_hasLeft = true;
+							}
+							continue;
+						}
+						numRecvBytes += recvBytes;
+					} while ((packet._header._len - PACKET_HEADER_SIZE) > numRecvBytes);
+				}
+
+				if (recvBytes > 0) {
+					if (packet._header._type == PACKET_NAME_REQ) {
+						SendMsg(user->_sock, nullptr, 0, PACKET_NAME_ACK);
 					}
-					numRecvBytes += recvBytes;
-				} while ((packet._header._len - PACKET_HEADER_SIZE) > numRecvBytes);
+					else {
+						_recvPacketList.push_back(packet);
+					}
+				}
+				user->_totalRecvBytes = 0;
 			}
+			if (netEvent.lNetworkEvents & FD_WRITE) {
 
-			if (recvBytes > 0) {
-				_recvPacketList.push_back(packet);
 			}
-
-			recvIter->_totalRecvBytes = 0;
-		}
-		if (FD_ISSET(recvIter->_sock, &_wSet)) {
-			if (packet._header._type == PACKET_NAME_REQ) {
-				SendMsg(recvIter->_sock, nullptr, 0, PACKET_NAME_ACK);
+			if (netEvent.lNetworkEvents & FD_CLOSE) {
+				user->_hasLeft = true;
 			}
 		}
-		recvIter++;
 	}
-
-
+	
 	for (auto& packet : _recvPacketList) {
 		Network::FnIter iter = _fnExecutor.find(packet._header._type);
 		if (iter != _fnExecutor.end()) {
@@ -121,9 +130,22 @@ void Network::PacketProcess() {
 		}
 	}
 	_recvPacketList.clear();
+
+	for (auto userIter = _userList.begin(); _userList.end() != userIter; ) {
+		if (userIter->_hasLeft) {
+			closesocket(userIter->_sock);
+			printf("클라이언트 접속 종료 : IP : %s, PORT : %d\n",
+				inet_ntoa(userIter->_sa.sin_addr), ntohs(userIter->_sa.sin_port));
+			userIter = _userList.erase(userIter);
+		}
+		else {
+			userIter++;
+		}
+	}
 }
 
 void Network::MakePacket(PACKET& packet, const char* msg, int size, short type) {
+
 	ZeroMemory(&packet, sizeof(PACKET));
 	packet._header._len = size + PACKET_HEADER_SIZE;
 	packet._header._type = type;
@@ -293,6 +315,10 @@ bool Network::StartNet(std::string ip, int port) {
 		return 1;
 	}
 	
+	HANDLE listenEvent = WSACreateEvent();
+	_eventArr[0] = listenEvent;
+	WSAEventSelect(_sock, _eventArr[0], FD_ACCEPT);
+
 	return true;
 }
 
