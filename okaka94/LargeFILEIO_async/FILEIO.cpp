@@ -3,7 +3,7 @@
 
 DWORD g_maxReadSize = 4096 * 4096;
 DWORD g_maxWriteSize = 4096 * 4096;
-wchar_t* g_fileBuffer = 0;
+wchar_t* g_fileBuffer = nullptr;
 
 OVERLAPPED readOV = { 0, };
 OVERLAPPED writeOV = { 0, };
@@ -31,7 +31,7 @@ DWORD ReadSplit(HANDLE file, DWORD offset) {
         ret = ::GetOverlappedResult(file, &readOV, &readBytes, FALSE);
         if (ret == TRUE) {
             if (readBytes != g_maxReadSize) {
-                isPending = false;
+                //isPending = false;
             }
             isPending = false;
             std::cout << readCounter-- << std::endl;
@@ -110,6 +110,9 @@ LARGE_INTEGER CopyAsync(std::wstring file, LARGE_INTEGER fileSize) {
     HANDLE writeFile = CreateFile(file.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
 
     if (writeFile != INVALID_HANDLE_VALUE) {
+        if (g_maxWriteSize > fileSize.QuadPart) {                                                      // 한번에 읽을 수 있는 크기면 분할할 필요 없음
+            g_maxWriteSize = fileSize.QuadPart;
+        }
         writeCounter = fileSize.LowPart / g_maxWriteSize;
         DWORD offset = g_maxWriteSize;
         while (1) {
