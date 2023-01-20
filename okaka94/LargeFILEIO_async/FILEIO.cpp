@@ -16,7 +16,7 @@ DWORD writeCounter = 0;
 DWORD ReadSplit(HANDLE file, DWORD offset) {
     DWORD readBytes = 0;
     wchar_t* offsetData = &g_fileBuffer[g_read.QuadPart];
-    BOOL ret = ::ReadFile(file, offsetData, offset, &readBytes, &readOV);                           
+    BOOL ret = ::ReadFile(file, offsetData, offset, &readBytes, &readOV);
     bool isPending = false;
     if (ret == FALSE) {
         DWORD error = GetLastError();
@@ -63,8 +63,7 @@ DWORD WriteSplit(HANDLE file, DWORD offset) {
             if (writeBytes != g_maxWriteSize) {
 
             }
-            isPending = false;
-            std::cout << writeCounter-- << std::endl;
+            isPending = false;            std::cout << writeCounter-- << std::endl;
         }
     }
     return writeBytes;
@@ -81,7 +80,8 @@ LARGE_INTEGER LoadAsync(std::wstring file) {
         }
 
         g_fileBuffer = new wchar_t[g_loadFileSize.QuadPart];
-        readCounter = g_loadFileSize.LowPart / g_maxReadSize;
+        //readCounter = g_loadFileSize.LowPart / g_maxReadSize;
+        readCounter = g_loadFileSize.QuadPart / g_maxReadSize;
 
         DWORD offset = g_maxReadSize;
         while (1) {
@@ -113,7 +113,7 @@ LARGE_INTEGER CopyAsync(std::wstring file, LARGE_INTEGER fileSize) {
         if (g_maxWriteSize > fileSize.QuadPart) {                                                      // 한번에 읽을 수 있는 크기면 분할할 필요 없음
             g_maxWriteSize = fileSize.QuadPart;
         }
-        writeCounter = fileSize.LowPart / g_maxWriteSize;
+        writeCounter = fileSize.QuadPart / g_maxWriteSize;
         DWORD offset = g_maxWriteSize;
         while (1) {
             DWORD writeBytes = WriteSplit(writeFile, offset);
@@ -138,11 +138,12 @@ LARGE_INTEGER CopyAsync(std::wstring file, LARGE_INTEGER fileSize) {
 
 int main()
 {
-    std::wstring read = L"test.txt";
-    std::wstring write = L"Copy.txt";
+    std::wstring read = L"MyProject.zip";
+    std::wstring write = L"Copy.zip";
 
     LARGE_INTEGER fileSize = LoadAsync(read);
     CopyAsync(write, fileSize);
 
     std::cout << "Hello World!\n";
+    delete[] g_fileBuffer;
 }
