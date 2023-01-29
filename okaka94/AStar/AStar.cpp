@@ -105,8 +105,14 @@ namespace AStar {
 	}
 
 	unsigned int MapGen::GetDistance(Index from, Index to) {
-		/////////////////////////////////////////////
+		Index ret = { abs(from.x - to.x), abs(from.y - to.y) };
+		return 10 * (ret.x + ret.y);												// Manhattan Distance
 	}
 
-
+	void MapGen::DeleteNodes(std::list<Node*> nodes) {
+		for (auto iter = nodes.begin(); iter != nodes.end();) {
+			delete *iter;
+			iter = nodes.erase(iter);
+		}
+	}
 }
