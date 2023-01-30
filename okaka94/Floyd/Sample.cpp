@@ -1,25 +1,45 @@
-﻿#include "AStar.h"
+﻿#include <iostream>
+
+#define V 4
+#define INF 99999
+
+void PrintDistance(int dist[][V]) {
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (dist[i][j] == INF) {
+                std::cout << "  BLOCK  ";
+            }
+            else {
+                std::cout << "     " << dist[i][j] << "   ";
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+
+void Floyd(int dist[][V]) {
+    int i, j, k;                                                // i : start , j : end , k : intermediate
+
+    for (k = 0; k < V; k++) {
+        for (i = 0; i < V; i++) {
+            for (j = 0; j < V; j++) {
+                if (dist[i][j] > (dist[i][k] + dist[k][j]) && (dist[k][j] != INF && dist[i][k] != INF)) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    PrintDistance(dist);
+}
 
 int main()
 {
-    AStar::MapGen map;
-    map.SetWorldSize({ 8, 5 });
-    //                x, y
-    map.AddObstacle({ 1, 1 });
-    map.AddObstacle({ 1, 2 });
-    map.AddObstacle({ 1, 3 });
-    map.AddObstacle({ 4, 0 });
-    map.AddObstacle({ 4, 1 });
-    map.AddObstacle({ 4, 2 });
-    map.AddObstacle({ 4, 3 });
-    map.AddObstacle({ 2, 3 });
-    map.AddObstacle({ 3, 3 });
+    int graph[V][V] = { { 0, 5, INF, 10 },
+                        { INF, 0, 3, INF },
+                        { INF, INF, 0, 1 },
+                        { INF, INF, INF, 0 } };
 
-    auto path = map.FindPath({ 2,2 }, { 6,2 });
+    Floyd(graph);
 
-    for (auto& index : path)
-    {
-        std::cout << index.x << " " << index.y << "\n";
-    }
-    std::cout << "End\n";
+    return 0;
 }
