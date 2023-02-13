@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="FBX_loader.cpp" />
+    <ClCompile Include="FBX_obj.cpp" />
+    <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="FBX_char.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FBX_loader.h" />
+    <ClInclude Include="FBX_obj.h" />
+    <ClInclude Include="Sample.h" />
+    <ClInclude Include="FBX_char.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Skinning.txt">
+      <Filter>Shader</Filter>
+    </Text>
+    <Text Include="DefaultShape_Constant.txt">
+      <Filter>Shader</Filter>
+    </Text>
+    <Text Include="DefaultShape_PNCT.txt">
+      <Filter>Shader</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{ef46350a-c441-4234-86aa-3e57bbab2d44}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
