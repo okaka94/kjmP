@@ -1,4 +1,7 @@
 #include "Sample.h"
+
+
+
 void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 {
 	// Unbind all objects from the immediate context
@@ -56,7 +59,7 @@ void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 
 bool Sample::Init()
 {
-	
+
 	// 기본 fbx가 0번에 오도록 (메시정보 없는 fbx 로드 안되도록 예외처리하기)
 
 	FBX_loader* Chell = new FBX_loader;
@@ -145,22 +148,50 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	
-	if (Input::GetInstance().GetKey('1') == KEY_PUSH)
+
+	// ImGui Frame()
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+
+
+	// ImGui UI Creation
+	ImGui::SetNextWindowSize(ImVec2(300, 150));
+	if (ImGui::Begin("Anim Selector", NULL)) 
 	{
-		// Action 전환
-		_actionIdx = _actionIdx == m_fbx_list.size() ? 0 : _actionIdx;
-		User_char->m_FBX_action = m_fbx_list[_actionIdx++];
-
-		if (User_char->m_FBX_action)
+		if (ImGui::Button("Next")) 
 		{
-			User_char->m_Anim_frame = 0;
-			User_char->m_Anim_scene = User_char->m_FBX_action->m_Anim_scene;
-			User_char->m_Current_action.Start_frame = User_char->m_FBX_action->m_Anim_scene.Start_frame;
-			User_char->m_Current_action.End_frame = User_char->m_FBX_action->m_Anim_scene.End_frame;
-		}
+			_actionIdx = _actionIdx == m_fbx_list.size() ? 0 : _actionIdx;
+			User_char->m_FBX_action = m_fbx_list[_actionIdx++];
 
-	}
+			if (User_char->m_FBX_action)
+			{
+				User_char->m_Anim_frame = 0;
+				User_char->m_Anim_scene = User_char->m_FBX_action->m_Anim_scene;
+				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->m_Anim_scene.Start_frame;
+				User_char->m_Current_action.End_frame = User_char->m_FBX_action->m_Anim_scene.End_frame;
+			}
+		}
+		
+	}ImGui::End();
+	
+	
+	// 현재 애니메이션 이름 ,  재생 버튼 , 일시정지 버튼 , 프레임 슬라이더 , 역재생 체크박스 , 애니메이션 생성 버튼 , 루프 버튼 
+	ImGui::SetNextWindowSize(ImVec2(600, 150));
+
+	if (ImGui::Begin("Current Action Info", NULL))
+	{
+		ImGui::Text("Current Frame : %f", User_char->m_Anim_frame);						// 현재 프레임
+		ImGui::Text("Start : %f", User_char->m_Current_action.Start_frame);		// 시작 프레임
+		ImGui::SameLine();
+		ImGui::Text("End : %f", User_char->m_Current_action.End_frame);		// 끝 프레임
+		ImGui::Text("Current Frame : %f", User_char->m_Anim_frame);
+
+
+	}ImGui::End();
+
+
 
 	ClearD3D11DeviceContext(m_pImmediateContext.Get());
 	Main_cam->Frame();
@@ -168,6 +199,9 @@ bool Sample::Frame()
 
 
 	User_char->Update_anim(m_pImmediateContext.Get());
+
+
+
 
 	return true;
 }
@@ -181,6 +215,8 @@ bool Sample::Render()
 	frame += std::to_wstring(User_char->m_Anim_frame);
 	Writer::GetInstance().m_szDefaultText = frame;
 
+
+	
 	return true;
 }
 bool Sample::Release()

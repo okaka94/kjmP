@@ -172,6 +172,14 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClInclude Include="DXState.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game_core.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Matrix.h" />
@@ -204,6 +212,12 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClCompile Include="DXState.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Game_core.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Matrix.cpp" />

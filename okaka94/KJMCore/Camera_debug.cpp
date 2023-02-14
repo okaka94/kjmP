@@ -14,7 +14,7 @@ bool Camera_debug::Frame() {
 	m_fSpeed = max(10.0f, m_fSpeed);
 	m_fSpeed = min(100.0f, m_fSpeed);
 
-	if (Input::GetInstance().GetKey(VK_LBUTTON) == KEY_HOLD)
+	if (Input::GetInstance().GetKey(VK_RBUTTON) == KEY_HOLD)
 	{
 		m_fYaw += Input::GetInstance().m_ptOffset.x * 0.002f;
 		m_fPitch += Input::GetInstance().m_ptOffset.y * 0.002f;

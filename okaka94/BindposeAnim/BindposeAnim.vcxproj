@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../include/;../../include/DXTK;../../include/FMOD;../../fbxsdk/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/ImGui;../../include/;../../include/DXTK;../../include/FMOD;../../fbxsdk/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

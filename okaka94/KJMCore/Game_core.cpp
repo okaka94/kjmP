@@ -43,6 +43,16 @@ bool Game_core::CoreInit() {
 	m_BG.Create(m_pd3dDevice.Get(),m_pImmediateContext.Get(), shaderfilename, L"../../data/_RAINBOW.bmp");
 
 	m_RT.Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), 2048, 2048);
+
+
+	// ImGui Init
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(m_hWnd);
+	ImGui_ImplDX11_Init(m_pd3dDevice.Get(), m_pImmediateContext.Get());
+	ImGui::StyleColorsDark();
+
 	return Init();						
 }
 
@@ -126,6 +136,11 @@ bool Game_core::CorePost_Render() {
 	//Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
 	Writer::GetInstance().Render();
 
+	// ImGui
+	
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 	m_pSwapChain->Present(0, 0);											// Presents a rendered image to the user.
 	return true;
 }
@@ -141,6 +156,12 @@ bool Game_core::CoreRelease() {
 	Timer::GetInstance().Release();
 	Sound_manager::GetInstance().Release();
 	Device::Release();
+
+	// ImGui Shutdown
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+
 	return true;
 }
 
