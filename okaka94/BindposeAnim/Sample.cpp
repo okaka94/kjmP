@@ -59,6 +59,7 @@ void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 
 bool Sample::Init()
 {
+	_fileDlg.SetTypeFilters({ ".fbx" });	// type filter
 
 	// 기본 fbx가 0번에 오도록 (메시정보 없는 fbx 로드 안되도록 예외처리하기)
 
@@ -174,8 +175,10 @@ bool Sample::Frame()
 			}
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Replay")) {
-			if (User_char->m_FBX_action) {
+		if (ImGui::Button("Replay")) 
+		{
+			if (User_char->m_FBX_action) 
+			{
 				User_char->m_Anim_frame = 0;
 				User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
 				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
@@ -184,23 +187,33 @@ bool Sample::Frame()
 			
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Play")) {
-			if (User_char->m_FBX_action) {
+		if (ImGui::Button("Play")) 
+		{
+			if (User_char->m_FBX_action) 
+			{
 				User_char->m_Anim_scene.Frame_speed = 30.0f;
 			}
 
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Pause")) {
-			if (User_char->m_FBX_action) {
+		if (ImGui::Button("Pause")) 
+		{
+			if (User_char->m_FBX_action) 
+			{
 				User_char->m_Anim_scene.Frame_speed = 0.0f;
 			}
-
 		}
+		if (ImGui::Button("Open")) 
+		{
+				_fileDlg.Open();
+		}
+	
 
 		// 프레임 슬라이더
-		if (ImGui::DragFloat("##currentFrame", &User_char->m_Anim_frame , 0.1f , User_char->m_Current_action.Start_frame, User_char->m_Current_action.End_frame)) {
-			if (User_char->m_FBX_action) {
+		if (ImGui::DragFloat("##currentFrame", &User_char->m_Anim_frame , 0.1f , User_char->m_Current_action.Start_frame, User_char->m_Current_action.End_frame)) 
+		{
+			if (User_char->m_FBX_action) 
+			{
 				User_char->m_Anim_scene.Frame_speed = 0.0f;
 			}
 		}ImGui::SameLine();
@@ -209,6 +222,15 @@ bool Sample::Frame()
 		
 	}ImGui::End();
 	
+	_fileDlg.Display();
+
+	if (_fileDlg.HasSelected())
+	{
+		_filePath = _fileDlg.GetSelected().string();
+		_fileDlg.ClearSelected();
+		// Fbx Load
+	}
+
 	
 	//  애니메이션 생성 버튼 만들기
 	ImGui::SetNextWindowSize(ImVec2(600, 150));

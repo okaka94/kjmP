@@ -123,6 +123,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../include/DXTK;../../include/FMOD</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -173,6 +174,7 @@ copy "KJMCore_r.lib" "..\\..\\lib\\"</Command>
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game_core.h" />
     <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imfilebrowser.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
     <ClInclude Include="ImGui\imgui_impl_win32.h" />

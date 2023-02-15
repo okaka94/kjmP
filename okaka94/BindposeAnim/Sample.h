@@ -14,7 +14,12 @@ public:
 	UINT		_actionIdx = 0;
 
 	FBX_char*				User_char;
-			
+	
+	// create instance
+	ImGui::FileBrowser	_fileDlg;
+	std::string			_filePath;
+
+	
 public:
 	virtual bool Init() override;
 	virtual bool Frame() override;
