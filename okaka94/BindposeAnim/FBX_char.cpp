@@ -56,7 +56,7 @@ void		FBX_char::Update_anim(ID3D11DeviceContext* pContext) {
 	else {
 		if (m_Anim_frame >= m_Current_action.End_frame) {
 			//Idle상태 애니메이션 추가하기
-			m_Current_action = m_Action_map.find(L"Idle")->second; 
+			m_Current_action = m_Action_map.find(L"default")->second; 
 			m_Anim_frame = m_Current_action.Start_frame;
 		}
 	}

@@ -31,11 +31,11 @@ bool Game_core::CoreInit() {
 	Timer::GetInstance().Init();
 	Input::GetInstance().Init();	
 
-	Writer::GetInstance().Init();
-		IDXGISurface1* backbuffer;
-		m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1), (void**)&backbuffer);
-		Writer::GetInstance().Set(backbuffer);
-		backbuffer->Release();
+	//Writer::GetInstance().Init();
+	//	IDXGISurface1* backbuffer;
+	//	m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1), (void**)&backbuffer);
+	//	Writer::GetInstance().Set(backbuffer);
+	//	backbuffer->Release();
 
 	std::wstring shaderfilename = L"../../data/shader/DefaultShape_PNCT.txt";
 		//std::wstring shaderfilename = L"../../data/shader/DefaultRT.hlsl";
@@ -61,7 +61,7 @@ bool Game_core::CoreFrame() {
 	
 	Timer::GetInstance().Frame();
 	Input::GetInstance().Frame();
-	Writer::GetInstance().Frame();
+	//Writer::GetInstance().Frame();
 	Device::Frame();
 	Sound_manager::GetInstance().Frame();
 	return Frame();
@@ -134,7 +134,7 @@ bool Game_core::CorePost_Render() {
 	Timer::GetInstance().Render();
 	Input::GetInstance().Render();
 	//Writer::GetInstance().m_szDefaultText = Timer::GetInstance().m_szTimer;
-	Writer::GetInstance().Render();
+	//Writer::GetInstance().Render();
 
 	// ImGui
 	

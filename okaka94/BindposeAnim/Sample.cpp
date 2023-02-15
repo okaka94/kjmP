@@ -173,16 +173,50 @@ bool Sample::Frame()
 				User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
 			}
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("Replay")) {
+			if (User_char->m_FBX_action) {
+				User_char->m_Anim_frame = 0;
+				User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+				User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+			}
+			
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Play")) {
+			if (User_char->m_FBX_action) {
+				User_char->m_Anim_scene.Frame_speed = 30.0f;
+			}
+
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Pause")) {
+			if (User_char->m_FBX_action) {
+				User_char->m_Anim_scene.Frame_speed = 0.0f;
+			}
+
+		}
+
+		// 프레임 슬라이더
+		if (ImGui::DragFloat("##currentFrame", &User_char->m_Anim_frame , 0.1f , User_char->m_Current_action.Start_frame, User_char->m_Current_action.End_frame)) {
+			if (User_char->m_FBX_action) {
+				User_char->m_Anim_scene.Frame_speed = 0.0f;
+			}
+		}ImGui::SameLine();
+		ImGui::Text("Frame");	ImGui::SameLine();
+		ImGui::InputFloat("Frame##inputfloat", &User_char->m_Anim_frame);
 		
 	}ImGui::End();
 	
 	
-	// 현재 애니메이션 이름 ,  재생 버튼 , 일시정지 버튼 , 프레임 슬라이더 , 역재생 체크박스 , 애니메이션 생성 버튼 , 루프 버튼 
+	//  애니메이션 생성 버튼 만들기
 	ImGui::SetNextWindowSize(ImVec2(600, 150));
 
 	
 	if (ImGui::Begin(User_char->m_FBX_loader->_fileName.c_str(),NULL))
 	{
+		static bool loop= true;
 		if (User_char->m_FBX_action) {
 			ImGui::Text("Current Animation : ");	ImGui::SameLine();
 			ImGui::Text(User_char->m_FBX_action->_fileName.c_str());						// 현재 애니메이션
@@ -191,8 +225,10 @@ bool Sample::Frame()
 		ImGui::Text("Start : %d", User_char->m_Current_action.Start_frame);					// 시작 프레임
 		ImGui::SameLine();
 		ImGui::Text("End : %d", User_char->m_Current_action.End_frame);						// 끝 프레임
+		ImGui::Checkbox("Loop", &loop);														// 루프 버튼
+		User_char->m_Current_action.Loop_state = loop;
 		
-
+		
 
 	}ImGui::End();
 
@@ -216,9 +252,9 @@ bool Sample::Render()
 	User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 	User_char->Render(m_pImmediateContext.Get());
 
-	std::wstring frame = L"Anim_frame : ";
-	frame += std::to_wstring(User_char->m_Anim_frame);
-	Writer::GetInstance().m_szDefaultText = frame;
+	//std::wstring frame = L"Anim_frame : ";
+	//frame += std::to_wstring(User_char->m_Anim_frame);
+	//Writer::GetInstance().m_szDefaultText = frame;
 
 
 	
