@@ -23,9 +23,9 @@ HRESULT		FBX_char::CreateConstantBuffer(ID3D11Device* pDevice) {
 		&sd, // 초기 할당된 버퍼를 체우는 CPU메모리 주소
 		&m_Skin_Bone_CB);
  
-	m_bone_cbData_list.resize(m_FBX_loader->m_Draw_list.size());
-	m_Sub_Bone_CB_list.resize(m_FBX_loader->m_Draw_list.size());
-	for (int iMesh = 0; iMesh < m_FBX_loader->m_Draw_list.size(); iMesh++)
+	m_bone_cbData_list.resize(m_FBX_loader->_drawList.size());
+	m_Sub_Bone_CB_list.resize(m_FBX_loader->_drawList.size());
+	for (int iMesh = 0; iMesh < m_FBX_loader->_drawList.size(); iMesh++)
 	{
 		D3D11_SUBRESOURCE_DATA  sd;
 		ZeroMemory(&sd, sizeof(sd));
@@ -72,7 +72,7 @@ void		FBX_char::Update_anim(ID3D11DeviceContext* pContext) {
 		m_FBX_loader->Update_sub_bone_data(pContext, m_bone_cbData, m_bone_cbData_list);
 	}
 
-	for (int Bone = 0; Bone < m_FBX_loader->m_Obj_list.size(); Bone++)
+	for (int Bone = 0; Bone < m_FBX_loader->_objList.size(); Bone++)
 	{
 		m_bone_cbData.Bone_mat[Bone] = m_bone_cbData.Bone_mat[Bone].Transpose();
 	}
@@ -107,14 +107,14 @@ void		FBX_char::SetMatrix(Matrix* World, Matrix* View, Matrix* Proj) {
 bool		FBX_char::Render(ID3D11DeviceContext* pContext) {
 
 	pContext->VSSetConstantBuffers(1, 1, &m_Skin_Bone_CB);
-	for (int iMesh = 0; iMesh < m_FBX_loader->m_Draw_list.size(); iMesh++)
+	for (int iMesh = 0; iMesh < m_FBX_loader->_drawList.size(); iMesh++)
 	{
-		if (m_FBX_loader->m_Draw_list[iMesh]->m_skinned)
+		if (m_FBX_loader->_drawList[iMesh]->m_skinned)
 		{
 			pContext->VSSetConstantBuffers(1, 1, &m_Sub_Bone_CB_list[iMesh]);
 		}
-		m_FBX_loader->m_Draw_list[iMesh]->SetMatrix(&m_World_matrix, &m_View_matrix, &m_Proj_matrix);
-		m_FBX_loader->m_Draw_list[iMesh]->Render();
+		m_FBX_loader->_drawList[iMesh]->SetMatrix(&m_World_matrix, &m_View_matrix, &m_Proj_matrix);
+		m_FBX_loader->_drawList[iMesh]->Render();
 	}
 	return true;
 

@@ -76,9 +76,9 @@ bool Sample::Init()
 
 	for (auto fbx : m_fbx_list)
 	{
-		for (int iObj = 0; iObj < fbx->m_Draw_list.size(); iObj++)
+		for (int iObj = 0; iObj < fbx->_drawList.size(); iObj++)
 		{
-			FBX_obj* pObj = fbx->m_Draw_list[iObj];
+			FBX_obj* pObj = fbx->_drawList[iObj];
 			std::wstring  szLoad = szDefaultDir + pObj->m_Texture_name;
 			pObj->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), shaderfilename, szLoad);
 		}
@@ -90,7 +90,7 @@ bool Sample::Init()
 	User_char->CreateConstantBuffer(m_pd3dDevice.Get());
 
 
-	User_char->m_Anim_scene = User_char->m_FBX_loader->m_Anim_scene;
+	User_char->m_Anim_scene = User_char->m_FBX_loader->_animScene;
 	Action_table action;
 	action.Start_frame = User_char->m_Anim_scene.Start_frame;
 	action.End_frame = User_char->m_Anim_scene.End_frame;
@@ -168,9 +168,9 @@ bool Sample::Frame()
 			if (User_char->m_FBX_action)
 			{
 				User_char->m_Anim_frame = 0;
-				User_char->m_Anim_scene = User_char->m_FBX_action->m_Anim_scene;
-				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->m_Anim_scene.Start_frame;
-				User_char->m_Current_action.End_frame = User_char->m_FBX_action->m_Anim_scene.End_frame;
+				User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+				User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
 			}
 		}
 		
@@ -180,13 +180,18 @@ bool Sample::Frame()
 	// 현재 애니메이션 이름 ,  재생 버튼 , 일시정지 버튼 , 프레임 슬라이더 , 역재생 체크박스 , 애니메이션 생성 버튼 , 루프 버튼 
 	ImGui::SetNextWindowSize(ImVec2(600, 150));
 
-	if (ImGui::Begin("Current Action Info", NULL))
+	
+	if (ImGui::Begin(User_char->m_FBX_loader->_fileName.c_str(),NULL))
 	{
-		ImGui::Text("Current Frame : %f", User_char->m_Anim_frame);						// 현재 프레임
-		ImGui::Text("Start : %f", User_char->m_Current_action.Start_frame);		// 시작 프레임
+		if (User_char->m_FBX_action) {
+			ImGui::Text("Current Animation : ");	ImGui::SameLine();
+			ImGui::Text(User_char->m_FBX_action->_fileName.c_str());						// 현재 애니메이션
+		}
+		ImGui::Text("Current Frame : %f", User_char->m_Anim_frame);							// 현재 프레임
+		ImGui::Text("Start : %d", User_char->m_Current_action.Start_frame);					// 시작 프레임
 		ImGui::SameLine();
-		ImGui::Text("End : %f", User_char->m_Current_action.End_frame);		// 끝 프레임
-		ImGui::Text("Current Frame : %f", User_char->m_Anim_frame);
+		ImGui::Text("End : %d", User_char->m_Current_action.End_frame);						// 끝 프레임
+		
 
 
 	}ImGui::End();

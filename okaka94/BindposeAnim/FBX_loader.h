@@ -12,24 +12,24 @@
 class FBX_loader
 {
 public:
-	Anim_scene						m_Anim_scene;
-	float							m_Anim_frame;
-	float							m_Anim_inverse = 1.0f;
-	float							m_Anim_speed = 1.0f;
+	std::string								_fileName;
+	Anim_scene								_animScene;
+	float									_animFrame;
+	float									_animInverse = 1.0f;
+	float									_animSpeed = 1.0f;
 public:
-	FbxManager*						m_pFbxManager;
-	FbxImporter*					m_pFbxImporter;
-	FbxScene*						m_pFbxScene;
-	FbxNode*						m_pRootNode;
-	std::map<FbxNode*, UINT >				m_Obj_ID_map;
-	std::map<FbxNode*, Skinning_FBX_obj*>	m_Obj_map;
-	//std::vector<FbxMesh*>			m_Mesh_list;
-	std::vector<Skinning_FBX_obj*>			m_Obj_list;
-	std::vector<Skinning_FBX_obj*>			m_Draw_list;
-	ID3D11DeviceContext*			m_pContext = nullptr;
+	FbxManager*								_fbxManager;
+	FbxImporter*							_fbxImporter;
+	FbxScene*								_fbxScene;
+	FbxNode*								_rootNode;
+	std::map<FbxNode*, UINT >				_objIDMap;
+	std::map<FbxNode*, Skinning_FBX_obj*>	_objMap;
+	std::vector<Skinning_FBX_obj*>			_objList;
+	std::vector<Skinning_FBX_obj*>			_drawList;
+	ID3D11DeviceContext*					m_pContext = nullptr;
 
-	VS_BONE_CONSTANT_BUFFER			m_bone_cbData;
-	ID3D11Buffer*					m_Bone_CB;
+	VS_BONE_CONSTANT_BUFFER					m_bone_cbData;
+	ID3D11Buffer*							m_Bone_CB;
 	HRESULT	CreateConstantBuffer(ID3D11Device* pDevice);
 	
 		

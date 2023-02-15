@@ -27,49 +27,49 @@ HRESULT	FBX_loader::CreateConstantBuffer(ID3D11Device* pDevice) {
 
 bool		FBX_loader::Init() {
 
-	m_pFbxManager = FbxManager::Create();
-	m_pFbxImporter = FbxImporter::Create(m_pFbxManager, "");
-	m_pFbxScene = FbxScene::Create(m_pFbxManager, "");
+	_fbxManager = FbxManager::Create();
+	_fbxImporter = FbxImporter::Create(_fbxManager, "");
+	_fbxScene = FbxScene::Create(_fbxManager, "");
 	return true;
 }
 
 void		FBX_loader::Update_anim(ID3D11DeviceContext* pContext) {
 
-		m_Anim_frame += g_fSecPerFrame *  m_Anim_scene.Frame_speed * m_Anim_inverse;
-		if (m_Anim_frame > m_Anim_scene.End_frame || m_Anim_frame < m_Anim_scene.Start_frame) {
-			m_Anim_frame = min(m_Anim_frame, m_Anim_scene.End_frame);
-			m_Anim_frame = max(m_Anim_frame, m_Anim_scene.Start_frame);
-			m_Anim_inverse *= -1.0f;
+		_animFrame += g_fSecPerFrame *  _animScene.Frame_speed * _animInverse;
+		if (_animFrame > _animScene.End_frame || _animFrame < _animScene.Start_frame) {
+			_animFrame = min(_animFrame, _animScene.End_frame);
+			_animFrame = max(_animFrame, _animScene.Start_frame);
+			_animInverse *= -1.0f;
 		}
 
 		std::vector<Matrix> Current_anim_mat_list;
-		for (int Bone = 0; Bone < m_Obj_list.size(); Bone++) {
-			Matrix Anim_mat = m_Obj_list[Bone]->Interpolate(m_Anim_frame, m_Anim_scene);
+		for (int Bone = 0; Bone < _objList.size(); Bone++) {
+			Matrix Anim_mat = _objList[Bone]->Interpolate(_animFrame, _animScene);
 			m_bone_cbData.Bone_mat[Bone] = Anim_mat.Transpose();
 			Current_anim_mat_list.push_back(Anim_mat);
 		}
 		pContext->UpdateSubresource(m_Bone_CB, 0, nullptr, &m_bone_cbData, 0, 0);
 		
-		for (int draw = 0; draw < m_Draw_list.size(); draw++) {
-			if (m_Draw_list[draw]->m_Bindpose_mat_map.size()) {
-				for (int Bone = 0; Bone < m_Obj_list.size(); Bone++) {
-					auto iter = m_Draw_list[draw]->m_Bindpose_mat_map.find(Bone);
-					if (iter != m_Draw_list[draw]->m_Bindpose_mat_map.end()) {
+		for (int draw = 0; draw < _drawList.size(); draw++) {
+			if (_drawList[draw]->m_Bindpose_mat_map.size()) {
+				for (int Bone = 0; Bone < _objList.size(); Bone++) {
+					auto iter = _drawList[draw]->m_Bindpose_mat_map.find(Bone);
+					if (iter != _drawList[draw]->m_Bindpose_mat_map.end()) {
 						Matrix Bind_mat = iter->second;
 						Matrix Anim_mat = Bind_mat * Current_anim_mat_list[Bone];
 						m_bone_cbData.Bone_mat[Bone] = Anim_mat.Transpose();
 					}
 				}
-				pContext->UpdateSubresource(m_Draw_list[draw]->m_Skin_Bone_CB, 0, nullptr, &m_bone_cbData, 0, 0);
+				pContext->UpdateSubresource(_drawList[draw]->m_Skin_Bone_CB, 0, nullptr, &m_bone_cbData, 0, 0);
 			}
 		}	
 }
 
 void		FBX_loader::Update_bone_data(ID3D11DeviceContext* pContext, float frame, VS_BONE_CONSTANT_BUFFER& cbData) {
 
-	for (int iBone = 0; iBone < m_Obj_list.size(); iBone++)
+	for (int iBone = 0; iBone < _objList.size(); iBone++)
 	{
-		Matrix matAnimation = m_Obj_list[iBone]->Interpolate(frame, m_Anim_scene);
+		Matrix matAnimation = _objList[iBone]->Interpolate(frame, _animScene);
 		cbData.Bone_mat[iBone] = matAnimation;
 	}
 
@@ -77,14 +77,14 @@ void		FBX_loader::Update_bone_data(ID3D11DeviceContext* pContext, float frame, V
 
 void		FBX_loader::Update_sub_bone_data(ID3D11DeviceContext* pContext, VS_BONE_CONSTANT_BUFFER& cbInputData, std::vector< VS_BONE_CONSTANT_BUFFER>& cbOutputData) {
 
-	for (int iDraw = 0; iDraw < m_Draw_list.size(); iDraw++)
+	for (int iDraw = 0; iDraw < _drawList.size(); iDraw++)
 	{
-		if (m_Draw_list[iDraw]->m_Bindpose_mat_map.size())
+		if (_drawList[iDraw]->m_Bindpose_mat_map.size())
 		{
-			for (int Bone = 0; Bone < m_Obj_list.size(); Bone++)
+			for (int Bone = 0; Bone < _objList.size(); Bone++)
 			{
-				auto iter = m_Draw_list[iDraw]->m_Bindpose_mat_map.find(Bone);
-				if (iter != m_Draw_list[iDraw]->m_Bindpose_mat_map.end())
+				auto iter = _drawList[iDraw]->m_Bindpose_mat_map.find(Bone);
+				if (iter != _drawList[iDraw]->m_Bindpose_mat_map.end())
 				{
 					Matrix Bind_mat = iter->second;
 					Matrix Anim_mat = Bind_mat * cbInputData.Bone_mat[Bone];
@@ -98,7 +98,7 @@ void		FBX_loader::Update_sub_bone_data(ID3D11DeviceContext* pContext, VS_BONE_CO
 
 
 bool		FBX_loader::Render() {
-	for (auto obj : m_Draw_list) {
+	for (auto obj : _drawList) {
 		obj->Render();
 	}
 	return true;
@@ -111,24 +111,24 @@ bool		FBX_loader::Release() {
 		m_Bone_CB = nullptr;
 	}
 
-	for (auto obj : m_Obj_list) {
+	for (auto obj : _objList) {
 	//for (auto obj : m_Draw_list) {
 		obj->Release();
 		delete obj;
 	}
 
-	m_Obj_list.clear();
+	_objList.clear();
 	
-	m_pFbxScene->Destroy();
-	if (m_pFbxImporter != nullptr)
+	_fbxScene->Destroy();
+	if (_fbxImporter != nullptr)
 	{
-		m_pFbxImporter->Destroy();
-		m_pFbxImporter = nullptr;
+		_fbxImporter->Destroy();
+		_fbxImporter = nullptr;
 	}
-	if (m_pFbxManager != nullptr)
+	if (_fbxManager != nullptr)
 	{
-		m_pFbxManager->Destroy();
-		m_pFbxManager = nullptr;
+		_fbxManager->Destroy();
+		_fbxManager = nullptr;
 	}
 
 	return true;
@@ -136,19 +136,20 @@ bool		FBX_loader::Release() {
 
 bool		FBX_loader::Load(C_STR filename) {
 
-	m_pFbxImporter->Initialize(filename.c_str());
-	m_pFbxImporter->Import(m_pFbxScene);
-	FbxSystemUnit::m.ConvertScene(m_pFbxScene);				// meter
-	FbxAxisSystem::MayaZUp.ConvertScene(m_pFbxScene);		// 기저축
+	_fileName = filename;
+	_fbxImporter->Initialize(filename.c_str());
+	_fbxImporter->Import(_fbxScene);
+	FbxSystemUnit::m.ConvertScene(_fbxScene);				// meter
+	FbxAxisSystem::MayaZUp.ConvertScene(_fbxScene);		// 기저축
 
 	Init_animation();
 
-	m_pRootNode = m_pFbxScene->GetRootNode();
-	Pre_Process(m_pRootNode);
+	_rootNode = _fbxScene->GetRootNode();
+	Pre_Process(_rootNode);
 
-	for (auto obj : m_Obj_list) {
+	for (auto obj : _objList) {
 		if (obj->m_pFbxParentNode != nullptr) {
-			auto data = m_Obj_map.find(obj->m_pFbxParentNode);
+			auto data = _objMap.find(obj->m_pFbxParentNode);
 			obj->Set_parent(data->second);
 		}
 		
@@ -160,8 +161,8 @@ bool		FBX_loader::Load(C_STR filename) {
 	}
 
 	FbxTime Time;
-	for (FbxLongLong Frame = m_Anim_scene.Start_frame; Frame <= m_Anim_scene.End_frame; Frame++) {
-		Time.SetFrame(Frame, m_Anim_scene.Time_mode);
+	for (FbxLongLong Frame = _animScene.Start_frame; Frame <= _animScene.End_frame; Frame++) {
+		Time.SetFrame(Frame, _animScene.Time_mode);
 		Load_animation(Frame, Time);
 	}
 
@@ -177,11 +178,11 @@ void		FBX_loader::Pre_Process(FbxNode* node) {
 	obj->m_obj_name = to_mw(name);
 	obj->m_pFbxNode = node;
 	obj->m_pFbxParentNode = node->GetParent();
-	obj->m_Object_Bone = m_Obj_list.size();
+	obj->m_Object_Bone = _objList.size();
 
-	m_Obj_list.push_back(obj);
-	m_Obj_map.insert(std::make_pair(node, obj));
-	m_Obj_ID_map.insert(std::make_pair(node, obj->m_Object_Bone));
+	_objList.push_back(obj);
+	_objMap.insert(std::make_pair(node, obj));
+	_objIDMap.insert(std::make_pair(node, obj->m_Object_Bone));
 
 	int child_num = node->GetChildCount();
 	for (int n = 0; n < child_num; n++) {
@@ -210,7 +211,7 @@ bool	FBX_loader::Parse_mesh_skinning(FbxMesh* mesh, Skinning_FBX_obj* obj) {
 		for (int Cluster = 0; Cluster < Cluster_cnt; Cluster++) {
 			FbxCluster* fbx_cluster = Skin->GetCluster(Cluster);
 			FbxNode* node = fbx_cluster->GetLink();
-			int Bone_idx = m_Obj_ID_map.find(node)->second;
+			int Bone_idx = _objIDMap.find(node)->second;
 
 			FbxAMatrix XBind_pos_mat;
 			FbxAMatrix Global_init_pos;
@@ -359,7 +360,7 @@ void		FBX_loader::Parse_mesh(FbxMesh* mesh, Skinning_FBX_obj* obj) {
 					vertex_data.n.z = N.mData[1];
 				}
 				if (obj->m_skinned == false) {
-					IW_vertex_data.i.x = m_Obj_ID_map.find(node)->second;
+					IW_vertex_data.i.x = _objIDMap.find(node)->second;
 					IW_vertex_data.i.y = 0;
 					IW_vertex_data.i.z = 0;
 					IW_vertex_data.i.w = 0;
@@ -391,7 +392,7 @@ void		FBX_loader::Parse_mesh(FbxMesh* mesh, Skinning_FBX_obj* obj) {
 		}
 		base_poly_idx += poly_size;
 	}
-	m_Draw_list.push_back(obj);
+	_drawList.push_back(obj);
 }
 
 FbxVector2	FBX_loader::Read_tex_coord(FbxMesh* mesh, FbxLayerElementUV* UV_set, int pos_indx, int data_indx) {
@@ -548,13 +549,13 @@ int			FBX_loader::Get_SubMaterial_index(int poly, FbxLayerElementMaterial* Mater
 void		FBX_loader::Init_animation() {
 
 	//the highest level container for animation data. An animation stack is equivalent to one take of animation.
-	FbxAnimStack* Anim_stack = m_pFbxScene->GetSrcObject<FbxAnimStack>(0);
+	FbxAnimStack* Anim_stack = _fbxScene->GetSrcObject<FbxAnimStack>(0);
 	FbxLongLong Start_frame = 0;
 	FbxLongLong End_frame = 0;
 	FbxTime::EMode Time_mode;
 	if (Anim_stack) {
 		FbxString Take_name = Anim_stack->GetName();
-		FbxTakeInfo* Take = m_pFbxScene->GetTakeInfo(Take_name);
+		FbxTakeInfo* Take = _fbxScene->GetTakeInfo(Take_name);
 		FbxTime::SetGlobalTimeMode(FbxTime::eFrames30);
 		Time_mode = FbxTime::GetGlobalTimeMode();
 		FbxTimeSpan Lcl_time_span = Take->mLocalTimeSpan;			//TimeSpan 생성자는 Start Time , Stop Time
@@ -564,11 +565,11 @@ void		FBX_loader::Init_animation() {
 		FbxTime Duration = Lcl_time_span.GetDuration();
 		Start_frame = Start.GetFrameCount(Time_mode);				// Anim Take의 Time정보를 이전에 Global Set한 Time_mode에 맞는 프레임단위로 변환하여 저장
 		End_frame = End.GetFrameCount(Time_mode);
-		m_Anim_scene.Start_frame = Start_frame;					// 받아온 Take의 정보를 해당 오브젝트의 Anim_scene 구조체에 입력
-		m_Anim_scene.End_frame = End_frame;
-		m_Anim_scene.Frame_speed = 30.0f;
-		m_Anim_scene.TickPerFrame = 160;
-		m_Anim_scene.Time_mode = Time_mode;
+		_animScene.Start_frame = Start_frame;					// 받아온 Take의 정보를 해당 오브젝트의 Anim_scene 구조체에 입력
+		_animScene.End_frame = End_frame;
+		_animScene.Frame_speed = 30.0f;
+		_animScene.TickPerFrame = 160;
+		_animScene.Time_mode = Time_mode;
 	}
 	
 
@@ -576,7 +577,7 @@ void		FBX_loader::Init_animation() {
 
 void	FBX_loader::Load_animation(FbxLongLong Frame, FbxTime Time) {
 		
-	for (auto obj : m_Obj_list) {
+	for (auto obj : _objList) {
 
 		FbxNode* node = obj->m_pFbxNode;
 		Anim_track Track;
