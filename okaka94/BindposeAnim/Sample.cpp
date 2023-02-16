@@ -2,6 +2,7 @@
 
 
 
+
 void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 {
 	// Unbind all objects from the immediate context
@@ -101,45 +102,45 @@ bool Sample::Init()
 
 
 
-	// Animation 추가
+	//// Animation 추가
 
-	FBX_loader* Idle = new FBX_loader;
-	if (Idle->Init())
-	{
-		if (Idle->Load("../../data/fbx/Chell@Idle.fbx"))
-		{
-			Idle->CreateConstantBuffer(m_pd3dDevice.Get());
-			m_fbx_table.insert(std::make_pair(L"Idle", _actionIdx++));
-			m_fbx_list.push_back(Idle);
-			User_char->m_FBX_action_list.insert(std::make_pair(L"Idle", Idle));
-		}
-	}
+	//FBX_loader* Idle = new FBX_loader;
+	//if (Idle->Init())
+	//{
+	//	if (Idle->Load("../../data/fbx/Chell@Idle.fbx"))
+	//	{
+	//		Idle->CreateConstantBuffer(m_pd3dDevice.Get());
+	//		m_fbx_table.insert(std::make_pair(L"Idle", _actionIdx++));
+	//		m_fbx_list.push_back(Idle);
+	//		User_char->m_FBX_action_list.insert(std::make_pair(L"Idle", Idle));
+	//	}
+	//}
 
-	FBX_loader* Jump = new FBX_loader;
-	if (Jump->Init())
-	{
-		if (Jump->Load("../../data/fbx/Chell@Jump.fbx"))
-		{
-			Jump->CreateConstantBuffer(m_pd3dDevice.Get());
-			m_fbx_table.insert(std::make_pair(L"Jump", _actionIdx++));
-			m_fbx_list.push_back(Jump);
-			User_char->m_FBX_action_list.insert(std::make_pair(L"Jump", Jump));
-		}
-	}
-	
+	//FBX_loader* Jump = new FBX_loader;
+	//if (Jump->Init())
+	//{
+	//	if (Jump->Load("../../data/fbx/Chell@Jump.fbx"))
+	//	{
+	//		Jump->CreateConstantBuffer(m_pd3dDevice.Get());
+	//		m_fbx_table.insert(std::make_pair(L"Jump", _actionIdx++));
+	//		m_fbx_list.push_back(Jump);
+	//		User_char->m_FBX_action_list.insert(std::make_pair(L"Jump", Jump));
+	//	}
+	//}
+	//
 
-	FBX_loader* RunN = new FBX_loader;
-	if (RunN->Init())
-	{
-		if (RunN->Load("../../data/fbx/Chell@RunN.fbx"))
-		{
-			RunN->CreateConstantBuffer(m_pd3dDevice.Get());
-			m_fbx_table.insert(std::make_pair(L"RunN", _actionIdx++));
-			m_fbx_list.push_back(RunN);
-			User_char->m_FBX_action_list.insert(std::make_pair(L"RunN", RunN));
-		}
-	}
-	_actionIdx = 1;
+	//FBX_loader* RunN = new FBX_loader;
+	//if (RunN->Init())
+	//{
+	//	if (RunN->Load("../../data/fbx/Chell@RunN.fbx"))
+	//	{
+	//		RunN->CreateConstantBuffer(m_pd3dDevice.Get());
+	//		m_fbx_table.insert(std::make_pair(L"RunN", _actionIdx++));
+	//		m_fbx_list.push_back(RunN);
+	//		User_char->m_FBX_action_list.insert(std::make_pair(L"RunN", RunN));
+	//	}
+	//}
+	//_actionIdx = 1;
 
 	Main_cam = new Camera_debug;
 	Main_cam->Create_View_matrix(Vector(0, 100, -100), Vector(0, 0, 0), Vector(0, 1, 0));
@@ -149,110 +150,182 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
+	static bool	selectorOpen = false;
+	static bool	infoOpen = false;
 
 	// ImGui Frame()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-
-
-	// ImGui UI Creation
-	ImGui::SetNextWindowSize(ImVec2(300, 150));
-	if (ImGui::Begin("Anim Selector", NULL)) 
+	// Main Menu Bar
+	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::Button("Next")) 
+		if (ImGui::BeginMenu("File"))
 		{
-			_actionIdx = _actionIdx == m_fbx_list.size() ? 0 : _actionIdx;
-			User_char->m_FBX_action = m_fbx_list[_actionIdx++];
-
-			if (User_char->m_FBX_action)
+			if (ImGui::MenuItem("Load"))
 			{
-				User_char->m_Anim_frame = 0;
-				User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
-				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
-				User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
-			}
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Replay")) 
-		{
-			if (User_char->m_FBX_action) 
-			{
-				User_char->m_Anim_frame = 0;
-				User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
-				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
-				User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
-			}
-			
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Play")) 
-		{
-			if (User_char->m_FBX_action) 
-			{
-				User_char->m_Anim_scene.Frame_speed = 30.0f;
-			}
-
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Pause")) 
-		{
-			if (User_char->m_FBX_action) 
-			{
-				User_char->m_Anim_scene.Frame_speed = 0.0f;
-			}
-		}
-		if (ImGui::Button("Open")) 
-		{
 				_fileDlg.Open();
-		}
-	
-
-		// 프레임 슬라이더
-		if (ImGui::DragFloat("##currentFrame", &User_char->m_Anim_frame , 0.1f , User_char->m_Current_action.Start_frame, User_char->m_Current_action.End_frame)) 
-		{
-			if (User_char->m_FBX_action) 
-			{
-				User_char->m_Anim_scene.Frame_speed = 0.0f;
 			}
-		}ImGui::SameLine();
-		ImGui::Text("Frame");	ImGui::SameLine();
-		ImGui::InputFloat("Frame##inputfloat", &User_char->m_Anim_frame);
-		
-	}ImGui::End();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Options"))
+		{
+			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+			ImGui::Separator();
+			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::MenuItem("Anim Selector")) 
+			{
+				if (selectorOpen != true) {
+					selectorOpen = true;
+				}
+			}
 	
+			if (ImGui::MenuItem("Anim Info"))
+			{
+				if (infoOpen != true) {
+					infoOpen = true;
+				}
+			}
+
+
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
+
+
+	if (User_char == nullptr) return true;
+
+
+	// File Dialogue
+
 	_fileDlg.Display();
 
 	if (_fileDlg.HasSelected())
 	{
 		_filePath = _fileDlg.GetSelected().string();
+		_fileName =_fileDlg.GetSelected().filename().string();
 		_fileDlg.ClearSelected();
+		
 		// Fbx Load
+		FBX_loader* newFbx = new FBX_loader;
+		if (newFbx->Init())
+		{
+			if (newFbx->Load(_filePath))
+			{
+				newFbx->CreateConstantBuffer(m_pd3dDevice.Get());
+				m_fbx_table.insert(std::make_pair(to_mw(_fileName), _actionIdx++));
+				m_fbx_list.push_back(newFbx);
+				User_char->m_FBX_action_list.insert(std::make_pair(to_mw(_fileName), newFbx));
+			}
+		}
+	
 	}
 
-	
-	//  애니메이션 생성 버튼 만들기
-	ImGui::SetNextWindowSize(ImVec2(600, 150));
 
 	
-	if (ImGui::Begin(User_char->m_FBX_loader->_fileName.c_str(),NULL))
+
+	// Animation Selector 
+	if(selectorOpen)
 	{
-		static bool loop= true;
-		if (User_char->m_FBX_action) {
-			ImGui::Text("Current Animation : ");	ImGui::SameLine();
-			ImGui::Text(User_char->m_FBX_action->_fileName.c_str());						// 현재 애니메이션
-		}
-		ImGui::Text("Current Frame : %f", User_char->m_Anim_frame);							// 현재 프레임
-		ImGui::Text("Start : %d", User_char->m_Current_action.Start_frame);					// 시작 프레임
-		ImGui::SameLine();
-		ImGui::Text("End : %d", User_char->m_Current_action.End_frame);						// 끝 프레임
-		ImGui::Checkbox("Loop", &loop);														// 루프 버튼
-		User_char->m_Current_action.Loop_state = loop;
-		
-		
+		ImGui::SetNextWindowSize(ImVec2(300, 150));
+		if (ImGui::Begin("Anim Selector", &selectorOpen))
+		{
+			if (ImGui::Button("Next"))
+			{
+				_actionIdx = _actionIdx == m_fbx_list.size() ? 0 : _actionIdx;
+				User_char->m_FBX_action = m_fbx_list[_actionIdx++];
 
-	}ImGui::End();
+				if (User_char->m_FBX_action)
+				{
+					User_char->m_Anim_frame = 0;
+					User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+					User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+					User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+				}
+			}
+			
+			
+
+		}ImGui::End();
+	}
+	
+
+	//  애니메이션 생성 버튼 만들기
+
+
+	// Animation Info
+	if (infoOpen)
+	{
+		ImGui::SetNextWindowSize(ImVec2(600, 150));
+		if (ImGui::Begin(User_char->m_FBX_loader->_fileName.c_str(), &infoOpen))
+		{
+			static bool loop = true;
+			if (User_char->m_FBX_action) {
+				ImGui::Text("Current Animation : ");	ImGui::SameLine();
+				ImGui::Text(User_char->m_FBX_action->_fileName.c_str());						// 현재 애니메이션
+			}
+			ImGui::Text("Current Frame : %f", User_char->m_Anim_frame);							// 현재 프레임
+			ImGui::Text("Start : %d", User_char->m_Current_action.Start_frame);					// 시작 프레임
+			ImGui::SameLine();
+			ImGui::Text("End : %d", User_char->m_Current_action.End_frame);						// 끝 프레임
+			
+			if (ImGui::Button("Play"))
+			{
+				if (User_char->m_FBX_action)
+				{
+					User_char->m_Anim_scene.Frame_speed = 30.0f;
+				}
+
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Pause"))
+			{
+				if (User_char->m_FBX_action)
+				{
+					User_char->m_Anim_scene.Frame_speed = 0.0f;
+				}
+
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Replay"))
+			{
+				if (User_char->m_FBX_action)
+				{
+					User_char->m_Anim_frame = 0;
+					User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+					User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+					User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+				}
+
+			}
+			ImGui::SameLine();
+			ImGui::Checkbox("Loop", &loop);														// 루프 버튼
+			User_char->m_Current_action.Loop_state = loop;
+
+			// 프레임 슬라이더
+			if (ImGui::DragFloat("##currentFrame", &User_char->m_Anim_frame, 0.1f, User_char->m_Current_action.Start_frame, User_char->m_Current_action.End_frame))
+			{
+				if (User_char->m_FBX_action)
+				{
+					User_char->m_Anim_scene.Frame_speed = 0.0f;
+				}
+			}ImGui::SameLine();
+			ImGui::Text("Frame");	ImGui::SameLine();
+			ImGui::InputFloat("Frame##inputfloat", &User_char->m_Anim_frame);
+
+
+		}ImGui::End();
+	}
+	
 
 
 
@@ -271,8 +344,12 @@ bool Sample::Frame()
 bool Sample::Render()
 {
 
-	User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
-	User_char->Render(m_pImmediateContext.Get());
+	if (User_char) 
+	{
+		User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+		User_char->Render(m_pImmediateContext.Get());
+	}
+	
 
 	//std::wstring frame = L"Anim_frame : ";
 	//frame += std::to_wstring(User_char->m_Anim_frame);
@@ -290,13 +367,18 @@ bool Sample::Release()
 		fbx->Release();
 	}
 
-	if (Main_cam) {
+	if (Main_cam) 
+	{
 		Main_cam->Release();
 		delete Main_cam;
 	}
 
-	User_char->Release();
-	delete User_char;
+	if (User_char)
+	{
+		User_char->Release();
+		delete User_char;
+	}
+	
 
 	return true;
 }

@@ -18,6 +18,7 @@ public:
 	// create instance
 	ImGui::FileBrowser	_fileDlg;
 	std::string			_filePath;
+	std::string			_fileName;
 
 	
 public:
