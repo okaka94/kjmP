@@ -250,40 +250,37 @@ bool Sample::Frame()
 
 	if (User_char == nullptr) return true;
 	
+	
 
 	// Animation Selector 
 	if(selectorOpen)
 	{
-		ImGui::SetNextWindowSize(ImVec2(300, 150));
+		ImGui::SetNextWindowSize(ImVec2(200, 350));
 		if (ImGui::Begin("Anim Selector", &selectorOpen))
 		{
-			if (ImGui::Button("Next"))
+			static int item_current_idx = 0;
+			if (ImGui::Button("Play"))
 			{
-				_actionIdx = _actionIdx == m_fbx_list.size() ? 0 : _actionIdx;
-				User_char->m_FBX_action = m_fbx_list[_actionIdx++];
+				User_char->m_FBX_action = m_fbx_list[item_current_idx];
+				User_char->m_Anim_frame = 0;
+				User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+				User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+				User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
 
-				if (User_char->m_FBX_action)
+			}
+			
+			if (ImGui::BeginListBox("##anim",ImVec2(200,300)))
+			{
+				for (int n = 1; n < m_fbx_list.size(); n++)
 				{
-					User_char->m_Anim_frame = 0;
-					User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
-					User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
-					User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+					const bool is_selected = (item_current_idx == n);
+					if (ImGui::Selectable(m_fbx_list[n]->_fileName.c_str(), is_selected))
+						item_current_idx = n;
 				}
-			}
-			//if (ImGui::BeginListBox("animList", m_fbx_list.size()))
-				const char* items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
-				static int item_current = 1;
-				if(ImGui::ListBox("animList", &item_current, items, IM_ARRAYSIZE(items), 4))
-
-			{
-
-				//아이템 구현
-
+			
+			
 				ImGui::EndListBox();
-
 			}
-
-
 			
 
 		}ImGui::End();
@@ -381,13 +378,6 @@ bool Sample::Render()
 		User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 		User_char->Render(m_pImmediateContext.Get());
 	}
-	
-
-	//std::wstring frame = L"Anim_frame : ";
-	//frame += std::to_wstring(User_char->m_Anim_frame);
-	//Writer::GetInstance().m_szDefaultText = frame;
-
-
 	
 	return true;
 }

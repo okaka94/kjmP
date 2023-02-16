@@ -137,7 +137,8 @@ bool		FBX_loader::Release() {
 int		FBX_loader::Load(C_STR filename) {
 
 	int meshCnt = 0;
-	_fileName = filename;
+	
+	_fileName = filename.substr(filename.find_last_of('\\') + 1);
 	_fbxImporter->Initialize(filename.c_str());
 	_fbxImporter->Import(_fbxScene);
 	FbxSystemUnit::m.ConvertScene(_fbxScene);				// meter
