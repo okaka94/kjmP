@@ -64,41 +64,6 @@ bool Sample::Init()
 
 	// 기본 fbx가 0번에 오도록 (메시정보 없는 fbx 로드 안되도록 예외처리하기)
 
-	FBX_loader* Chell = new FBX_loader;
-	if (Chell->Init())
-	{
-		Chell->Load("../../data/fbx/Chell.fbx");
-	}
-	m_fbx_table.insert(std::make_pair(L"Chell", _actionIdx++));
-	m_fbx_list.push_back(Chell);
-
-
-	W_STR szDefaultDir = L"../../data/fbx/";
-	std::wstring shaderfilename = L"Skinning.txt";
-
-	for (auto fbx : m_fbx_list)
-	{
-		for (int iObj = 0; iObj < fbx->_drawList.size(); iObj++)
-		{
-			FBX_obj* pObj = fbx->_drawList[iObj];
-			std::wstring  szLoad = szDefaultDir + pObj->m_Texture_name;
-			pObj->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), shaderfilename, szLoad);
-		}
-	}
-
-
-	User_char = new FBX_char;
-	User_char->m_FBX_loader = m_fbx_list[0];
-	User_char->CreateConstantBuffer(m_pd3dDevice.Get());
-
-
-	User_char->m_Anim_scene = User_char->m_FBX_loader->_animScene;
-	Action_table action;
-	action.Start_frame = User_char->m_Anim_scene.Start_frame;
-	action.End_frame = User_char->m_Anim_scene.End_frame;
-	action.Loop_state = true;
-	User_char->m_Action_map.insert(std::make_pair(L"default", action));
-	User_char->m_Current_action = User_char->m_Action_map.find(L"default")->second;
 
 
 
@@ -150,8 +115,10 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-	static bool	selectorOpen = false;
-	static bool	infoOpen = false;
+	static bool modelReady = false;
+	static bool	selectorOpen = true;
+	static bool	infoOpen = true;
+	
 
 	// ImGui Frame()
 	ImGui_ImplDX11_NewFrame();
@@ -166,6 +133,10 @@ bool Sample::Frame()
 			if (ImGui::MenuItem("Load"))
 			{
 				_fileDlg.Open();
+			}
+			if (ImGui::MenuItem("Reset"))
+			{
+				// reset model & reset action list
 			}
 			ImGui::EndMenu();
 		}
@@ -195,14 +166,13 @@ bool Sample::Frame()
 				}
 			}
 
-
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
 
 
-	if (User_char == nullptr) return true;
+	
 
 
 	// File Dialogue
@@ -219,18 +189,66 @@ bool Sample::Frame()
 		FBX_loader* newFbx = new FBX_loader;
 		if (newFbx->Init())
 		{
-			if (newFbx->Load(_filePath))
+			if (modelReady == false)
 			{
+				if (newFbx->Load(_filePath) > 0)															// mesh O
+				{
+
+					m_fbx_table.insert(std::make_pair(to_mw(_fileName), _actionIdx++));
+					m_fbx_list.push_back(newFbx);
+
+
+					W_STR szDefaultDir = L"../../data/fbx/";
+					std::wstring shaderfilename = L"Skinning.txt";
+
+					for (auto fbx : m_fbx_list)
+					{
+						for (int iObj = 0; iObj < fbx->_drawList.size(); iObj++)
+						{
+							FBX_obj* pObj = fbx->_drawList[iObj];
+							std::wstring  szLoad = szDefaultDir + pObj->m_Texture_name;
+							pObj->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), shaderfilename, szLoad);
+						}
+					}
+
+					User_char = new FBX_char;
+					User_char->m_FBX_loader = newFbx;
+					User_char->CreateConstantBuffer(m_pd3dDevice.Get());
+
+
+					User_char->m_Anim_scene = User_char->m_FBX_loader->_animScene;
+					Action_table action;
+					action.Start_frame = User_char->m_Anim_scene.Start_frame;
+					action.End_frame = User_char->m_Anim_scene.End_frame;
+					action.Loop_state = true;
+					User_char->m_Action_map.insert(std::make_pair(L"default", action));
+					User_char->m_Current_action = User_char->m_Action_map.find(L"default")->second;
+
+					modelReady = true;
+
+					
+				}
+				else																					// mesh X
+				{
+					delete newFbx;
+
+					// Print Error Message (LOAD MESH FIRST)
+
+				}
+			}
+			else					// model ready
+			{
+				newFbx->Load(_filePath);
 				newFbx->CreateConstantBuffer(m_pd3dDevice.Get());
 				m_fbx_table.insert(std::make_pair(to_mw(_fileName), _actionIdx++));
 				m_fbx_list.push_back(newFbx);
 				User_char->m_FBX_action_list.insert(std::make_pair(to_mw(_fileName), newFbx));
 			}
 		}
-	
 	}
+	
 
-
+	if (User_char == nullptr) return true;
 	
 
 	// Animation Selector 
@@ -252,7 +270,20 @@ bool Sample::Frame()
 					User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
 				}
 			}
-			
+			//if (ImGui::BeginListBox("animList", m_fbx_list.size()))
+				const char* items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
+				static int item_current = 1;
+				if(ImGui::ListBox("animList", &item_current, items, IM_ARRAYSIZE(items), 4))
+
+			{
+
+				//아이템 구현
+
+				ImGui::EndListBox();
+
+			}
+
+
 			
 
 		}ImGui::End();
@@ -301,6 +332,7 @@ bool Sample::Frame()
 				if (User_char->m_FBX_action)
 				{
 					User_char->m_Anim_frame = 0;
+					User_char->m_Anim_scene.Frame_speed = 30.0f;
 					User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
 					User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
 					User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;

@@ -134,8 +134,9 @@ bool		FBX_loader::Release() {
 	return true;
 }
 
-bool		FBX_loader::Load(C_STR filename) {
+int		FBX_loader::Load(C_STR filename) {
 
+	int meshCnt = 0;
 	_fileName = filename;
 	_fbxImporter->Initialize(filename.c_str());
 	_fbxImporter->Import(_fbxScene);
@@ -157,6 +158,7 @@ bool		FBX_loader::Load(C_STR filename) {
 		if (mesh) {
 			
 			Parse_mesh(mesh, obj);
+			meshCnt++;
 		}
 	}
 
@@ -166,7 +168,7 @@ bool		FBX_loader::Load(C_STR filename) {
 		Load_animation(Frame, Time);
 	}
 
-	return true;
+	return meshCnt;
 }
 
 void		FBX_loader::Pre_Process(FbxNode* node) {
