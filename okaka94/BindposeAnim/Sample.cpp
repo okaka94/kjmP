@@ -62,62 +62,67 @@ bool Sample::Init()
 {
 	_fileDlg.SetTypeFilters({ ".fbx" });	// type filter
 
-	// 기본 fbx가 0번에 오도록 (메시정보 없는 fbx 로드 안되도록 예외처리하기)
+	
 
+	// Movement Animation
 
+	FBX_loader* moveForward = new FBX_loader;
+	if (moveForward->Init())
+	{
+		std::string file = "../../data/fbx/Chell@RunN";
+		moveForward->Load(file);
+		moveForward->CreateConstantBuffer(m_pd3dDevice.Get());
+		m_fbx_table.insert(std::make_pair('W', moveForward));
+	}
 
+	FBX_loader* moveBackward = new FBX_loader;
+	if (moveBackward->Init())
+	{
+		moveBackward->Load("../../data/fbx/Chell@RunS");
+		moveBackward->CreateConstantBuffer(m_pd3dDevice.Get());
+		m_fbx_table.insert(std::make_pair('S', moveBackward));
+	}
 
-	//// Animation 추가
+	FBX_loader* moveRight = new FBX_loader;
+	if (moveRight->Init())
+	{
+		moveRight->Load("../../data/fbx/Chell@RunW");
+		moveRight->CreateConstantBuffer(m_pd3dDevice.Get());
+		m_fbx_table.insert(std::make_pair('D', moveRight));
+	}
 
-	//FBX_loader* Idle = new FBX_loader;
-	//if (Idle->Init())
-	//{
-	//	if (Idle->Load("../../data/fbx/Chell@Idle.fbx"))
-	//	{
-	//		Idle->CreateConstantBuffer(m_pd3dDevice.Get());
-	//		m_fbx_table.insert(std::make_pair(L"Idle", _actionIdx++));
-	//		m_fbx_list.push_back(Idle);
-	//		User_char->m_FBX_action_list.insert(std::make_pair(L"Idle", Idle));
-	//	}
-	//}
+	FBX_loader* moveLeft = new FBX_loader;
+	if (moveLeft->Init())
+	{
+		moveLeft->Load("../../data/fbx/Chell@RunE");
+		moveLeft->CreateConstantBuffer(m_pd3dDevice.Get());
+		m_fbx_table.insert(std::make_pair('A', moveLeft));
+	}
 
-	//FBX_loader* Jump = new FBX_loader;
-	//if (Jump->Init())
-	//{
-	//	if (Jump->Load("../../data/fbx/Chell@Jump.fbx"))
-	//	{
-	//		Jump->CreateConstantBuffer(m_pd3dDevice.Get());
-	//		m_fbx_table.insert(std::make_pair(L"Jump", _actionIdx++));
-	//		m_fbx_list.push_back(Jump);
-	//		User_char->m_FBX_action_list.insert(std::make_pair(L"Jump", Jump));
-	//	}
-	//}
-	//
-
-	//FBX_loader* RunN = new FBX_loader;
-	//if (RunN->Init())
-	//{
-	//	if (RunN->Load("../../data/fbx/Chell@RunN.fbx"))
-	//	{
-	//		RunN->CreateConstantBuffer(m_pd3dDevice.Get());
-	//		m_fbx_table.insert(std::make_pair(L"RunN", _actionIdx++));
-	//		m_fbx_list.push_back(RunN);
-	//		User_char->m_FBX_action_list.insert(std::make_pair(L"RunN", RunN));
-	//	}
-	//}
-	//_actionIdx = 1;
+	
 
 	Main_cam = new Camera_debug;
 	Main_cam->Create_View_matrix(Vector(0, 100, -100), Vector(0, 0, 0), Vector(0, 1, 0));
 	Main_cam->Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 
+
+	BG = new Map;
+	BG->Load_height_map(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"../../data/map/heightMap513.bmp");
+	BG->Build(m_pd3dDevice.Get(), BG->cols_num, BG->rows_num, Main_cam);
+	BG->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"DefaultShape_PNCT.txt", L"../../data/NormalMap/stone_wall.bmp");
+	BG->Create_Qtree(m_pd3dDevice.Get(), Main_cam);
+	
+	Main_cam->Create_View_matrix(Vector(0, 50, -20), Vector(0, BG->Get_height(0, 0), 0), Vector(0, 1, 0));
+
 	return true;
 }
 bool Sample::Frame()
 {
+	// AnimSelector , Info default setting
+	static bool	selectorOpen = false;
+	static bool	infoOpen = false;
+
 	static bool modelReady = false;
-	static bool	selectorOpen = true;
-	static bool	infoOpen = true;
 	
 
 	// ImGui Frame()
@@ -137,6 +142,10 @@ bool Sample::Frame()
 			if (ImGui::MenuItem("Reset"))
 			{
 				// reset model & reset action list
+			}
+			if (ImGui::MenuItem("Ingame Simulation"))
+			{
+				// Move key binding & Map loading & Set Camera
 			}
 			ImGui::EndMenu();
 		}
@@ -194,7 +203,7 @@ bool Sample::Frame()
 				if (newFbx->Load(_filePath) > 0)															// mesh O
 				{
 
-					m_fbx_table.insert(std::make_pair(to_mw(_fileName), _actionIdx++));
+					//m_fbx_table.insert(std::make_pair(to_mw(_fileName), _actionIdx++));
 					m_fbx_list.push_back(newFbx);
 
 
@@ -240,7 +249,7 @@ bool Sample::Frame()
 			{
 				newFbx->Load(_filePath);
 				newFbx->CreateConstantBuffer(m_pd3dDevice.Get());
-				m_fbx_table.insert(std::make_pair(to_mw(_fileName), _actionIdx++));
+				//m_fbx_table.insert(std::make_pair(to_mw(_fileName), _actionIdx++));
 				m_fbx_list.push_back(newFbx);
 				User_char->m_FBX_action_list.insert(std::make_pair(to_mw(_fileName), newFbx));
 			}
@@ -286,9 +295,6 @@ bool Sample::Frame()
 		}ImGui::End();
 	}
 	
-
-	//  애니메이션 생성 버튼 만들기
-
 
 	// Animation Info
 	if (infoOpen)
@@ -355,6 +361,23 @@ bool Sample::Frame()
 		}ImGui::End();
 	}
 	
+	// Movement input -> change anim
+
+	if (Input::GetInstance().GetKey('W') == KEY_PUSH)
+	{
+		User_char->m_FBX_action = m_fbx_table.find('W')->second;
+		User_char->m_Anim_frame = 0;
+		User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+		User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+	}
+	/*else 
+	{
+		User_char->m_Anim_frame = 0;
+		User_char->m_Current_action = User_char->m_Action_map.find(L"default")->second;
+	}*/
+
+
 
 
 
@@ -375,10 +398,26 @@ bool Sample::Render()
 
 	if (User_char) 
 	{
-		User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+
+		User_char->m_World_matrix._41 = Main_cam->m_Cam_pos.x;
+		User_char->m_World_matrix._43 = Main_cam->m_Cam_pos.z - 50;
+
+		User_char->m_World_matrix._42 = BG->Get_height(User_char->m_World_matrix._41, User_char->m_World_matrix._43);
+		
+		
+
+		//User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+		User_char->SetMatrix(&User_char->m_World_matrix, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 		User_char->Render(m_pImmediateContext.Get());
 	}
+
+	if (BG)	
+	{
+		BG->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+		BG->Render();
+	}
 	
+
 	return true;
 }
 bool Sample::Release()
@@ -400,7 +439,12 @@ bool Sample::Release()
 		User_char->Release();
 		delete User_char;
 	}
-	
+
+	if (BG)
+	{
+		BG->Release();
+		delete BG;
+	}
 
 	return true;
 }

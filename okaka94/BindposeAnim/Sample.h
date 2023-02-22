@@ -3,15 +3,16 @@
 #include "FBX_loader.h"
 #include "Camera_debug.h"
 #include "FBX_char.h"
+#include "Map.h"
 
 
 class Sample : public Game_core
 {
 public:
-	std::map<std::wstring, UINT> m_fbx_table;
-	std::vector<FBX_loader*> m_fbx_list;
-	Camera_debug* Main_cam;
-	UINT		_actionIdx = 0;
+	std::vector<FBX_loader*>		m_fbx_list;
+	Camera_debug*					Main_cam;
+	Map*							BG;
+	//UINT		_actionIdx = 0;
 
 	FBX_char*				User_char;
 	
@@ -20,6 +21,8 @@ public:
 	std::string			_filePath;
 	std::string			_fileName;
 
+	// key action
+	std::map<char, FBX_loader*>	m_fbx_table;
 	
 public:
 	virtual bool Init() override;

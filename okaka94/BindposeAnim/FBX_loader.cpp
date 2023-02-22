@@ -144,6 +144,8 @@ int		FBX_loader::Load(C_STR filename) {
 	FbxSystemUnit::m.ConvertScene(_fbxScene);				// meter
 	FbxAxisSystem::MayaZUp.ConvertScene(_fbxScene);		// ±âÀúÃà
 
+	
+
 	Init_animation();
 
 	_rootNode = _fbxScene->GetRootNode();
