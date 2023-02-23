@@ -142,10 +142,8 @@ int		FBX_loader::Load(C_STR filename) {
 	_fbxImporter->Initialize(filename.c_str());
 	_fbxImporter->Import(_fbxScene);
 	FbxSystemUnit::m.ConvertScene(_fbxScene);				// meter
-	FbxAxisSystem::MayaZUp.ConvertScene(_fbxScene);		// 기저축
-
-	
-
+	FbxAxisSystem::MayaZUp.ConvertScene(_fbxScene);			// 기저축
+		
 	Init_animation();
 
 	_rootNode = _fbxScene->GetRootNode();

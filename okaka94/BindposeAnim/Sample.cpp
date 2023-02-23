@@ -65,12 +65,18 @@ bool Sample::Init()
 	
 
 	// Movement Animation
+	FBX_loader* idle = new FBX_loader;
+	if (idle->Init())
+	{
+		idle->Load("../../data/fbx/Chell@Idle.fbx");
+		idle->CreateConstantBuffer(m_pd3dDevice.Get());
+		m_fbx_table.insert(std::make_pair('0', idle));
+	}
 
 	FBX_loader* moveForward = new FBX_loader;
 	if (moveForward->Init())
 	{
-		std::string file = "../../data/fbx/Chell@RunN";
-		moveForward->Load(file);
+		moveForward->Load("../../data/fbx/Chell@RunN.fbx");
 		moveForward->CreateConstantBuffer(m_pd3dDevice.Get());
 		m_fbx_table.insert(std::make_pair('W', moveForward));
 	}
@@ -78,7 +84,7 @@ bool Sample::Init()
 	FBX_loader* moveBackward = new FBX_loader;
 	if (moveBackward->Init())
 	{
-		moveBackward->Load("../../data/fbx/Chell@RunS");
+		moveBackward->Load("../../data/fbx/Chell@RunS.fbx");
 		moveBackward->CreateConstantBuffer(m_pd3dDevice.Get());
 		m_fbx_table.insert(std::make_pair('S', moveBackward));
 	}
@@ -86,7 +92,7 @@ bool Sample::Init()
 	FBX_loader* moveRight = new FBX_loader;
 	if (moveRight->Init())
 	{
-		moveRight->Load("../../data/fbx/Chell@RunW");
+		moveRight->Load("../../data/fbx/Chell@RunW.fbx");
 		moveRight->CreateConstantBuffer(m_pd3dDevice.Get());
 		m_fbx_table.insert(std::make_pair('D', moveRight));
 	}
@@ -94,7 +100,7 @@ bool Sample::Init()
 	FBX_loader* moveLeft = new FBX_loader;
 	if (moveLeft->Init())
 	{
-		moveLeft->Load("../../data/fbx/Chell@RunE");
+		moveLeft->Load("../../data/fbx/Chell@RunE.fbx");
 		moveLeft->CreateConstantBuffer(m_pd3dDevice.Get());
 		m_fbx_table.insert(std::make_pair('A', moveLeft));
 	}
@@ -363,19 +369,44 @@ bool Sample::Frame()
 	
 	// Movement input -> change anim
 
-	if (Input::GetInstance().GetKey('W') == KEY_PUSH)
+	if (Input::GetInstance().GetKey('W') == KEY_HOLD)
 	{
 		User_char->m_FBX_action = m_fbx_table.find('W')->second;
-		User_char->m_Anim_frame = 0;
 		User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
 		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
 		User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
 	}
-	/*else 
+	else if (Input::GetInstance().GetKey('A') == KEY_HOLD)
 	{
-		User_char->m_Anim_frame = 0;
-		User_char->m_Current_action = User_char->m_Action_map.find(L"default")->second;
-	}*/
+		User_char->m_FBX_action = m_fbx_table.find('A')->second;
+		User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+		User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+	}
+	else if (Input::GetInstance().GetKey('S') == KEY_HOLD)
+	{
+		User_char->m_FBX_action = m_fbx_table.find('S')->second;
+		User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+		User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+	}
+	else if (Input::GetInstance().GetKey('D') == KEY_HOLD)
+	{
+		User_char->m_FBX_action = m_fbx_table.find('D')->second;
+		User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+		User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+	}
+	else 
+	{
+		User_char->m_FBX_action = m_fbx_table.find('0')->second;
+		User_char->m_Anim_scene = User_char->m_FBX_action->_animScene;
+		User_char->m_Current_action.Start_frame = User_char->m_FBX_action->_animScene.Start_frame;
+		User_char->m_Current_action.End_frame = User_char->m_FBX_action->_animScene.End_frame;
+
+		//User_char->m_Anim_frame = 0;
+		//User_char->m_Current_action = User_char->m_Action_map.find(L"default")->second;
+	}
 
 
 
