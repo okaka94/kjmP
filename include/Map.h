@@ -11,7 +11,7 @@ public:
 	Quad_tree				Map_Qtree;
 public:		// height map
 	std::vector<float>		m_Height_list;
-	float					max_Height = 100.0f;
+	float					max_Height = 50.0f;
 	float					cell_size = 1.0f;
 
 public:

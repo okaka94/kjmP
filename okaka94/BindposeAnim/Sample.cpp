@@ -1,8 +1,5 @@
 #include "Sample.h"
 
-
-
-
 void Sample::ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext)
 {
 	// Unbind all objects from the immediate context
@@ -108,17 +105,23 @@ bool Sample::Init()
 	
 
 	Main_cam = new Camera_debug;
-	Main_cam->Create_View_matrix(Vector(0, 100, -100), Vector(0, 0, 0), Vector(0, 1, 0));
+	//Main_cam->Create_View_matrix(Vector(0, 100, -100), Vector(0, 0, 0), Vector(0, 1, 0));
 	Main_cam->Create_Proj_matrix(1.0f, 10000.0f, PI * 0.25f, (float)g_rtClient.right / (float)g_rtClient.bottom);
 
 
 	BG = new Map;
-	BG->Load_height_map(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"../../data/map/heightMap513.bmp");
+	//BG->Load_height_map(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"../../data/map/Map512.png");
+	BG->Load_height_map(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"../../data/map/HEIGHT_TEMPLE.bmp");
 	BG->Build(m_pd3dDevice.Get(), BG->cols_num, BG->rows_num, Main_cam);
 	BG->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"DefaultShape_PNCT.txt", L"../../data/NormalMap/stone_wall.bmp");
 	BG->Create_Qtree(m_pd3dDevice.Get(), Main_cam);
 	
-	Main_cam->Create_View_matrix(Vector(0, 50, -20), Vector(0, BG->Get_height(0, 0), 0), Vector(0, 1, 0));
+	//Main_cam->Create_View_matrix(Vector(0, 50, -20), Vector(0, BG->Get_height(0, 0), 0), Vector(0, 1, 0));
+	
+	_box = new Shape_box;
+	_box->Create(m_pd3dDevice.Get(), m_pImmediateContext.Get(), L"DefaultShape_Constant.txt", L"../../data/object/cncr25S.bmp");
+	_box->m_World_matrix.Set_Translation_matrix(0, 0, 0);
+	
 
 	return true;
 }
@@ -317,6 +320,7 @@ bool Sample::Frame()
 			ImGui::Text("Start : %d", User_char->m_Current_action.Start_frame);					// 시작 프레임
 			ImGui::SameLine();
 			ImGui::Text("End : %d", User_char->m_Current_action.End_frame);						// 끝 프레임
+			ImGui::Text("Character Position : X -> %f , Y -> %f , Z -> %f", User_char->m_World_matrix._41, User_char->m_World_matrix._42, User_char->m_World_matrix._43);						// 캐릭터 위치
 			
 			if (ImGui::Button("Play"))
 			{
@@ -415,7 +419,9 @@ bool Sample::Frame()
 	ClearD3D11DeviceContext(m_pImmediateContext.Get());
 	Main_cam->Frame();
 
-
+	Main_cam->m_Cam_pos.y = BG->Get_height(Main_cam->m_Cam_pos.x, Main_cam->m_Cam_pos.z - 50) + 100;
+	Main_cam->Create_View_matrix(Main_cam->m_Cam_pos, Vector(Main_cam->m_Cam_pos.x, BG->Get_height(Main_cam->m_Cam_pos.x, Main_cam->m_Cam_pos.z - 50), Main_cam->m_Cam_pos.z - 50), Vector(0, 1, 0));
+	Main_cam->Update_cam();
 
 	User_char->Update_anim(m_pImmediateContext.Get());
 
@@ -429,6 +435,9 @@ bool Sample::Render()
 
 	if (User_char) 
 	{
+		
+		User_char->m_World_matrix.Set_Scale_matrix(0.25f, 0.25f, 0.25f);
+
 
 		User_char->m_World_matrix._41 = Main_cam->m_Cam_pos.x;
 		User_char->m_World_matrix._43 = Main_cam->m_Cam_pos.z - 50;
@@ -438,9 +447,20 @@ bool Sample::Render()
 		
 
 		//User_char->SetMatrix(nullptr, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+		
+		
+
 		User_char->SetMatrix(&User_char->m_World_matrix, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
 		User_char->Render(m_pImmediateContext.Get());
 	}
+
+	if (User_char)
+	{
+		_box->m_World_matrix.Set_Translation_matrix(User_char->m_World_matrix._41, User_char->m_World_matrix._42, User_char->m_World_matrix._43);
+		_box->SetMatrix(&_box->m_World_matrix, &Main_cam->m_View_matrix, &Main_cam->m_Proj_matrix);
+		_box->Render();
+	}
+	
 
 	if (BG)	
 	{
@@ -476,6 +496,13 @@ bool Sample::Release()
 		BG->Release();
 		delete BG;
 	}
+
+	// release movement map
+	for (auto iter = m_fbx_table.begin(); iter != m_fbx_table.end(); ++iter)
+	{
+		iter->second->Release();
+	}
+	m_fbx_table.clear();
 
 	return true;
 }

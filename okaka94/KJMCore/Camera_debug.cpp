@@ -17,7 +17,7 @@ bool Camera_debug::Frame() {
 	if (Input::GetInstance().GetKey(VK_RBUTTON) == KEY_HOLD)
 	{
 		m_fYaw += Input::GetInstance().m_ptOffset.x * 0.002f;
-		m_fPitch += Input::GetInstance().m_ptOffset.y * 0.002f;
+		//m_fPitch += Input::GetInstance().m_ptOffset.y * 0.002f;
 	}
 
 
@@ -54,23 +54,23 @@ bool Camera_debug::Frame() {
 	}
 
 
-	TBASIS_EX::TVector3 vPos;
-	vPos.x = m_Cam_pos.x;
-	vPos.y = m_Cam_pos.y;
-	vPos.z = m_Cam_pos.z;
+	//TBASIS_EX::TVector3 vPos;
+	//vPos.x = m_Cam_pos.x;
+	//vPos.y = m_Cam_pos.y;
+	//vPos.z = m_Cam_pos.z;
 
-	//////////////////////////// DebugCamera ////////////////////////////
-	TBASIS_EX::TMatrix matWorld;
-	TBASIS_EX::TMatrix matView;
-	TBASIS_EX::TMatrix matRotation;
-	TBASIS_EX::TQuaternion m_qRotation;
-	TBASIS_EX::D3DXQuaternionRotationYawPitchRoll(&m_qRotation, m_fYaw, m_fPitch, m_fRoll);
-	TBASIS_EX::D3DXMatrixAffineTransformation(&matWorld, 1.0f, NULL, &m_qRotation, &vPos);
-	TBASIS_EX::D3DXMatrixInverse(&matView, NULL, &matWorld);
-	m_View_matrix = *((Matrix*)&matView);
+	////////////////////////////// DebugCamera ////////////////////////////
+	//TBASIS_EX::TMatrix matWorld;
+	//TBASIS_EX::TMatrix matView;
+	//TBASIS_EX::TMatrix matRotation;
+	//TBASIS_EX::TQuaternion m_qRotation;
+	//TBASIS_EX::D3DXQuaternionRotationYawPitchRoll(&m_qRotation, m_fYaw, m_fPitch, m_fRoll);
+	//TBASIS_EX::D3DXMatrixAffineTransformation(&matWorld, 1.0f, NULL, &m_qRotation, &vPos);
+	//TBASIS_EX::D3DXMatrixInverse(&matView, NULL, &matWorld);
+	//m_View_matrix = *((Matrix*)&matView);
 
-	Update_cam();
-	
+	//Update_cam();
+	//
 
 	return true;
 }

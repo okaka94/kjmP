@@ -23,6 +23,9 @@ public:
 
 	// key action
 	std::map<char, FBX_loader*>	m_fbx_table;
+
+	// debuging box
+	Shape_box*			_box;
 	
 public:
 	virtual bool Init() override;
@@ -30,14 +33,6 @@ public:
 	virtual bool Render() override;
 	virtual bool Release() override;
 	void    ClearD3D11DeviceContext(ID3D11DeviceContext* pd3dDeviceContext);
-	
-
-	bool fbxGetter(void* data, int index, const char** output)
-	{
-		FBX_loader* fbx = (FBX_loader*)data;
-		FBX_loader& currentFbx = fbx[index];
-		*output = currentFbx._fileName.c_str();
-	}
 
 };
 
